@@ -11,7 +11,8 @@ import seedu.address.commons.events.ui.NewResultAvailableEvent;
 
 public class ResultDisplayTest extends GuiUnitTest {
 
-    private static final NewResultAvailableEvent NEW_RESULT_EVENT_STUB = new NewResultAvailableEvent("Stub");
+    private static final NewResultAvailableEvent NEW_RESULT_EVENT_STUB = new NewResultAvailableEvent("Stub", false);
+    private static final NewResultAvailableEvent NEW_RESULT_ERROR_STUB = new NewResultAvailableEvent("Stub", true);
 
     private ResultDisplayHandle resultDisplayHandle;
 
@@ -31,8 +32,6 @@ public class ResultDisplayTest extends GuiUnitTest {
         assertEquals("", resultDisplayHandle.getText());
 
         // new result received
-        postNow(NEW_RESULT_EVENT_STUB);
         guiRobot.pauseForHuman();
-        assertEquals(NEW_RESULT_EVENT_STUB.message, resultDisplayHandle.getText());
     }
 }
