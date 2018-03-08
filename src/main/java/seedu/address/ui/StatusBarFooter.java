@@ -40,6 +40,8 @@ public class StatusBarFooter extends UiPart<Region> {
     private StatusBar syncStatus;
     @FXML
     private StatusBar saveLocationStatus;
+    @FXML
+    private StatusBar itemCountStatus;
 
 
     public StatusBarFooter(String saveLocation) {
