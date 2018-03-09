@@ -891,19 +891,19 @@ Digital currency. Examples are: Bitcoin, Dogecoin, Etherium.
 An online news platform for cryptocurrencies.
 
 [[exponential-moving-average]] Exponential moving average::
-A moving average window of closing prices over a past period that places more weight on the more recent days considered. Since cryptocurrencies do not have a closing price, this defaults to their price at 23:59:59 at the timezone of the exchange. 
+A moving average window of closing prices over a past period that places more weight on the more recent days considered. Since cryptocurrencies do not have a closing price, this defaults to their price at 23:59:59 at the timezone of the exchange.
 
 [[MACD]] Moving Average Convergence Divergence (MACD)::
 Moving Average Convergence Divergence is an indicator that is the difference between two moving averages.
 
 [[macros]] Macros::
-A set of commands that can be executed under a single custom command is a macro. For example, if a user wishes to only view coins of a specific tag in a certain sorted order, he can set create a custom macro (e.g. `sortfavourites`) such that upon entering it at a command, the program will internally first call the `search` command on the user set tags, then call the `sort` command. 
+A set of commands that can be executed under a single custom command is a macro. For example, if a user wishes to only view coins of a specific tag in a certain sorted order, he can set create a custom macro (e.g. `sortfavourites`) such that upon entering it at a command, the program will internally first call the `search` command on the user set tags, then call the `sort` command.
 
 [[mainstream-os]] Mainstream OS::
 Windows, Linux, Unix, OS-X
 
 [[resistance-lines]] Resistance Lines::
-When the price of a coin has risen to a certain amount, the price may eventually sustain its value at this point for a period of time. This is when it obtains "resistance". 
+When the price of a coin has risen to a certain amount, the price may eventually sustain its value at this point for a period of time. This is when it obtains "resistance".
 
 [[RSI]] Relative Strength Index::
 Relative Strength Index is used as an indicator to compare the current strength of cryptocurrency versus its historical strength. The strength is calculated based on the closing prices over a period of time.
@@ -912,10 +912,10 @@ Relative Strength Index is used as an indicator to compare the current strength 
 Refers to data that is not meant to be shared with others.
 
 [[simple-moving-average]] Simple Moving Average::
-A moving average window of closing prices over a past period that places equal weight on all days considered. Since cryptocurrencies do not have a closing price, this defaults to their price at 23:59:59 at the timezone of the exchange. 
+A moving average window of closing prices over a past period that places equal weight on all days considered. Since cryptocurrencies do not have a closing price, this defaults to their price at 23:59:59 at the timezone of the exchange.
 
 [[support-lines]] Support lines::
-When the price of a coin has fallen to a certain amount, the price may eventually sustain its value at this point for a period of time. This is when it obtains "support". 
+When the price of a coin has fallen to a certain amount, the price may eventually sustain its value at this point for a period of time. This is when it obtains "support".
 
 [appendix]
 == Product Survey
