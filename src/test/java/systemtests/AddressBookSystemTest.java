@@ -5,6 +5,7 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 import static seedu.address.ui.BrowserPanel.DEFAULT_PAGE;
+import static seedu.address.ui.StatusBarFooter.ITEM_COUNT_STATUS;
 import static seedu.address.ui.StatusBarFooter.SYNC_STATUS_INITIAL;
 import static seedu.address.ui.StatusBarFooter.SYNC_STATUS_UPDATED;
 import static seedu.address.ui.UiPart.FXML_FILE_FOLDER;
@@ -276,6 +277,21 @@ public abstract class AddressBookSystemTest {
         String expectedSyncStatus = String.format(SYNC_STATUS_UPDATED, timestamp);
         assertEquals(expectedSyncStatus, handle.getSyncStatus());
         assertFalse(handle.isItemCountChanged());
+        assertFalse(handle.isSaveLocationChanged());
+    }
+
+    /**
+     * Asserts that the status bar was updated correctly,
+     * while the save location remains the same.
+     */
+    protected void assertStatusBarChangedExceptSaveLocation() {
+        StatusBarFooterHandle handle = getStatusBarFooter();
+        String timestamp = new Date(clockRule.getInjectedClock().millis()).toString();
+        String expectedSyncStatus = String.format(SYNC_STATUS_UPDATED, timestamp);
+        String expectedItemCountStatus = String.format(ITEM_COUNT_STATUS,
+                testApp.getModel().getAddressBook().getPersonList().size());
+        assertEquals(expectedSyncStatus, handle.getSyncStatus());
+        assertEquals(expectedItemCountStatus, handle.getItemCount());
         assertFalse(handle.isSaveLocationChanged());
     }
 
