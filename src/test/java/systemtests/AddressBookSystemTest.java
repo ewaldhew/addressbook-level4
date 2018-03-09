@@ -196,6 +196,7 @@ public abstract class AddressBookSystemTest {
         StatusBarFooterHandle statusBarFooterHandle = getStatusBarFooter();
         getBrowserPanel().rememberUrl();
         statusBarFooterHandle.rememberSaveLocation();
+        statusBarFooterHandle.rememberItemCount();
         statusBarFooterHandle.rememberSyncStatus();
         getPersonListPanel().rememberSelectedPersonCard();
     }
@@ -261,6 +262,7 @@ public abstract class AddressBookSystemTest {
     protected void assertStatusBarUnchanged() {
         StatusBarFooterHandle handle = getStatusBarFooter();
         assertFalse(handle.isSaveLocationChanged());
+        assertFalse(handle.isItemCountChanged());
         assertFalse(handle.isSyncStatusChanged());
     }
 
@@ -273,6 +275,7 @@ public abstract class AddressBookSystemTest {
         String timestamp = new Date(clockRule.getInjectedClock().millis()).toString();
         String expectedSyncStatus = String.format(SYNC_STATUS_UPDATED, timestamp);
         assertEquals(expectedSyncStatus, handle.getSyncStatus());
+        assertFalse(handle.isItemCountChanged());
         assertFalse(handle.isSaveLocationChanged());
     }
 
