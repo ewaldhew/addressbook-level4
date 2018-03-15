@@ -58,7 +58,7 @@ public class ChartsPanel extends UiPart<Region> {
     }
 
     /**
-     * @param
+     * Add a new plot to the graph
      */
     private void addPlot(ArrayList<Date> xAxis, ArrayList<Double> yAxis) {
         Series dataSeries = new Series();
@@ -70,6 +70,7 @@ public class ChartsPanel extends UiPart<Region> {
     }
 
     /**
+     * Add the data from the provided lists to the data series
      * @param dataSeries
      * @param xAxis
      * @param yAxis

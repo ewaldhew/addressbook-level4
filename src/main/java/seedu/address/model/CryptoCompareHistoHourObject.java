@@ -33,7 +33,9 @@ public class CryptoCompareHistoHourObject {
     }
     */
 
-    //CHECKSTYLE.OFF: API
+    /**
+     * Inner class for the data points
+     */
     private static class CDataObject {
         private long time;
         private double close;
@@ -46,7 +48,6 @@ public class CryptoCompareHistoHourObject {
     private CDataObject[] Data;
     private long TimeTo;
     private long TimeFrom;
-    //CHECKSTYLE.ON: API
 
     /**
      * Get the timestamp data
