@@ -29,9 +29,32 @@ public class ChartsPanel extends UiPart<Region> {
     @FXML
     private LineChart<Double, Double> priceChart;
 
+    private final ArrayList<Date> testDataX = new ArrayList<>(Arrays.asList(
+            new Date(1452592800000L),
+            new Date(1452596400000L),
+            new Date(1452600000000L),
+            new Date(1452603600000L),
+            new Date(1452607200000L),
+            new Date(1452610800000L),
+            new Date(1452614400000L),
+            new Date(1452618000000L),
+            new Date(1452621600000L)
+    ));
+    private final ArrayList<Double> testDataY = new ArrayList<>(Arrays.asList(
+            0.002591,
+            0.002580,
+            0.002617,
+            0.002563,
+            0.002597,
+            0.002576,
+            0.002555,
+            0.002575,
+            0.002719
+    ));
 
     public ChartsPanel() {
         super(FXML);
+        addPlot(testDataX, testDataY);
     }
 
     /**
