@@ -3,7 +3,6 @@ package seedu.address.model.rule;
 import static java.util.Objects.requireNonNull;
 
 import java.util.Collection;
-import java.util.Objects;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
