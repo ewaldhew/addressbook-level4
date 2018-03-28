@@ -1,3 +1,4 @@
+//@@author ewaldhew
 package seedu.address.model;
 
 import seedu.address.model.rule.UniqueRuleList;

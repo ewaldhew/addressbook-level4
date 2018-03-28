@@ -1,3 +1,4 @@
+//@@author ewaldhew
 package seedu.address.model.rule;
 
 import static java.util.Objects.requireNonNull;

@@ -1,3 +1,4 @@
+//@@author ewaldhew
 package seedu.address.model.rule;
 
 import seedu.address.commons.exceptions.DuplicateDataException;
