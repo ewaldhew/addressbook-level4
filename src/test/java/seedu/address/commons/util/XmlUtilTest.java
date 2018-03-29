@@ -33,11 +33,7 @@ public class XmlUtilTest {
     private static final File VALID_COIN_FILE = new File(TEST_DATA_FOLDER + "validCoin.xml");
     private static final File TEMP_FILE = new File(TestUtil.getFilePathInSandboxFolder("tempAddressBook.xml"));
 
-    private static final String INVALID_PHONE = "9482asf424";
-
     private static final String VALID_NAME = "Hans Muster";
-    private static final String VALID_PHONE = "ABC";
-    private static final String VALID_ADDRESS = "4th street";
     private static final List<XmlAdaptedTag> VALID_TAGS = Collections.singletonList(new XmlAdaptedTag("friends"));
 
     @Rule
@@ -79,7 +75,7 @@ public class XmlUtilTest {
         XmlAdaptedCoin actualCoin = XmlUtil.getDataFromFile(
                 MISSING_COIN_FIELD_FILE, XmlAdaptedCoinWithRootElement.class);
         XmlAdaptedCoin expectedCoin = new XmlAdaptedCoin(
-                null, VALID_PHONE, VALID_TAGS);
+                null, VALID_TAGS);
         assertEquals(expectedCoin, actualCoin);
     }
 
@@ -88,7 +84,7 @@ public class XmlUtilTest {
         XmlAdaptedCoin actualCoin = XmlUtil.getDataFromFile(
                 INVALID_COIN_FIELD_FILE, XmlAdaptedCoinWithRootElement.class);
         XmlAdaptedCoin expectedCoin = new XmlAdaptedCoin(
-                VALID_NAME, INVALID_PHONE, VALID_TAGS);
+                VALID_NAME, VALID_TAGS);
         assertEquals(expectedCoin, actualCoin);
     }
 
@@ -97,7 +93,7 @@ public class XmlUtilTest {
         XmlAdaptedCoin actualCoin = XmlUtil.getDataFromFile(
                 VALID_COIN_FILE, XmlAdaptedCoinWithRootElement.class);
         XmlAdaptedCoin expectedCoin = new XmlAdaptedCoin(
-                VALID_NAME, VALID_PHONE, VALID_TAGS);
+                VALID_NAME, VALID_TAGS);
         assertEquals(expectedCoin, actualCoin);
     }
 

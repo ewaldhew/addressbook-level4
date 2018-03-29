@@ -5,7 +5,6 @@ import java.util.Set;
 
 import seedu.address.model.CoinBook;
 import seedu.address.model.ReadOnlyCoinBook;
-import seedu.address.model.coin.Code;
 import seedu.address.model.coin.Coin;
 import seedu.address.model.coin.Name;
 import seedu.address.model.coin.exceptions.DuplicateCoinException;
@@ -17,17 +16,17 @@ import seedu.address.model.tag.Tag;
 public class SampleDataUtil {
     public static Coin[] getSampleCoins() {
         return new Coin[] {
-            new Coin(new Name("Alex Yeoh"), new Code("AAA"),
+            new Coin(new Name("Alex Yeoh"),
                 getTagSet("friends")),
-            new Coin(new Name("Bernice Yu"), new Code("BBB"),
+            new Coin(new Name("Bernice Yu"),
                 getTagSet("colleagues", "friends")),
-            new Coin(new Name("Charlotte Oliveiro"), new Code("CCC"),
+            new Coin(new Name("Charlotte Oliveiro"),
                 getTagSet("neighbours")),
-            new Coin(new Name("David Li"), new Code("DDD"),
+            new Coin(new Name("David Li"),
                 getTagSet("family")),
-            new Coin(new Name("Irfan Ibrahim"), new Code("EEE"),
+            new Coin(new Name("Irfan Ibrahim"),
                 getTagSet("classmates")),
-            new Coin(new Name("Roy Balakrishnan"), new Code("FFF"),
+            new Coin(new Name("Roy Balakrishnan"),
                 getTagSet("colleagues"))
         };
     }

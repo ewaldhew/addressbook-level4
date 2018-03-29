@@ -6,7 +6,6 @@ import static org.junit.Assert.assertTrue;
 import static seedu.address.logic.commands.CommandTestUtil.DESC_AMY;
 import static seedu.address.logic.commands.CommandTestUtil.DESC_BOB;
 import static seedu.address.logic.commands.CommandTestUtil.VALID_NAME_BOB;
-import static seedu.address.logic.commands.CommandTestUtil.VALID_PHONE_BOB;
 import static seedu.address.logic.commands.CommandTestUtil.VALID_TAG_HUSBAND;
 import static seedu.address.logic.commands.CommandTestUtil.assertCommandFailure;
 import static seedu.address.logic.commands.CommandTestUtil.assertCommandSuccess;
@@ -59,11 +58,11 @@ public class EditCommandTest {
         Coin lastCoin = model.getFilteredCoinList().get(indexLastCoin.getZeroBased());
 
         CoinBuilder coinInList = new CoinBuilder(lastCoin);
-        Coin editedCoin = coinInList.withName(VALID_NAME_BOB).withCode(VALID_PHONE_BOB)
+        Coin editedCoin = coinInList.withName(VALID_NAME_BOB)
                 .withTags(VALID_TAG_HUSBAND).build();
 
         EditCoinDescriptor descriptor = new EditCoinDescriptorBuilder().withName(VALID_NAME_BOB)
-                .withPhone(VALID_PHONE_BOB).withTags(VALID_TAG_HUSBAND).build();
+                .withTags(VALID_TAG_HUSBAND).build();
         EditCommand editCommand = prepareCommand(indexLastCoin, descriptor);
 
         String expectedMessage = String.format(EditCommand.MESSAGE_EDIT_COIN_SUCCESS, editedCoin);

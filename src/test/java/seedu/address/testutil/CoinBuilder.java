@@ -3,7 +3,6 @@ package seedu.address.testutil;
 import java.util.HashSet;
 import java.util.Set;
 
-import seedu.address.model.coin.Code;
 import seedu.address.model.coin.Coin;
 import seedu.address.model.coin.Name;
 import seedu.address.model.tag.Tag;
@@ -14,18 +13,14 @@ import seedu.address.model.util.SampleDataUtil;
  */
 public class CoinBuilder {
 
-    public static final String DEFAULT_NAME = "Test Coin";
-    public static final String DEFAULT_PHONE = "XTC";
-    public static final String DEFAULT_ADDRESS = "123, Jurong West Ave 6, #08-111";
+    public static final String DEFAULT_NAME = "XTC";
     public static final String DEFAULT_TAGS = "friends";
 
     private Name name;
-    private Code code;
     private Set<Tag> tags;
 
     public CoinBuilder() {
         name = new Name(DEFAULT_NAME);
-        code = new Code(DEFAULT_PHONE);
         tags = SampleDataUtil.getTagSet(DEFAULT_TAGS);
     }
 
@@ -34,7 +29,6 @@ public class CoinBuilder {
      */
     public CoinBuilder(Coin coinToCopy) {
         name = coinToCopy.getName();
-        code = coinToCopy.getCode();
         tags = new HashSet<>(coinToCopy.getTags());
     }
 
@@ -54,16 +48,8 @@ public class CoinBuilder {
         return this;
     }
 
-    /**
-     * Sets the {@code Code} of the {@code Coin} that we are building.
-     */
-    public CoinBuilder withCode(String code) {
-        this.code = new Code(code);
-        return this;
-    }
-
     public Coin build() {
-        return new Coin(name, code, tags);
+        return new Coin(name, tags);
     }
 
 }
