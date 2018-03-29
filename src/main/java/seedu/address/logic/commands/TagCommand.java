@@ -1,10 +1,7 @@
 package seedu.address.logic.commands;
 
 import static java.util.Objects.requireNonNull;
-import static seedu.address.logic.parser.CliSyntax.PREFIX_ADDRESS;
-import static seedu.address.logic.parser.CliSyntax.PREFIX_EMAIL;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_NAME;
-import static seedu.address.logic.parser.CliSyntax.PREFIX_PHONE;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_TAG;
 import static seedu.address.model.Model.PREDICATE_SHOW_ALL_COINS;
 
@@ -28,26 +25,20 @@ import seedu.address.model.tag.Tag;
 /**
  * Edits the details of an existing coin in the address book.
  */
-public class EditCommand extends UndoableCommand {
+public class TagCommand extends UndoableCommand {
 
-    public static final String COMMAND_WORD = "edit";
-    public static final String COMMAND_ALIAS = "e";
+    public static final String COMMAND_WORD = "tag";
+    public static final String COMMAND_ALIAS = "t";
 
-    public static final String MESSAGE_USAGE = COMMAND_WORD + ": Edits the details of the coin identified "
+    public static final String MESSAGE_USAGE = COMMAND_WORD + ": Add the specified tags to the coin identified "
             + "by the index number used in the last coin listing. "
             + "Existing values will be overwritten by the input values.\n"
             + "Parameters: INDEX (must be a positive integer) "
-            + "[" + PREFIX_NAME + "NAME] "
-            + "[" + PREFIX_PHONE + "PHONE] "
-            + "[" + PREFIX_EMAIL + "EMAIL] "
-            + "[" + PREFIX_ADDRESS + "ADDRESS] "
             + "[" + PREFIX_TAG + "TAG]...\n"
-            + "Example: " + COMMAND_WORD + " 1 "
-            + PREFIX_PHONE + "91234567 "
-            + PREFIX_EMAIL + "johndoe@example.com";
+            + "Example: " + COMMAND_WORD + " 1 " + PREFIX_TAG + "fav";
 
-    public static final String MESSAGE_EDIT_COIN_SUCCESS = "Edited Coin: %1$s";
-    public static final String MESSAGE_NOT_EDITED = "At least one field to edit must be provided.";
+    public static final String MESSAGE_EDIT_COIN_SUCCESS = "Tagged Coin: %1$s";
+    public static final String MESSAGE_NOT_EDITED = "At least one tag must be provided.";
     public static final String MESSAGE_DUPLICATE_COIN = "This coin already exists in the address book.";
 
     private final Index index;
@@ -60,7 +51,7 @@ public class EditCommand extends UndoableCommand {
      * @param index of the coin in the filtered coin list to edit
      * @param editCoinDescriptor details to edit the coin with
      */
-    public EditCommand(Index index, EditCoinDescriptor editCoinDescriptor) {
+    public TagCommand(Index index, EditCoinDescriptor editCoinDescriptor) {
         requireNonNull(index);
         requireNonNull(editCoinDescriptor);
 
@@ -114,12 +105,12 @@ public class EditCommand extends UndoableCommand {
         }
 
         // instanceof handles nulls
-        if (!(other instanceof EditCommand)) {
+        if (!(other instanceof TagCommand)) {
             return false;
         }
 
         // state check
-        EditCommand e = (EditCommand) other;
+        TagCommand e = (TagCommand) other;
         return index.equals(e.index)
                 && editCoinDescriptor.equals(e.editCoinDescriptor)
                 && Objects.equals(coinToEdit, e.coinToEdit);

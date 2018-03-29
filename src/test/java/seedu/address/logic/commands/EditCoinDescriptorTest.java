@@ -8,7 +8,7 @@ import static seedu.address.logic.commands.CommandTestUtil.VALID_TAG_HUSBAND;
 
 import org.junit.Test;
 
-import seedu.address.logic.commands.EditCommand.EditCoinDescriptor;
+import seedu.address.logic.commands.TagCommand.EditCoinDescriptor;
 import seedu.address.testutil.EditCoinDescriptorBuilder;
 
 public class EditCoinDescriptorTest {

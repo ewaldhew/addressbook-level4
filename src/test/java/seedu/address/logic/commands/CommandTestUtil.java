@@ -44,8 +44,8 @@ public class CommandTestUtil {
     public static final String PREAMBLE_WHITESPACE = "\t  \r  \n";
     public static final String PREAMBLE_NON_EMPTY = "NonEmptyPreamble";
 
-    public static final EditCommand.EditCoinDescriptor DESC_AMY;
-    public static final EditCommand.EditCoinDescriptor DESC_BOB;
+    public static final TagCommand.EditCoinDescriptor DESC_AMY;
+    public static final TagCommand.EditCoinDescriptor DESC_BOB;
 
     static {
         DESC_AMY = new EditCoinDescriptorBuilder().withName(VALID_NAME_AMY)

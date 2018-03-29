@@ -14,27 +14,27 @@ import static seedu.address.logic.commands.CommandTestUtil.VALID_TAG_HUSBAND;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_TAG;
 import static seedu.address.logic.parser.CommandParserTestUtil.assertParseFailure;
 import static seedu.address.logic.parser.CommandParserTestUtil.assertParseSuccess;
+import static seedu.address.testutil.TypicalIndexes.INDEX_FIRST_COIN;
 import static seedu.address.testutil.TypicalIndexes.INDEX_SECOND_COIN;
 import static seedu.address.testutil.TypicalIndexes.INDEX_THIRD_COIN;
 
 import org.junit.Test;
 
 import seedu.address.commons.core.index.Index;
-import seedu.address.logic.commands.EditCommand;
-import seedu.address.logic.commands.EditCommand.EditCoinDescriptor;
+import seedu.address.logic.commands.TagCommand;
+import seedu.address.logic.commands.TagCommand.EditCoinDescriptor;
 import seedu.address.model.coin.Code;
-import seedu.address.model.coin.Name;
 import seedu.address.model.tag.Tag;
 import seedu.address.testutil.EditCoinDescriptorBuilder;
 
-public class EditCommandParserTest {
+public class TagCommandParserTest {
 
     private static final String TAG_EMPTY = " " + PREFIX_TAG;
 
     private static final String MESSAGE_INVALID_FORMAT =
-            String.format(MESSAGE_INVALID_COMMAND_FORMAT, EditCommand.MESSAGE_USAGE);
+            String.format(MESSAGE_INVALID_COMMAND_FORMAT, TagCommand.MESSAGE_USAGE);
 
-    private EditCommandParser parser = new EditCommandParser();
+    private TagCommandParser parser = new TagCommandParser();
 
     @Test
     public void parse_missingParts_failure() {
@@ -42,7 +42,7 @@ public class EditCommandParserTest {
         assertParseFailure(parser, VALID_NAME_AMY, MESSAGE_INVALID_FORMAT);
 
         // no field specified
-        assertParseFailure(parser, "1", EditCommand.MESSAGE_NOT_EDITED);
+        assertParseFailure(parser, "1", TagCommand.MESSAGE_NOT_EDITED);
 
         // no index and no field specified
         assertParseFailure(parser, "", MESSAGE_INVALID_FORMAT);
@@ -65,7 +65,7 @@ public class EditCommandParserTest {
 
     @Test
     public void parse_invalidValue_failure() {
-        assertParseFailure(parser, "1" + INVALID_NAME_DESC, Name.MESSAGE_NAME_CONSTRAINTS); // invalid name
+        assertParseFailure(parser, "1" + INVALID_NAME_DESC, Code.MESSAGE_NAME_CONSTRAINTS); // invalid name
         assertParseFailure(parser, "1" + INVALID_TAG_DESC, Tag.MESSAGE_TAG_CONSTRAINTS); // invalid tag
 
         // while parsing {@code PREFIX_TAG} alone will reset the tags of the {@code Coin} being edited,
@@ -76,7 +76,7 @@ public class EditCommandParserTest {
 
         // multiple invalid values, but only the first invalid value is captured
         assertParseFailure(parser, "1" + INVALID_NAME_DESC + INVALID_TAG_DESC + VALID_TAG_FRIEND + VALID_NAME_AMY,
-                Name.MESSAGE_NAME_CONSTRAINTS);
+                Code.MESSAGE_NAME_CONSTRAINTS);
     }
 
     @Test
@@ -87,7 +87,7 @@ public class EditCommandParserTest {
 
         EditCoinDescriptor descriptor = new EditCoinDescriptorBuilder().withName(VALID_NAME_AMY)
                 .withTags(VALID_TAG_HUSBAND, VALID_TAG_FRIEND).build();
-        EditCommand expectedCommand = new EditCommand(targetIndex, descriptor);
+        TagCommand expectedCommand = new TagCommand(targetIndex, descriptor);
 
         assertParseSuccess(parser, userInput, expectedCommand);
     }
@@ -98,7 +98,7 @@ public class EditCommandParserTest {
         String userInput = targetIndex.getOneBased() + NAME_DESC_BOB;
 
         EditCoinDescriptor descriptor = new EditCoinDescriptorBuilder().withName(VALID_NAME_BOB).build();
-        EditCommand expectedCommand = new EditCommand(targetIndex, descriptor);
+        TagCommand expectedCommand = new TagCommand(targetIndex, descriptor);
 
         assertParseSuccess(parser, userInput, expectedCommand);
     }
@@ -109,13 +109,13 @@ public class EditCommandParserTest {
         Index targetIndex = INDEX_THIRD_COIN;
         String userInput = targetIndex.getOneBased() + NAME_DESC_AMY;
         EditCoinDescriptor descriptor = new EditCoinDescriptorBuilder().withName(VALID_NAME_AMY).build();
-        EditCommand expectedCommand = new EditCommand(targetIndex, descriptor);
+        TagCommand expectedCommand = new TagCommand(targetIndex, descriptor);
         assertParseSuccess(parser, userInput, expectedCommand);
 
         // tags
         userInput = targetIndex.getOneBased() + TAG_DESC_FRIEND;
         descriptor = new EditCoinDescriptorBuilder().withTags(VALID_TAG_FRIEND).build();
-        expectedCommand = new EditCommand(targetIndex, descriptor);
+        expectedCommand = new TagCommand(targetIndex, descriptor);
         assertParseSuccess(parser, userInput, expectedCommand);
     }
 
@@ -125,7 +125,7 @@ public class EditCommandParserTest {
         String userInput = targetIndex.getOneBased() + TAG_EMPTY;
 
         EditCoinDescriptor descriptor = new EditCoinDescriptorBuilder().withTags().build();
-        EditCommand expectedCommand = new EditCommand(targetIndex, descriptor);
+        TagCommand expectedCommand = new TagCommand(targetIndex, descriptor);
 
         assertParseSuccess(parser, userInput, expectedCommand);
     }
