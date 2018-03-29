@@ -6,7 +6,6 @@ import static org.junit.Assert.assertTrue;
 import static seedu.address.logic.commands.CommandTestUtil.DESC_AMY;
 import static seedu.address.logic.commands.CommandTestUtil.DESC_BOB;
 import static seedu.address.logic.commands.CommandTestUtil.VALID_NAME_BOB;
-import static seedu.address.logic.commands.CommandTestUtil.VALID_TAG_HUSBAND;
 import static seedu.address.logic.commands.CommandTestUtil.assertCommandFailure;
 import static seedu.address.logic.commands.CommandTestUtil.assertCommandSuccess;
 import static seedu.address.logic.commands.CommandTestUtil.prepareRedoCommand;
@@ -162,7 +161,8 @@ public class TagCommandTest {
 
         showCoinAtIndex(model, INDEX_SECOND_COIN);
         Coin coinToEdit = model.getFilteredCoinList().get(INDEX_FIRST_COIN.getZeroBased());
-        Coin editedCoin = new CoinBuilder(model.getFilteredCoinList().get(INDEX_FIRST_COIN.getZeroBased())).withTags("test").build();
+        Coin editedCoin = new CoinBuilder(model.getFilteredCoinList()
+                .get(INDEX_FIRST_COIN.getZeroBased())).withTags("test").build();
         EditCoinDescriptor descriptor = new EditCoinDescriptorBuilder(editedCoin).build();
         TagCommand tagCommand = prepareCommand(INDEX_FIRST_COIN, descriptor);
         Model expectedModel = new ModelManager(new CoinBook(model.getCoinBook()), new UserPrefs());

@@ -2,7 +2,6 @@ package systemtests;
 
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
-import static seedu.address.logic.commands.CommandTestUtil.INVALID_NAME_DESC;
 import static seedu.address.logic.commands.CommandTestUtil.INVALID_TAG_DESC;
 import static seedu.address.logic.commands.CommandTestUtil.TAG_DESC_FRIEND;
 import static seedu.address.logic.commands.CommandTestUtil.TAG_DESC_HUSBAND;
@@ -22,7 +21,6 @@ import seedu.address.logic.commands.RedoCommand;
 import seedu.address.logic.commands.TagCommand;
 import seedu.address.logic.commands.UndoCommand;
 import seedu.address.model.Model;
-import seedu.address.model.coin.Code;
 import seedu.address.model.coin.Coin;
 import seedu.address.model.coin.exceptions.CoinNotFoundException;
 import seedu.address.model.coin.exceptions.DuplicateCoinException;
@@ -45,7 +43,7 @@ public class TagCommandSystemTest extends AddressBookSystemTest {
         String command = " " + TagCommand.COMMAND_WORD + "  " + index.getOneBased() + "  "
                 + TAG_DESC_HUSBAND + " ";
         Coin editedCoin = new CoinBuilder()
-        		.withName(model.getFilteredCoinList().get(index.getZeroBased()).getCode().toString())
+                .withName(model.getFilteredCoinList().get(index.getZeroBased()).getCode().toString())
                 .withTags(VALID_TAG_HUSBAND).build();
         assertCommandSuccess(command, index, editedCoin);
 
@@ -65,7 +63,7 @@ public class TagCommandSystemTest extends AddressBookSystemTest {
         index = INDEX_FIRST_COIN;
         command = TagCommand.COMMAND_WORD + " " + index.getOneBased() + TAG_DESC_FRIEND + "s";
         Coin coinToEdit = getModel().getFilteredCoinList().get(index.getZeroBased());
-        editedCoin = new CoinBuilder(coinToEdit).withTags(VALID_TAG_FRIEND+"s").build();
+        editedCoin = new CoinBuilder(coinToEdit).withTags(VALID_TAG_FRIEND + "s").build();
         assertCommandSuccess(command, index, editedCoin);
 
         /* Case: clear tags -> cleared */
@@ -74,9 +72,9 @@ public class TagCommandSystemTest extends AddressBookSystemTest {
         editedCoin = new CoinBuilder(coinToEdit).withTags().build();
         assertCommandSuccess(command, index, editedCoin);
 
-        /* ------------------ Performing edit operation while a filtered list is being shown ------------------------ 
+        /* ------------------ Performing edit operation while a filtered list is being shown ------------------------
 
-        /* Case: filtered coin list, edit index within bounds of address book and coin list -> edited 
+        /* Case: filtered coin list, edit index within bounds of address book and coin list -> edited
         showCoinsWithName(KEYWORD_MATCHING_MEIER);
         index = INDEX_FIRST_COIN;
         assertTrue(index.getZeroBased() < getModel().getFilteredCoinList().size());
@@ -87,7 +85,7 @@ public class TagCommandSystemTest extends AddressBookSystemTest {
 
         /* Case: filtered coin list, edit index within bounds of address book but out of bounds of coin list
          * -> rejected
-         
+
         showCoinsWithName(KEYWORD_MATCHING_MEIER);
         int invalidIndex = getModel().getCoinBook().getCoinList().size();
         assertCommandFailure(TagCommand.COMMAND_WORD + " " + invalidIndex + TAG_DESC_FRIEND,
