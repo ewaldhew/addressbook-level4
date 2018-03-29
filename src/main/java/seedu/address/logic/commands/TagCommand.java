@@ -90,7 +90,7 @@ public class TagCommand extends UndoableCommand {
     private static Coin createEditedCoin(Coin coinToEdit, EditCoinDescriptor editCoinDescriptor) {
         assert coinToEdit != null;
 
-        Code updatedCode = editCoinDescriptor.getCode().orElse(coinToEdit.getCode());
+        Code updatedCode = coinToEdit.getCode();
         Set<Tag> updatedTags = editCoinDescriptor.getTags().orElse(coinToEdit.getTags());
 
         return new Coin(updatedCode, updatedTags);
@@ -142,7 +142,7 @@ public class TagCommand extends UndoableCommand {
         }
 
         public void setCode(Code code) {
-            this.code = code;
+            this.code = null;
         }
 
         public Optional<Code> getCode() {

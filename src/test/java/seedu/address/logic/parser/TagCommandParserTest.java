@@ -65,7 +65,6 @@ public class TagCommandParserTest {
 
     @Test
     public void parse_invalidValue_failure() {
-        assertParseFailure(parser, "1" + INVALID_NAME_DESC, Code.MESSAGE_NAME_CONSTRAINTS); // invalid name
         assertParseFailure(parser, "1" + INVALID_TAG_DESC, Tag.MESSAGE_TAG_CONSTRAINTS); // invalid tag
 
         // while parsing {@code PREFIX_TAG} alone will reset the tags of the {@code Coin} being edited,
@@ -75,47 +74,19 @@ public class TagCommandParserTest {
         assertParseFailure(parser, "1" + TAG_EMPTY + TAG_DESC_FRIEND + TAG_DESC_HUSBAND, Tag.MESSAGE_TAG_CONSTRAINTS);
 
         // multiple invalid values, but only the first invalid value is captured
-        assertParseFailure(parser, "1" + INVALID_NAME_DESC + INVALID_TAG_DESC + VALID_TAG_FRIEND + VALID_NAME_AMY,
-                Code.MESSAGE_NAME_CONSTRAINTS);
+        assertParseFailure(parser, "1" + INVALID_TAG_DESC + INVALID_TAG_DESC + VALID_TAG_FRIEND,
+                Tag.MESSAGE_TAG_CONSTRAINTS);
     }
 
     @Test
     public void parse_allFieldsSpecified_success() {
         Index targetIndex = INDEX_SECOND_COIN;
-        String userInput = targetIndex.getOneBased() + TAG_DESC_HUSBAND
-                + NAME_DESC_AMY + TAG_DESC_FRIEND;
+        String userInput = targetIndex.getOneBased() + TAG_DESC_HUSBAND + TAG_DESC_FRIEND;
 
-        EditCoinDescriptor descriptor = new EditCoinDescriptorBuilder().withName(VALID_NAME_AMY)
+        EditCoinDescriptor descriptor = new EditCoinDescriptorBuilder()
                 .withTags(VALID_TAG_HUSBAND, VALID_TAG_FRIEND).build();
         TagCommand expectedCommand = new TagCommand(targetIndex, descriptor);
 
-        assertParseSuccess(parser, userInput, expectedCommand);
-    }
-
-    @Test
-    public void parse_someFieldsSpecified_success() {
-        Index targetIndex = INDEX_FIRST_COIN;
-        String userInput = targetIndex.getOneBased() + NAME_DESC_BOB;
-
-        EditCoinDescriptor descriptor = new EditCoinDescriptorBuilder().withName(VALID_NAME_BOB).build();
-        TagCommand expectedCommand = new TagCommand(targetIndex, descriptor);
-
-        assertParseSuccess(parser, userInput, expectedCommand);
-    }
-
-    @Test
-    public void parse_oneFieldSpecified_success() {
-        // name
-        Index targetIndex = INDEX_THIRD_COIN;
-        String userInput = targetIndex.getOneBased() + NAME_DESC_AMY;
-        EditCoinDescriptor descriptor = new EditCoinDescriptorBuilder().withName(VALID_NAME_AMY).build();
-        TagCommand expectedCommand = new TagCommand(targetIndex, descriptor);
-        assertParseSuccess(parser, userInput, expectedCommand);
-
-        // tags
-        userInput = targetIndex.getOneBased() + TAG_DESC_FRIEND;
-        descriptor = new EditCoinDescriptorBuilder().withTags(VALID_TAG_FRIEND).build();
-        expectedCommand = new TagCommand(targetIndex, descriptor);
         assertParseSuccess(parser, userInput, expectedCommand);
     }
 

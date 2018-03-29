@@ -4,18 +4,13 @@ import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 import static seedu.address.logic.commands.CommandTestUtil.INVALID_NAME_DESC;
 import static seedu.address.logic.commands.CommandTestUtil.INVALID_TAG_DESC;
-import static seedu.address.logic.commands.CommandTestUtil.NAME_DESC_AMY;
-import static seedu.address.logic.commands.CommandTestUtil.NAME_DESC_BOB;
-import static seedu.address.logic.commands.CommandTestUtil.NAME_DESC_JOE;
 import static seedu.address.logic.commands.CommandTestUtil.TAG_DESC_FRIEND;
 import static seedu.address.logic.commands.CommandTestUtil.TAG_DESC_HUSBAND;
-import static seedu.address.logic.commands.CommandTestUtil.VALID_NAME_BOB;
-import static seedu.address.logic.commands.CommandTestUtil.VALID_NAME_JOE;
 import static seedu.address.logic.commands.CommandTestUtil.VALID_TAG_FRIEND;
 import static seedu.address.logic.commands.CommandTestUtil.VALID_TAG_HUSBAND;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_TAG;
 import static seedu.address.model.Model.PREDICATE_SHOW_ALL_COINS;
-import static seedu.address.testutil.TypicalCoins.AMY;
+import static seedu.address.testutil.TypicalCoins.ALICE;
 import static seedu.address.testutil.TypicalCoins.BOB;
 import static seedu.address.testutil.TypicalIndexes.INDEX_FIRST_COIN;
 
@@ -47,9 +42,10 @@ public class TagCommandSystemTest extends AddressBookSystemTest {
          * -> edited
          */
         Index index = INDEX_FIRST_COIN;
-        String command = " " + TagCommand.COMMAND_WORD + "  " + index.getOneBased() + "  " + NAME_DESC_BOB + "  "
+        String command = " " + TagCommand.COMMAND_WORD + "  " + index.getOneBased() + "  "
                 + TAG_DESC_HUSBAND + " ";
-        Coin editedCoin = new CoinBuilder().withName(VALID_NAME_BOB)
+        Coin editedCoin = new CoinBuilder()
+        		.withName(model.getFilteredCoinList().get(index.getZeroBased()).getCode().toString())
                 .withTags(VALID_TAG_HUSBAND).build();
         assertCommandSuccess(command, index, editedCoin);
 
@@ -65,16 +61,11 @@ public class TagCommandSystemTest extends AddressBookSystemTest {
                 getModel().getFilteredCoinList().get(INDEX_FIRST_COIN.getZeroBased()), editedCoin);
         assertCommandSuccess(command, model, expectedResultMessage);
 
-        /* Case: edit a coin with new values same as existing values -> edited */
-        command = TagCommand.COMMAND_WORD + " " + index.getOneBased() + NAME_DESC_BOB
-                + TAG_DESC_FRIEND + TAG_DESC_HUSBAND;
-        assertCommandSuccess(command, index, BOB);
-
         /* Case: edit some fields -> edited */
         index = INDEX_FIRST_COIN;
-        command = TagCommand.COMMAND_WORD + " " + index.getOneBased() + TAG_DESC_FRIEND;
+        command = TagCommand.COMMAND_WORD + " " + index.getOneBased() + TAG_DESC_FRIEND + "s";
         Coin coinToEdit = getModel().getFilteredCoinList().get(index.getZeroBased());
-        editedCoin = new CoinBuilder(coinToEdit).withTags(VALID_TAG_FRIEND).build();
+        editedCoin = new CoinBuilder(coinToEdit).withTags(VALID_TAG_FRIEND+"s").build();
         assertCommandSuccess(command, index, editedCoin);
 
         /* Case: clear tags -> cleared */
@@ -89,9 +80,9 @@ public class TagCommandSystemTest extends AddressBookSystemTest {
         showCoinsWithName(KEYWORD_MATCHING_MEIER);
         index = INDEX_FIRST_COIN;
         assertTrue(index.getZeroBased() < getModel().getFilteredCoinList().size());
-        command = TagCommand.COMMAND_WORD + " " + index.getOneBased() + " " + NAME_DESC_JOE;
+        command = TagCommand.COMMAND_WORD + " " + index.getOneBased() + " " + TAG_DESC_FRIEND;
         coinToEdit = getModel().getFilteredCoinList().get(index.getZeroBased());
-        editedCoin = new CoinBuilder(coinToEdit).withName(VALID_NAME_JOE).build();
+        editedCoin = new CoinBuilder(coinToEdit).withTags(VALID_TAG_FRIEND).build();
         assertCommandSuccess(command, index, editedCoin);
 
         /* Case: filtered coin list, edit index within bounds of address book but out of bounds of coin list
@@ -99,7 +90,7 @@ public class TagCommandSystemTest extends AddressBookSystemTest {
          
         showCoinsWithName(KEYWORD_MATCHING_MEIER);
         int invalidIndex = getModel().getCoinBook().getCoinList().size();
-        assertCommandFailure(TagCommand.COMMAND_WORD + " " + invalidIndex + NAME_DESC_BOB,
+        assertCommandFailure(TagCommand.COMMAND_WORD + " " + invalidIndex + TAG_DESC_FRIEND,
                 Messages.MESSAGE_INVALID_COIN_DISPLAYED_INDEX);
 
         /* --------------------- Performing edit operation while a coin card is selected -------------------------- */
@@ -110,38 +101,33 @@ public class TagCommandSystemTest extends AddressBookSystemTest {
         showAllCoins();
         index = INDEX_FIRST_COIN;
         selectCoin(index);
-        command = TagCommand.COMMAND_WORD + " " + index.getOneBased() + NAME_DESC_AMY
-                + TAG_DESC_FRIEND;
+        command = TagCommand.COMMAND_WORD + " " + index.getOneBased() + TAG_DESC_FRIEND + "s";
         // this can be misleading: card selection actually remains unchanged but the
         // browser's url is updated to reflect the new coin's name
-        assertCommandSuccess(command, index, AMY, index);
+        assertCommandSuccess(command, index, ALICE, index);
 
         /* --------------------------------- Performing invalid edit operation -------------------------------------- */
 
         /* Case: invalid index (0) -> rejected */
-        assertCommandFailure(TagCommand.COMMAND_WORD + " 0" + NAME_DESC_BOB,
+        assertCommandFailure(TagCommand.COMMAND_WORD + " 0" + TAG_DESC_FRIEND,
                 String.format(Messages.MESSAGE_INVALID_COMMAND_FORMAT, TagCommand.MESSAGE_USAGE));
 
         /* Case: invalid index (-1) -> rejected */
-        assertCommandFailure(TagCommand.COMMAND_WORD + " -1" + NAME_DESC_BOB,
+        assertCommandFailure(TagCommand.COMMAND_WORD + " -1" + TAG_DESC_FRIEND,
                 String.format(Messages.MESSAGE_INVALID_COMMAND_FORMAT, TagCommand.MESSAGE_USAGE));
 
         /* Case: invalid index (size + 1) -> rejected */
         int invalidIndex = getModel().getFilteredCoinList().size() + 1;
-        assertCommandFailure(TagCommand.COMMAND_WORD + " " + invalidIndex + NAME_DESC_BOB,
+        assertCommandFailure(TagCommand.COMMAND_WORD + " " + invalidIndex + TAG_DESC_FRIEND,
                 Messages.MESSAGE_INVALID_COIN_DISPLAYED_INDEX);
 
         /* Case: missing index -> rejected */
-        assertCommandFailure(TagCommand.COMMAND_WORD + NAME_DESC_BOB,
+        assertCommandFailure(TagCommand.COMMAND_WORD + TAG_DESC_FRIEND,
                 String.format(Messages.MESSAGE_INVALID_COMMAND_FORMAT, TagCommand.MESSAGE_USAGE));
 
         /* Case: missing all fields -> rejected */
         assertCommandFailure(TagCommand.COMMAND_WORD + " " + INDEX_FIRST_COIN.getOneBased(),
                 TagCommand.MESSAGE_NOT_EDITED);
-
-        /* Case: invalid name -> rejected */
-        assertCommandFailure(TagCommand.COMMAND_WORD + " " + INDEX_FIRST_COIN.getOneBased() + INVALID_NAME_DESC,
-                Code.MESSAGE_NAME_CONSTRAINTS);
 
         /* Case: invalid tag -> rejected */
         assertCommandFailure(TagCommand.COMMAND_WORD + " " + INDEX_FIRST_COIN.getOneBased() + INVALID_TAG_DESC,
@@ -152,14 +138,6 @@ public class TagCommandSystemTest extends AddressBookSystemTest {
         assertTrue(getModel().getCoinBook().getCoinList().contains(BOB));
         index = INDEX_FIRST_COIN;
         assertFalse(getModel().getFilteredCoinList().get(index.getZeroBased()).equals(BOB));
-        command = TagCommand.COMMAND_WORD + " " + index.getOneBased() + NAME_DESC_BOB
-                + TAG_DESC_FRIEND + TAG_DESC_HUSBAND;
-        assertCommandFailure(command, TagCommand.MESSAGE_DUPLICATE_COIN);
-
-        /* Case: edit a coin with new values same as another coin's values but with different tags -> rejected */
-        command = TagCommand.COMMAND_WORD + " " + index.getOneBased() + NAME_DESC_BOB
-                + TAG_DESC_HUSBAND;
-        assertCommandFailure(command, TagCommand.MESSAGE_DUPLICATE_COIN);
     }
 
     /**

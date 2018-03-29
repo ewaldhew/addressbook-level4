@@ -40,7 +40,7 @@ public class TagCommandTest {
 
     @Test
     public void execute_allFieldsSpecifiedUnfilteredList_success() throws Exception {
-        Coin editedCoin = new CoinBuilder().build();
+        Coin editedCoin = new CoinBuilder(model.getFilteredCoinList().get(0)).build();
         EditCoinDescriptor descriptor = new EditCoinDescriptorBuilder(editedCoin).build();
         TagCommand tagCommand = prepareCommand(INDEX_FIRST_COIN, descriptor);
 
@@ -48,27 +48,6 @@ public class TagCommandTest {
 
         Model expectedModel = new ModelManager(new CoinBook(model.getCoinBook()), new UserPrefs());
         expectedModel.updateCoin(model.getFilteredCoinList().get(0), editedCoin);
-
-        assertCommandSuccess(tagCommand, model, expectedMessage, expectedModel);
-    }
-
-    @Test
-    public void execute_someFieldsSpecifiedUnfilteredList_success() throws Exception {
-        Index indexLastCoin = Index.fromOneBased(model.getFilteredCoinList().size());
-        Coin lastCoin = model.getFilteredCoinList().get(indexLastCoin.getZeroBased());
-
-        CoinBuilder coinInList = new CoinBuilder(lastCoin);
-        Coin editedCoin = coinInList.withName(VALID_NAME_BOB)
-                .withTags(VALID_TAG_HUSBAND).build();
-
-        EditCoinDescriptor descriptor = new EditCoinDescriptorBuilder().withName(VALID_NAME_BOB)
-                .withTags(VALID_TAG_HUSBAND).build();
-        TagCommand tagCommand = prepareCommand(indexLastCoin, descriptor);
-
-        String expectedMessage = String.format(TagCommand.MESSAGE_EDIT_COIN_SUCCESS, editedCoin);
-
-        Model expectedModel = new ModelManager(new CoinBook(model.getCoinBook()), new UserPrefs());
-        expectedModel.updateCoin(lastCoin, editedCoin);
 
         assertCommandSuccess(tagCommand, model, expectedMessage, expectedModel);
     }
@@ -90,9 +69,9 @@ public class TagCommandTest {
         showCoinAtIndex(model, INDEX_FIRST_COIN);
 
         Coin coinInFilteredList = model.getFilteredCoinList().get(INDEX_FIRST_COIN.getZeroBased());
-        Coin editedCoin = new CoinBuilder(coinInFilteredList).withName(VALID_NAME_BOB).build();
+        Coin editedCoin = new CoinBuilder(coinInFilteredList).build();
         TagCommand tagCommand = prepareCommand(INDEX_FIRST_COIN,
-                new EditCoinDescriptorBuilder().withName(VALID_NAME_BOB).build());
+                new EditCoinDescriptorBuilder().build());
 
         String expectedMessage = String.format(TagCommand.MESSAGE_EDIT_COIN_SUCCESS, editedCoin);
 
@@ -100,27 +79,6 @@ public class TagCommandTest {
         expectedModel.updateCoin(model.getFilteredCoinList().get(0), editedCoin);
 
         assertCommandSuccess(tagCommand, model, expectedMessage, expectedModel);
-    }
-
-    @Test
-    public void execute_duplicateCoinUnfilteredList_failure() {
-        Coin firstCoin = model.getFilteredCoinList().get(INDEX_FIRST_COIN.getZeroBased());
-        EditCoinDescriptor descriptor = new EditCoinDescriptorBuilder(firstCoin).build();
-        TagCommand tagCommand = prepareCommand(INDEX_SECOND_COIN, descriptor);
-
-        assertCommandFailure(tagCommand, model, TagCommand.MESSAGE_DUPLICATE_COIN);
-    }
-
-    @Test
-    public void execute_duplicateCoinFilteredList_failure() {
-        showCoinAtIndex(model, INDEX_FIRST_COIN);
-
-        // edit coin in filtered list into a duplicate in address book
-        Coin coinInList = model.getCoinBook().getCoinList().get(INDEX_SECOND_COIN.getZeroBased());
-        TagCommand tagCommand = prepareCommand(INDEX_FIRST_COIN,
-                new EditCoinDescriptorBuilder(coinInList).build());
-
-        assertCommandFailure(tagCommand, model, TagCommand.MESSAGE_DUPLICATE_COIN);
     }
 
     @Test
@@ -154,8 +112,8 @@ public class TagCommandTest {
         UndoRedoStack undoRedoStack = new UndoRedoStack();
         UndoCommand undoCommand = prepareUndoCommand(model, undoRedoStack);
         RedoCommand redoCommand = prepareRedoCommand(model, undoRedoStack);
-        Coin editedCoin = new CoinBuilder().build();
         Coin coinToEdit = model.getFilteredCoinList().get(INDEX_FIRST_COIN.getZeroBased());
+        Coin editedCoin = new CoinBuilder(coinToEdit).build();
         EditCoinDescriptor descriptor = new EditCoinDescriptorBuilder(editedCoin).build();
         TagCommand tagCommand = prepareCommand(INDEX_FIRST_COIN, descriptor);
         Model expectedModel = new ModelManager(new CoinBook(model.getCoinBook()), new UserPrefs());
@@ -201,13 +159,14 @@ public class TagCommandTest {
         UndoRedoStack undoRedoStack = new UndoRedoStack();
         UndoCommand undoCommand = prepareUndoCommand(model, undoRedoStack);
         RedoCommand redoCommand = prepareRedoCommand(model, undoRedoStack);
-        Coin editedCoin = new CoinBuilder().build();
+
+        showCoinAtIndex(model, INDEX_SECOND_COIN);
+        Coin coinToEdit = model.getFilteredCoinList().get(INDEX_FIRST_COIN.getZeroBased());
+        Coin editedCoin = new CoinBuilder(model.getFilteredCoinList().get(INDEX_FIRST_COIN.getZeroBased())).withTags("test").build();
         EditCoinDescriptor descriptor = new EditCoinDescriptorBuilder(editedCoin).build();
         TagCommand tagCommand = prepareCommand(INDEX_FIRST_COIN, descriptor);
         Model expectedModel = new ModelManager(new CoinBook(model.getCoinBook()), new UserPrefs());
 
-        showCoinAtIndex(model, INDEX_SECOND_COIN);
-        Coin coinToEdit = model.getFilteredCoinList().get(INDEX_FIRST_COIN.getZeroBased());
         // edit -> edits second coin in unfiltered coin list / first coin in filtered coin list
         tagCommand.execute();
         undoRedoStack.push(tagCommand);
