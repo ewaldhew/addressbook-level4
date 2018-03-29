@@ -42,7 +42,7 @@ public class EditCommandParser implements Parser<EditCommand> {
 
         EditCoinDescriptor editCoinDescriptor = new EditCoinDescriptor();
         try {
-            ParserUtil.parseName(argMultimap.getValue(PREFIX_NAME)).ifPresent(editCoinDescriptor::setName);
+            ParserUtil.parseName(argMultimap.getValue(PREFIX_NAME)).ifPresent(editCoinDescriptor::setCode);
             parseTagsForEdit(argMultimap.getAllValues(PREFIX_TAG)).ifPresent(editCoinDescriptor::setTags);
         } catch (IllegalValueException ive) {
             throw new ParseException(ive.getMessage(), ive);

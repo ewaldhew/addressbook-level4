@@ -19,8 +19,8 @@ import static seedu.address.logic.parser.CommandParserTestUtil.assertParseSucces
 import org.junit.Test;
 
 import seedu.address.logic.commands.AddCommand;
+import seedu.address.model.coin.Code;
 import seedu.address.model.coin.Coin;
-import seedu.address.model.coin.Name;
 import seedu.address.model.tag.Tag;
 import seedu.address.testutil.CoinBuilder;
 
@@ -71,14 +71,14 @@ public class AddCommandParserTest {
     public void parse_invalidValue_failure() {
         // invalid name
         assertParseFailure(parser, INVALID_NAME_DESC
-                + TAG_DESC_HUSBAND + TAG_DESC_FRIEND, Name.MESSAGE_NAME_CONSTRAINTS);
+                + TAG_DESC_HUSBAND + TAG_DESC_FRIEND, Code.MESSAGE_NAME_CONSTRAINTS);
 
         // invalid tag
         assertParseFailure(parser, NAME_DESC_BOB
                 + INVALID_TAG_DESC + VALID_TAG_FRIEND, Tag.MESSAGE_TAG_CONSTRAINTS);
 
         // two invalid values, only first invalid value reported
-        assertParseFailure(parser, INVALID_NAME_DESC, Name.MESSAGE_NAME_CONSTRAINTS);
+        assertParseFailure(parser, INVALID_NAME_DESC, Code.MESSAGE_NAME_CONSTRAINTS);
 
         // non-empty preamble
         assertParseFailure(parser, PREAMBLE_NON_EMPTY + NAME_DESC_BOB

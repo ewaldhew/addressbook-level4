@@ -18,7 +18,7 @@ import org.junit.Test;
 import org.junit.rules.ExpectedException;
 
 import seedu.address.commons.exceptions.IllegalValueException;
-import seedu.address.model.coin.Name;
+import seedu.address.model.coin.Code;
 import seedu.address.model.tag.Tag;
 import seedu.address.testutil.Assert;
 
@@ -76,17 +76,17 @@ public class ParserUtilTest {
 
     @Test
     public void parseName_validValueWithoutWhitespace_returnsName() throws Exception {
-        Name expectedName = new Name(VALID_NAME);
-        assertEquals(expectedName, ParserUtil.parseName(VALID_NAME));
-        assertEquals(Optional.of(expectedName), ParserUtil.parseName(Optional.of(VALID_NAME)));
+        Code expectedCode = new Code(VALID_NAME);
+        assertEquals(expectedCode, ParserUtil.parseName(VALID_NAME));
+        assertEquals(Optional.of(expectedCode), ParserUtil.parseName(Optional.of(VALID_NAME)));
     }
 
     @Test
     public void parseName_validValueWithWhitespace_returnsTrimmedName() throws Exception {
         String nameWithWhitespace = WHITESPACE + VALID_NAME + WHITESPACE;
-        Name expectedName = new Name(VALID_NAME);
-        assertEquals(expectedName, ParserUtil.parseName(nameWithWhitespace));
-        assertEquals(Optional.of(expectedName), ParserUtil.parseName(Optional.of(nameWithWhitespace)));
+        Code expectedCode = new Code(VALID_NAME);
+        assertEquals(expectedCode, ParserUtil.parseName(nameWithWhitespace));
+        assertEquals(Optional.of(expectedCode), ParserUtil.parseName(Optional.of(nameWithWhitespace)));
     }
 
     @Test

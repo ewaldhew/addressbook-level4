@@ -7,7 +7,7 @@ import static seedu.address.commons.util.AppUtil.checkArgument;
  * Represents a Coin's currency code in the book.
  * Guarantees: immutable; is valid as declared in {@link #isValidName(String)}
  */
-public class Name {
+public class Code {
 
     public static final String MESSAGE_NAME_CONSTRAINTS =
             "Coin names should only contain alphanumeric characters and spaces, and it should not be blank";
@@ -16,7 +16,7 @@ public class Name {
      * The first character of the address must not be a whitespace,
      * otherwise " " (a blank string) becomes a valid input.
      */
-    public static final String NAME_VALIDATION_REGEX = "[\\p{Alnum}][\\p{Alnum} ]*";
+    public static final String NAME_VALIDATION_REGEX = "[\\p{Alpha}][\\p{Alpha} ]*";
 
     public final String fullName;
 
@@ -25,7 +25,7 @@ public class Name {
      *
      * @param name A valid name.
      */
-    public Name(String name) {
+    public Code(String name) {
         requireNonNull(name);
         checkArgument(isValidName(name), MESSAGE_NAME_CONSTRAINTS);
         this.fullName = name;
@@ -47,8 +47,8 @@ public class Name {
     @Override
     public boolean equals(Object other) {
         return other == this // short circuit if same object
-                || (other instanceof Name // instanceof handles nulls
-                && this.fullName.equals(((Name) other).fullName)); // state check
+                || (other instanceof Code // instanceof handles nulls
+                && this.fullName.equals(((Code) other).fullName)); // state check
     }
 
     @Override

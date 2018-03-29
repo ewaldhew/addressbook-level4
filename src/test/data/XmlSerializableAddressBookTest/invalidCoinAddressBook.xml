@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <addressbook>
-    <!-- Coin with invalid name field -->
+    <!-- Coin with invalid code field -->
     <coins>
-        <name>H@N</name>
+        <code>H@N</code>
     </coins>
 </addressbook>

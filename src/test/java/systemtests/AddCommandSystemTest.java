@@ -24,8 +24,8 @@ import seedu.address.logic.commands.AddCommand;
 import seedu.address.logic.commands.RedoCommand;
 import seedu.address.logic.commands.UndoCommand;
 import seedu.address.model.Model;
+import seedu.address.model.coin.Code;
 import seedu.address.model.coin.Coin;
-import seedu.address.model.coin.Name;
 import seedu.address.model.coin.exceptions.DuplicateCoinException;
 import seedu.address.model.tag.Tag;
 import seedu.address.testutil.CoinBuilder;
@@ -107,7 +107,7 @@ public class AddCommandSystemTest extends AddressBookSystemTest {
 
         /* Case: invalid name -> rejected */
         command = AddCommand.COMMAND_WORD + INVALID_NAME_DESC;
-        assertCommandFailure(command, Name.MESSAGE_NAME_CONSTRAINTS);
+        assertCommandFailure(command, Code.MESSAGE_NAME_CONSTRAINTS);
 
         /* Case: invalid tag -> rejected */
         command = AddCommand.COMMAND_WORD + NAME_DESC_AMY

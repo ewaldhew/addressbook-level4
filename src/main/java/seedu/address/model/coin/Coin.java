@@ -15,7 +15,7 @@ import seedu.address.model.tag.UniqueTagList;
  */
 public class Coin {
 
-    private final Name name;
+    private final Code code;
 
     private final Amount currentAmountHeld;
     private final Amount totalAmountSold;
@@ -27,9 +27,9 @@ public class Coin {
     /**
      * Every field must be present and not null.
      */
-    public Coin(Name name, Set<Tag> tags) {
-        requireAllNonNull(name, tags);
-        this.name = name;
+    public Coin(Code code, Set<Tag> tags) {
+        requireAllNonNull(code, tags);
+        this.code = code;
         // protect internal tags from changes in the arg list
         this.tags = new UniqueTagList(tags);
         this.currentAmountHeld = new Amount();
@@ -38,8 +38,8 @@ public class Coin {
         this.totalAmountBought = new Amount();
     }
 
-    public Name getName() {
-        return name;
+    public Code getCode() {
+        return code;
     }
 
     public Amount getCurrentAmountHeld() {
@@ -69,7 +69,7 @@ public class Coin {
         }
 
         Coin otherCoin = (Coin) other;
-        return otherCoin.getName().equals(this.getName())
+        return otherCoin.getCode().equals(this.getCode())
                 && otherCoin.getCurrentAmountHeld().equals(this.getCurrentAmountHeld())
                 && otherCoin.getPrice().equals(this.getPrice());
     }
@@ -77,13 +77,13 @@ public class Coin {
     @Override
     public int hashCode() {
         // use this method for custom fields hashing instead of implementing your own
-        return Objects.hash(name, tags, currentAmountHeld, price);
+        return Objects.hash(code, tags, currentAmountHeld, price);
     }
 
     @Override
     public String toString() {
         final StringBuilder builder = new StringBuilder();
-        builder.append(getName())
+        builder.append(getCode())
                 .append(" Amount: ")
                 .append(getCurrentAmountHeld())
                 .append(" Price: ")

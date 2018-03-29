@@ -10,8 +10,8 @@ import java.util.stream.Stream;
 import seedu.address.commons.exceptions.IllegalValueException;
 import seedu.address.logic.commands.AddCommand;
 import seedu.address.logic.parser.exceptions.ParseException;
+import seedu.address.model.coin.Code;
 import seedu.address.model.coin.Coin;
-import seedu.address.model.coin.Name;
 import seedu.address.model.tag.Tag;
 
 /**
@@ -34,10 +34,10 @@ public class AddCommandParser implements Parser<AddCommand> {
         }
 
         try {
-            Name name = ParserUtil.parseName(argMultimap.getValue(PREFIX_NAME)).get();
+            Code code = ParserUtil.parseName(argMultimap.getValue(PREFIX_NAME)).get();
             Set<Tag> tagList = ParserUtil.parseTags(argMultimap.getAllValues(PREFIX_TAG));
 
-            Coin coin = new Coin(name, tagList);
+            Coin coin = new Coin(code, tagList);
 
             return new AddCommand(coin);
         } catch (IllegalValueException ive) {

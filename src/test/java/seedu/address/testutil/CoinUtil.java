@@ -30,9 +30,9 @@ public class CoinUtil {
      */
     public static String getCoinDetails(Coin coin) {
         StringBuilder sb = new StringBuilder();
-        sb.append(PREFIX_NAME + coin.getName().fullName + " ");
+        sb.append(PREFIX_NAME + coin.getCode().fullName + " ");
         coin.getTags().stream().forEach(
-                s -> sb.append(PREFIX_TAG + s.tagName + " ")
+            s -> sb.append(PREFIX_TAG + s.tagName + " ")
         );
         return sb.toString();
     }

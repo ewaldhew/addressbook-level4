@@ -19,8 +19,8 @@ import seedu.address.commons.core.Messages;
 import seedu.address.commons.core.index.Index;
 import seedu.address.commons.util.CollectionUtil;
 import seedu.address.logic.commands.exceptions.CommandException;
+import seedu.address.model.coin.Code;
 import seedu.address.model.coin.Coin;
-import seedu.address.model.coin.Name;
 import seedu.address.model.coin.exceptions.CoinNotFoundException;
 import seedu.address.model.coin.exceptions.DuplicateCoinException;
 import seedu.address.model.tag.Tag;
@@ -100,10 +100,10 @@ public class EditCommand extends UndoableCommand {
     private static Coin createEditedCoin(Coin coinToEdit, EditCoinDescriptor editCoinDescriptor) {
         assert coinToEdit != null;
 
-        Name updatedName = editCoinDescriptor.getName().orElse(coinToEdit.getName());
+        Code updatedCode = editCoinDescriptor.getCode().orElse(coinToEdit.getCode());
         Set<Tag> updatedTags = editCoinDescriptor.getTags().orElse(coinToEdit.getTags());
 
-        return new Coin(updatedName, updatedTags);
+        return new Coin(updatedCode, updatedTags);
     }
 
     @Override
@@ -130,7 +130,7 @@ public class EditCommand extends UndoableCommand {
      * corresponding field value of the coin.
      */
     public static class EditCoinDescriptor {
-        private Name name;
+        private Code code;
         private Set<Tag> tags;
 
         public EditCoinDescriptor() {}
@@ -140,7 +140,7 @@ public class EditCommand extends UndoableCommand {
          * A defensive copy of {@code tags} is used internally.
          */
         public EditCoinDescriptor(EditCoinDescriptor toCopy) {
-            setName(toCopy.name);
+            setCode(toCopy.code);
             setTags(toCopy.tags);
         }
 
@@ -148,15 +148,15 @@ public class EditCommand extends UndoableCommand {
          * Returns true if at least one field is edited.
          */
         public boolean isAnyFieldEdited() {
-            return CollectionUtil.isAnyNonNull(this.name, this.tags);
+            return CollectionUtil.isAnyNonNull(this.code, this.tags);
         }
 
-        public void setName(Name name) {
-            this.name = name;
+        public void setCode(Code code) {
+            this.code = code;
         }
 
-        public Optional<Name> getName() {
-            return Optional.ofNullable(name);
+        public Optional<Code> getCode() {
+            return Optional.ofNullable(code);
         }
 
         /**
@@ -191,7 +191,7 @@ public class EditCommand extends UndoableCommand {
             // state check
             EditCoinDescriptor e = (EditCoinDescriptor) other;
 
-            return getName().equals(e.getName())
+            return getCode().equals(e.getCode())
                     && getTags().equals(e.getTags());
         }
     }

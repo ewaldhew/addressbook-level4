@@ -28,11 +28,13 @@ public class CommandTestUtil {
 
     public static final String VALID_NAME_AMY = "Amy Bee";
     public static final String VALID_NAME_BOB = "Bob Choo";
+    public static final String VALID_NAME_JOE = "JOE";
     public static final String VALID_TAG_HUSBAND = "husband";
     public static final String VALID_TAG_FRIEND = "friend";
 
     public static final String NAME_DESC_AMY = " " + PREFIX_NAME + VALID_NAME_AMY;
     public static final String NAME_DESC_BOB = " " + PREFIX_NAME + VALID_NAME_BOB;
+    public static final String NAME_DESC_JOE = " " + PREFIX_NAME + VALID_NAME_JOE;
     public static final String TAG_DESC_FRIEND = " " + PREFIX_TAG + VALID_TAG_FRIEND;
     public static final String TAG_DESC_HUSBAND = " " + PREFIX_TAG + VALID_TAG_HUSBAND;
 
@@ -98,7 +100,7 @@ public class CommandTestUtil {
         assertTrue(targetIndex.getZeroBased() < model.getFilteredCoinList().size());
 
         Coin coin = model.getFilteredCoinList().get(targetIndex.getZeroBased());
-        final String[] splitName = coin.getName().fullName.split("\\s+");
+        final String[] splitName = coin.getCode().fullName.split("\\s+");
         model.updateFilteredCoinList(new NameContainsKeywordsPredicate(Arrays.asList(splitName[0])));
 
         assertEquals(1, model.getFilteredCoinList().size());

@@ -11,14 +11,14 @@ import java.util.stream.Collectors;
 import org.junit.Test;
 
 import seedu.address.commons.exceptions.IllegalValueException;
-import seedu.address.model.coin.Name;
+import seedu.address.model.coin.Code;
 import seedu.address.testutil.Assert;
 
 public class XmlAdaptedCoinTest {
     private static final String INVALID_NAME = "R@chel";
     private static final String INVALID_TAG = "#friend";
 
-    private static final String VALID_NAME = BENSON.getName().toString();
+    private static final String VALID_NAME = BENSON.getCode().toString();
     private static final List<XmlAdaptedTag> VALID_TAGS = BENSON.getTags().stream()
             .map(XmlAdaptedTag::new)
             .collect(Collectors.toList());
@@ -33,14 +33,14 @@ public class XmlAdaptedCoinTest {
     public void toModelType_invalidName_throwsIllegalValueException() {
         XmlAdaptedCoin coin =
                 new XmlAdaptedCoin(INVALID_NAME, VALID_TAGS);
-        String expectedMessage = Name.MESSAGE_NAME_CONSTRAINTS;
+        String expectedMessage = Code.MESSAGE_NAME_CONSTRAINTS;
         Assert.assertThrows(IllegalValueException.class, expectedMessage, coin::toModelType);
     }
 
     @Test
     public void toModelType_nullName_throwsIllegalValueException() {
         XmlAdaptedCoin coin = new XmlAdaptedCoin(null, VALID_TAGS);
-        String expectedMessage = String.format(MISSING_FIELD_MESSAGE_FORMAT, Name.class.getSimpleName());
+        String expectedMessage = String.format(MISSING_FIELD_MESSAGE_FORMAT, Code.class.getSimpleName());
         Assert.assertThrows(IllegalValueException.class, expectedMessage, coin::toModelType);
     }
 
