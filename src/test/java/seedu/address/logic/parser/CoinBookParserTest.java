@@ -12,6 +12,7 @@ import org.junit.Test;
 import org.junit.rules.ExpectedException;
 
 import seedu.address.logic.commands.AddCommand;
+import seedu.address.logic.commands.BuyCommand;
 import seedu.address.logic.commands.ClearCommand;
 import seedu.address.logic.commands.DeleteCommand;
 import seedu.address.logic.commands.ExitCommand;
@@ -46,6 +47,14 @@ public class CoinBookParserTest {
     }
 
     @Test
+    public void parseCommand_buy() throws Exception {
+        Coin coin = new CoinBuilder().build();
+        BuyCommand command = (BuyCommand) parser.parseCommand(BuyCommand.COMMAND_WORD + " "
+                + INDEX_FIRST_COIN.getOneBased() + " 50.0");
+        assertEquals(new BuyCommand(INDEX_FIRST_COIN, 50.0), command);
+    }
+
+    @Test
     public void parseCommand_clear() throws Exception {
         assertTrue(parser.parseCommand(ClearCommand.COMMAND_WORD) instanceof ClearCommand);
         assertTrue(parser.parseCommand(ClearCommand.COMMAND_WORD + " 3") instanceof ClearCommand);
@@ -64,7 +73,7 @@ public class CoinBookParserTest {
     }
 
     @Test
-    public void parseCommand_edit() throws Exception {
+    public void parseCommand_tag() throws Exception {
         Coin coin = new CoinBuilder().build();
         EditCoinDescriptor descriptor = new EditCoinDescriptorBuilder(coin).build();
         TagCommand command = (TagCommand) parser.parseCommand(TagCommand.COMMAND_WORD + " "
