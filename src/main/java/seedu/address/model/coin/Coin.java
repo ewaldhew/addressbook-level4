@@ -73,11 +73,11 @@ public class Coin {
     //@@author
 
     /**
-     * Copy constructor with tag update.
+     * Copy constructor with update.
      */
-    public Coin(Coin toCopy, Set<Tag> tags) {
-        requireAllNonNull(toCopy);
-        this.code = toCopy.code;
+    public Coin(Coin toCopy, Code code, Set<Tag> tags) {
+        requireAllNonNull(toCopy, code, tags);
+        this.code = code;
         // protect internal tags from changes in the arg list
         this.tags = new UniqueTagList(tags);
         this.price = toCopy.price;
