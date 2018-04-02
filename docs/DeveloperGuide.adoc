@@ -739,12 +739,12 @@ We chose AsciiDoc over Markdown because AsciiDoc, although a bit more complex th
 
 === Editing Documentation
 
-See [exref]#<<UsingGradle#rendering-asciidoc-files, UsingGradle.adoc>># to learn how to render `.adoc` files locally to preview the end result of your edits.
+See [exref]##<<UsingGradle#rendering-asciidoc-files, UsingGradle.adoc>>## to learn how to render `.adoc` files locally to preview the end result of your edits.
 Alternatively, you can download the AsciiDoc plugin for IntelliJ, which allows you to preview the changes you have made to your `.adoc` files in real-time.
 
 === Publishing Documentation
 
-See [exref]#<<UsingTravis#deploying-github-pages, UsingTravis.adoc>># to learn how to deploy GitHub Pages using Travis.
+See [exref]##<<UsingTravis#deploying-github-pages, UsingTravis.adoc>>## to learn how to deploy GitHub Pages using Travis.
 
 === Converting Documentation to PDF format
 
@@ -752,7 +752,7 @@ We use [ext]#https://www.google.com/chrome/browser/desktop/[Google Chrome]# for 
 
 Here are the steps to convert the project documentation files to PDF format.
 
-.  Follow the instructions in [exref]#<<UsingGradle#rendering-asciidoc-files, UsingGradle.adoc>># to convert the AsciiDoc files in the `docs/` directory to HTML format.
+.  Follow the instructions in [exref]##<<UsingGradle#rendering-asciidoc-files, UsingGradle.adoc>>## to convert the AsciiDoc files in the `docs/` directory to HTML format.
 .  Find the generated HTML files in the `build/docs` folder, right click on them and select `Open with` -> `Google Chrome`.
 .  In Chrome's menu, click on the `Print` option.
 .  Set the destination to `Save as PDF`, then click `Save` to save a copy of the file in PDF format. For best results, use the settings indicated in the screenshot (Fig. 19) below.
@@ -786,7 +786,7 @@ $ ./gradlew clean allTests
 ```
 
 [NOTE]
-See [exref]#<<UsingGradle#, UsingGradle.adoc>># for more info on how to run tests using Gradle.
+See [exref]##<<UsingGradle#, UsingGradle.adoc>>## for more info on how to run tests using Gradle.
 
 *Method 3: Using Gradle (headless)*
 
@@ -832,18 +832,18 @@ e.g. `seedu.address.logic.LogicManagerTest`
 
 === Build Automation
 
-See [exref]#<<UsingGradle#, UsingGradle.adoc>># to learn how to use Gradle for build automation.
+See [exref]##<<UsingGradle#, UsingGradle.adoc>>## to learn how to use Gradle for build automation.
 
 === Continuous Integration
 
-We use [ext]#https://travis-ci.org/[Travis CI]# and [ext]#https://www.appveyor.com/[AppVeyor]# to perform _Continuous Integration_ on our projects. See [exref]#<<UsingTravis#, UsingTravis.adoc>># and [exref]#<<UsingAppVeyor#, UsingAppVeyor.adoc>># for more details.
+We use [ext]#https://travis-ci.org/[Travis CI]# and [ext]#https://www.appveyor.com/[AppVeyor]# to perform _Continuous Integration_ on our projects. See [exref]##<<UsingTravis#, UsingTravis.adoc>>## and [exref]##<<UsingAppVeyor#, UsingAppVeyor.adoc>>## for more details.
 
 === Coverage Reporting
 
-We use [ext]#https://coveralls.io/[Coveralls]# to track the code coverage of our projects. See [exref]#<<UsingCoveralls#, UsingCoveralls.adoc>># for more details.
+We use [ext]#https://coveralls.io/[Coveralls]# to track the code coverage of our projects. See [exref]##<<UsingCoveralls#, UsingCoveralls.adoc>>## for more details.
 
 === Documentation Previews
-When a pull request has changes to AsciiDoc files, you can use [ext]#https://www.netlify.com/[Netlify]# to see a preview of the HTML version of those AsciiDoc files when the pull request is merged. See [exref]#<<UsingNetlify#, UsingNetlify.adoc>># for more details.
+When a pull request has changes to AsciiDoc files, you can use [ext]#https://www.netlify.com/[Netlify]# to see a preview of the HTML version of those AsciiDoc files when the pull request is merged. See [exref]##<<UsingNetlify#, UsingNetlify.adoc>>## for more details.
 
 === Making a Release
 
@@ -851,7 +851,7 @@ Here are the steps to creating a new release.
 
 .  Update the version number in
 [exref]#link:{repoURL}/src/main/java/seedu/address/MainApp.java[`MainApp.java`]#.
-.  Generate a JAR file [exref]#<<UsingGradle#creating-the-jar-file, using Gradle>>#.
+.  Generate a JAR file [exref]##<<UsingGradle#creating-the-jar-file, using Gradle>>##.
 .  Tag the repo with the version number, e.g. `v0.1`.
 .  [ext]#https://help.github.com/articles/creating-releases/[Create a new release using GitHub]# and upload the JAR file you created in step 2.
 
