@@ -6,6 +6,7 @@
 :imagesDir: images
 :stylesDir: stylesheets
 :xrefstyle: full
+:experimental:
 ifdef::env-github[]
 :tip-caption: :bulb:
 :note-caption: :information_source:
@@ -14,9 +15,18 @@ endif::[]
 
 By: `Team CS2103JAN2018-F09-B3` Since: `Feb 2018` Licence: `MIT`
 
-== Setting Up
+== Getting Started with CoinBook
+Follow the instructions given in this section to get up and running with _CoinBook_. To summarise:
 
-=== Prerequisites
+. Make sure you have the prerequisites installed. See <<Obtaining Prerequisites>> for details.
+. Clone and import the project. See <<Setting Up>> for details.
+. Set up additional requirements before writing your code. See <<Configurations To Do Before Writing Code>> for details.
+
+For the full details, continue reading.
+
+=== Obtaining Prerequisites
+
+The following are required to ensure that _CoinBook_ works well.
 
 . *JDK `1.8.0_60`* or later
 +
@@ -32,7 +42,8 @@ IntelliJ by default has Gradle and JavaFx plugins installed. +
 Do not disable them. If you have disabled them, go to `File` -> `Settings` -> `Plugins` to re-enable them.
 
 
-=== Setting Up the Project in Your Computer
+=== Setting Up
+Follow the steps below to set up the project in your computer.
 
 . Fork this repo, and clone the fork to your computer.
 . Open IntelliJ. If you are not in the welcome screen, click `File` -> `Close Project` to close the existing project dialog first.
@@ -47,11 +58,13 @@ Do not disable them. If you have disabled them, go to `File` -> `Settings` -> `P
 This will generate all resources required by the application and tests.
 
 === Verifying the Setup
+After setting up the project by following the steps in the previous part, do the below to make sure you have everything set up nicely.
 
 . Run the `seedu.address.MainApp` and try a few commands.
 . <<Testing,Run the tests>> to ensure they all pass.
 
 === Configurations To Do Before Writing Code
+Before embarking on your modifications to _CoinBook_, you should set up the following things to facilitate a smooth development experience.
 
 ==== Configuring the Coding Style
 
@@ -89,6 +102,7 @@ Having both Travis and AppVeyor ensures that your app works on both Unix-based p
 When you are ready to start coding, get some sense of the overall design by reading the next section on _CoinBook_'s <<Design-Architecture>>.
 
 == Design
+This chapter offers a high-level overview of the components in _CoinBook_ and how they interact with one another. You should read this first to get some idea of which parts you might want to modify to suit your needs.
 
 [[Design-Architecture]]
 === Architecture
@@ -240,9 +254,9 @@ image::StorageClassDiagram.png[width="800"]
 
 == Implementation
 
-This section describes some noteworthy details on how certain features are implemented.
+This chapter describes some noteworthy details on how certain features are implemented. It is highly recommended to read the previous chapter on <<Design>> first so that you have some picture of where these features fit in.
 
-=== Condition Parser feature
+=== Condition Parser Feature
 
 ==== Current implementation
 The general parser for the SQL-like arguments for the find command can be broken down into a few sub-components, namely
@@ -396,7 +410,7 @@ image::failSequence.png[]
 ** Cons: Clearly violates SRP.
 
 // tag::undoredo[]
-=== Undo/Redo feature
+=== Undo/Redo Feature
 ==== Current Implementation
 
 The undo/redo mechanism is facilitated by an `UndoRedoStack`, which resides inside `LogicManager`. It supports the undoing and redoing of commands that modify the stored data (e.g. `add`, `edit`). Such commands will inherit from `UndoableCommand`.
@@ -659,7 +673,7 @@ By default, elements with the same key are inserted into `List<T>`, although thi
 // end::organisation[]
 
 // tag::autocomplete[]
-=== [Proposed] Autocomplete feature
+=== [Proposed] Autocomplete Feature
 
 The autocomplete mechanism is facilitated by a `RadixTree`, which resides inside `LogicManager`. It supports the predicting of a word or phrase that the user may type based on a partial text query.
 
@@ -755,7 +769,7 @@ Here are the steps to convert the project documentation files to PDF format.
 .  Follow the instructions in [exref]##<<UsingGradle#rendering-asciidoc-files, UsingGradle.adoc>>## to convert the AsciiDoc files in the `docs/` directory to HTML format.
 .  Find the generated HTML files in the `build/docs` folder, right click on them and select `Open with` -> `Google Chrome`.
 .  In Chrome's menu, click on the `Print` option.
-.  Set the destination to `Save as PDF`, then click `Save` to save a copy of the file in PDF format. For best results, use the settings indicated in the screenshot (Fig. 19) below.
+.  Set the destination to `Save as PDF`, then click `Save` to save a copy of the file in PDF format. For best results, use the settings indicated in the screenshot (Fig. 25) below.
 
 .Options for Saving Documentation as PDF Files in Chrome
 image::chrome_save_as_pdf.png[width="300"]
@@ -763,9 +777,27 @@ image::chrome_save_as_pdf.png[width="300"]
 [[Testing]]
 == Testing
 
+When developing new features it is always important to write tests so that you can verify whether the features are working as intended, alone or with one another. This chapter introduces the basics of testing.
+
+=== Types of tests
+
+We use two types of tests in _Coinbook_:
+
+.  *GUI Tests* - These are tests involving the GUI. They include:
+.. _System Tests_ that test the entire App by simulating user actions on the GUI. These are in the `systemtests` package.
+.. _Unit tests_ that test the individual components. These are in the `seedu.address.ui` package.
+.  *Non-GUI Tests* - These are tests not involving the GUI. They include:
+..  _Unit tests_ targeting the lowest level methods/classes. +
+e.g. `seedu.address.commons.StringUtilTest`
+..  _Integration tests_ that check the integration of multiple code units (those code units are assumed to be working). +
+e.g. `seedu.address.storage.StorageManagerTest`
+..  Hybrids of unit and integration tests. These tests check multiple code units as well as the connections between them. +
+e.g. `seedu.address.logic.LogicManagerTest`
+
+
 === Running Tests
 
-There are three ways to run tests.
+There are three ways to run tests on your computer before sharing your changes to source control.
 
 *Method 1: Using IntelliJ JUnit test runner*
 
@@ -806,29 +838,21 @@ $ ./gradlew clean headless allTests
 [TIP]
 The most reliable way to run tests is the 3rd one. The first two methods might cause some GUI tests to fail due to platform/resolution-specific idiosyncrasies.
 
-=== Types of tests
-
-We have two types of tests:
-
-.  *GUI Tests* - These are tests involving the GUI. They include:
-.. _System Tests_ that test the entire App by simulating user actions on the GUI. These are in the `systemtests` package.
-.. _Unit tests_ that test the individual components. These are in the `seedu.address.ui` package.
-.  *Non-GUI Tests* - These are tests not involving the GUI. They include:
-..  _Unit tests_ targeting the lowest level methods/classes. +
-e.g. `seedu.address.commons.StringUtilTest`
-..  _Integration tests_ that check the integration of multiple code units (those code units are assumed to be working). +
-e.g. `seedu.address.storage.StorageManagerTest`
-..  Hybrids of unit and integration tests. These tests check multiple code units as well as the connections between them. +
-e.g. `seedu.address.logic.LogicManagerTest`
-
+[NOTE]
+<<Continuous Integration>> also automatically runs the tests specified with Gradle, but it is a good habit to test things on your own machine first.
 
 === Troubleshooting Testing
+
+Here are some common problems you may face when trying to run tests locally.
+
 **Problem: `HelpWindowTest` fails with a `NullPointerException`.**
 
 * Reason: One of its dependencies, `UserGuide.html` in `src/main/resources/docs` is missing.
 * Solution: Execute Gradle task `processResources`.
 
-== Dev Ops
+== DevOps
+
+This chapter introduces various systems we can put in place to unify the tasks of _development_ and _operations_, or _DevOps_ in short. We are mostly concerned with ways to reduce turnaround time through simple automation, and ways to manage the distribution of the completed App.
 
 === Build Automation
 
@@ -864,6 +888,7 @@ A project often depends on third-party libraries. For example, _CoinBook_ depend
 
 [appendix]
 == Product Scope
+=== Goals
 
 *Target user profile*:
 
@@ -1048,7 +1073,7 @@ When the price of a coin has fallen to a certain amount, the price may eventuall
 [appendix]
 == Instructions for Manual Testing
 
-Given below are instructions to test the App manually.
+Given below are instructions to test the App manually. This is a way to supplement the automated testing and find bugs through some concerted effort to break the software.
 
 [NOTE]
 These instructions only provide a starting point for testers to work on; testers are expected to do more _exploratory_ testing.
@@ -1057,8 +1082,8 @@ These instructions only provide a starting point for testers to work on; testers
 
 . Initial launch
 
-.. Download the jar file and copy into an empty folder
-.. Double-click the jar file +
+.. Download the jar file and copy into an empty folder.
+.. Double-click the jar file. +
    Expected: Shows the GUI with a set of sample contacts. The window size may not be optimum.
 
 . Saving window preferences
@@ -1067,24 +1092,28 @@ These instructions only provide a starting point for testers to work on; testers
 .. Re-launch the app by double-clicking the jar file. +
    Expected: The most recent window size and location is retained.
 
-=== Deleting a coin
+=== Removing a coin
 
-. Deleting a coin while all coins are listed
+. Removing a coin while all coins are listed
 
 .. Prerequisites: List all coins using the `list` command. Multiple coins in the list.
-.. Test case: `delete 1` +
-   Expected: First contact is deleted from the list. Details of the deleted contact shown in the status message. Timestamp in the status bar is updated.
-.. Test case: `delete 0` +
+.. Test case: `sell 1` +
+   Expected: First coin is deleted from the list. Details of the deleted entry shown in the status message. Timestamp in the status bar is updated.
+.. Test case: `sell 0` +
    Expected: No coin is deleted. Error details shown in the status message. Status bar remains the same.
-.. Other incorrect delete commands to try: `delete`, `delete x` (where x is larger than the list size) _{give more}_ +
+.. Other incorrect commands to try: `sell`, `sell x` (where x is larger than the list size), `sell -1` +
    Expected: Similar to previous.
 
-_{ more test cases ... }_
+. Removing a coin while its details are being displayed
+
+.. Prerequisites: List coins as above. Select the second coin using the `view 2` command. The detail window should be open on the right side.
+.. Test case: `sell 2` +
+   Expected: The coin is removed from the list. The detail window should return to a blank one, as when no coin is selected.
 
 === Saving data
 
 . Dealing with missing/corrupted data files
 
-.. _{explain how to simulate a missing/corrupted file and the expected behavior}_
-
-_{ more test cases ... }_
+.. Start the App so that it is ready to run some commands.
+.. Navigate to the location of the data file, `data/addressbook.xml`, and rename or delete it. +
+Expected:
