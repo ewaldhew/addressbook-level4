@@ -65,7 +65,7 @@ public class SellCommand extends UndoableCommand {
         List<Coin> lastShownList = model.getFilteredCoinList();
 
         if (index.getZeroBased() >= lastShownList.size()) {
-            throw new CommandException(Messages.MESSAGE_INVALID_COIN_DISPLAYED_INDEX);
+            throw new CommandException(Messages.MESSAGE_INVALID_COMMAND_TARGET);
         }
 
         coinToEdit = lastShownList.get(index.getZeroBased());
