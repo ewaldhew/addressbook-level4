@@ -5,6 +5,8 @@
 :sectnums:
 :imagesDir: images
 :stylesDir: stylesheets
+:pdf-stylesdir: stylesheets
+:pdf-style: pdf
 :xrefstyle: full
 :experimental:
 ifdef::env-github[]
