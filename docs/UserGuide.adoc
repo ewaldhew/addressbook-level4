@@ -19,6 +19,7 @@ By: `Team CS2103JAN2018-F09-B3` Since: `Feb 2018` Licence: `MIT`
 
 == How to Use this Guide
 Boxes::
+There are various types of boxes that provide extra information:
 [TIP]
 ====
 This icon indicates tips for usage and points out little details you may have missed.
@@ -32,6 +33,7 @@ This icon marks additional noteworthy information provided for reference.
 This icon warns you of things you should watch out for. Make sure to keep these in mind!
 ====
 
+[[example]]
 Markup::
 Text with special meaning look different. Here are the various types:
 * Commands, filenames, and other miscellaneous keywords are `monospaced for emphasis`
