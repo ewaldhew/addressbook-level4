@@ -116,37 +116,39 @@ image::Architecture.png[width="600"]
 
 Following is a quick overview of each component:
 
-`*Main*` has only one class called [exref]#link:{repoURL}/src/main/java/seedu/address/MainApp.java[`MainApp`]#. It is responsible for:
+* `*Main*` has only one class called [exref]#link:{repoURL}/src/main/java/seedu/address/MainApp.java[`MainApp`]#. It is responsible for the following:
 
-* (On app launch) Initializing the components in the correct sequence, and connecting them up with one another
-* (On shut down) Shutting down the components and invoking cleanup methods where necessary
+** (On app launch) Initializes the components in the correct sequence, and connecting them up with one another
+** (On shut down) Shuts down all components and invoking cleanup methods where necessary
 
-`*Commons*` represents a collection of classes used by multiple other components. Two of these classes play important roles at the architectural level.
+* `*Commons*` represents a collection of classes used by multiple other components. Two of these classes play important roles at the architectural level.
 
-* `EventsCenter` : This class (written using [ext]#https://github.com/google/guava/wiki/EventBusExplained[Google's Event Bus library]#) is used by components to communicate with other components using events (i.e. a form of <<event-driven-design,Event Driven Design>>)
-* `LogsCenter` : Used by classes to write log messages to the App's log file.
+** `EventsCenter` uses [ext]#https://github.com/google/guava/wiki/EventBusExplained[Google's Event Bus library]#, and is used by other components to communicate with one another using events (i.e. a form of <<event-driven-design,Event Driven Design>>)
+** `LogsCenter` is used by classes to write log messages to the App's log file
 
-These classes are located in the [exref]#link:{repoURL}/src/main/java/seedu/address/commons[`seedu.address.commons`]# package.
+** These classes are located in the [exref]#link:{repoURL}/src/main/java/seedu/address/commons[`seedu.address.commons`]# package
 
-The rest of the App consists of four components: +
-<<Design-Ui,*`UI`*>>: The UI of the App. +
-<<Design-Logic,*`Logic`*>>: Executes commands. +
-<<Design-Model,*`Model`*>>: Holds the data of the App in memory. +
-<<Design-Storage,*`Storage`*>>: Reads data from and writes data to the hard disk.
+* The rest of the App consists of:
+** <<Design-Ui,*`UI`*>> which has the UI components of the App. +
+** <<Design-Logic,*`Logic`*>> which processes and executes commands. +
+** <<Design-Model,*`Model`*>> which holds the data of the App in memory. +
+** <<Design-Storage,*`Storage`*>> which reads data from and writes data to the hard disk.
 
-Each of these four components:
+** Each of these four components:
 
-* Defines its [gloss]#<<API,_API_>># in an interface with the same name as the component.
-* Exposes its functionality using a `{Component Name}Manager` class.
+*** Defines its [gloss]#<<API,_API_>># in an interface with the same name as the component.
+*** Exposes its functionality using a `{Component Name}Manager` class.
 
-For example, the `Logic` component (see Fig. 2 below) defines its API in the `Logic.java` interface and exposes its functionality via the `LogicManager.java` class.
+** For example, the `Logic` component (see Fig. 2 below) defines its API in the `Logic.java` interface and exposes its functionality via the `LogicManager.java` class.
 
 .Class Diagram of the Logic Component
 image::LogicClassDiagram.png[width="800"]
 
+We use event-driven design in order to allow communication between separate components without increasing coupling. The short section below gives a brief introduction to how events are being used in the App.
+
 [discrete]
 [[event-driven-design]]
-==== Event-Driven nature of the design
+==== Event-driven nature of the design
 
 The _Sequence Diagram_ below (Fig. 3) shows the interaction between the various components when the user issues the command `delete 1`.
 
@@ -237,6 +239,7 @@ The following diagram (Fig. 9) illustrates the structure of this component:
 
 .Structure of the Model Component
 image::ModelClassDiagram.png[width="800"]
+
 
 [[Design-Storage]]
 === Storage component
@@ -1027,7 +1030,7 @@ _{More to be added}_
 [appendix]
 == Glossary
 
-[[API] API::
+[[API]] API::
 Short for Application-Programmer Interface.
 
 [[alias]] Alias::
