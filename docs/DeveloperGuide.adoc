@@ -1097,22 +1097,22 @@ These instructions only provide a starting point for testers to work on; testers
 .. Re-launch the app by double-clicking the jar file. +
    Expected: The most recent window size and location is retained.
 
-=== Removing a coin
+=== Deleting a coin
 
-. Removing a coin while all coins are listed
+. Deleting a coin while all coins are listed
 
 .. Prerequisites: List all coins using the `list` command. Multiple coins in the list.
-.. Test case: `sell 1` +
+.. Test case: `delete 1` +
    Expected: First coin is deleted from the list. Details of the deleted entry shown in the status message. Timestamp in the status bar is updated.
-.. Test case: `sell 0` +
+.. Test case: `delete 0` +
    Expected: No coin is deleted. Error details shown in the status message. Status bar remains the same.
-.. Other incorrect commands to try: `sell`, `sell x` (where x is larger than the list size), `sell -1` +
+.. Other incorrect commands to try: `delete`, `delete x` (where x is larger than the list size), `delete -1` +
    Expected: Similar to previous.
 
-. Removing a coin while its details are being displayed
+. Deleting a coin while its details are being displayed
 
 .. Prerequisites: List coins as above. Select the second coin using the `view 2` command. The detail window should be open on the right side.
-.. Test case: `sell 2` +
+.. Test case: `delete 2` +
    Expected: The coin is removed from the list. The detail window should return to a blank one, as when no coin is selected.
 
 === Saving data
@@ -1122,3 +1122,7 @@ These instructions only provide a starting point for testers to work on; testers
 .. Start the App so that it is ready to run some commands.
 .. Navigate to the location of the data file, `data/addressbook.xml`, and rename or delete it. +
 Expected:
+
+. Transferring data files to another computer
+
+.. Copy
