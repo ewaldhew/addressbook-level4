@@ -28,22 +28,22 @@ public class BuyCommand extends UndoableCommand {
             + "Example: " + COMMAND_WORD + " 1 " + "50.0";
 
     public static final String MESSAGE_BUY_COIN_SUCCESS = "Bought: %1$s";
-    public static final String MESSAGE_NOT_BOUGHT = "No amount entered.";
+    public static final String MESSAGE_NOT_BOUGHT = "Invalid code or amount entered.";
 
-    private final Index index;
+    private final CommandTarget target;
     private final double amountToAdd;
 
     private Coin coinToEdit;
     private Coin editedCoin;
 
     /**
-     * @param index of the coin in the filtered coin list to change
+     * @param target      in the filtered coin list to change
      * @param amountToAdd to the coin
      */
-    public BuyCommand(Index index, double amountToAdd) {
-        requireNonNull(index);
+    public BuyCommand(CommandTarget target, double amountToAdd) {
+        requireNonNull(target);
 
-        this.index = index;
+        this.target = target;
         this.amountToAdd = amountToAdd;
     }
 
@@ -57,19 +57,20 @@ public class BuyCommand extends UndoableCommand {
             throw new AssertionError("The target coin cannot be missing");
         }
         model.updateFilteredCoinList(PREDICATE_SHOW_ALL_COINS);
-        return new CommandResult(String.format(MESSAGE_BUY_COIN_SUCCESS, coinToEdit));
+        return new CommandResult(String.format(MESSAGE_BUY_COIN_SUCCESS, editedCoin));
     }
 
     @Override
     protected void preprocessUndoableCommand() throws CommandException {
         List<Coin> lastShownList = model.getFilteredCoinList();
 
-        if (index.getZeroBased() >= lastShownList.size()) {
+        try {
+            Index index = target.toIndex(model.getFilteredCoinList());
+            coinToEdit = lastShownList.get(index.getZeroBased());
+            editedCoin = createEditedCoin(coinToEdit, amountToAdd);
+        } catch (IndexOutOfBoundsException oobe) {
             throw new CommandException(Messages.MESSAGE_INVALID_COMMAND_TARGET);
         }
-
-        coinToEdit = lastShownList.get(index.getZeroBased());
-        editedCoin = createEditedCoin(coinToEdit, amountToAdd);
     }
 
     /**
@@ -99,7 +100,7 @@ public class BuyCommand extends UndoableCommand {
 
         // state check
         BuyCommand e = (BuyCommand) other;
-        return index.equals(e.index)
+        return target.equals(e.target)
                 && amountToAdd == e.amountToAdd
                 && Objects.equals(coinToEdit, e.coinToEdit);
     }

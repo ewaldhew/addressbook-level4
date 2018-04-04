@@ -5,11 +5,9 @@ import static java.util.Objects.requireNonNull;
 import static seedu.address.commons.core.Messages.MESSAGE_INVALID_COMMAND_FORMAT;
 import static seedu.address.logic.parser.TokenType.PREFIXAMOUNT;
 
-import java.util.EmptyStackException;
-
-import seedu.address.commons.core.index.Index;
 import seedu.address.commons.exceptions.IllegalValueException;
 import seedu.address.logic.commands.BuyCommand;
+import seedu.address.logic.commands.CommandTarget;
 import seedu.address.logic.parser.exceptions.ParseException;
 
 /**
@@ -20,6 +18,7 @@ public class BuyCommandParser implements Parser<BuyCommand> {
     /**
      * Parses the given {@code String} of arguments in the context of the BuyCommand
      * and returns an BuyCommand object for execution.
+     *
      * @throws ParseException if the user input does not conform the expected format
      */
     public BuyCommand parse(String args) throws ParseException {
@@ -31,14 +30,24 @@ public class BuyCommandParser implements Parser<BuyCommand> {
             throw new ParseException(String.format(MESSAGE_INVALID_COMMAND_FORMAT, BuyCommand.MESSAGE_USAGE));
         }
 
+        double amountToAdd;
         try {
-            Index index = ParserUtil.parseIndex(argMultimap.getPreamble());
-            double amountToAdd = ParserUtil.parseDouble(argMultimap.getValue(PREFIXAMOUNT).get());
-            return new BuyCommand(index, amountToAdd);
+            amountToAdd = ParserUtil.parseDouble(argMultimap.getValue(PREFIXAMOUNT).get());
         } catch (IllegalValueException ive) {
             throw new ParseException(String.format(MESSAGE_INVALID_COMMAND_FORMAT, BuyCommand.MESSAGE_USAGE));
-        } catch (EmptyStackException ese) {
-            throw new ParseException(BuyCommand.MESSAGE_NOT_BOUGHT);
+        }
+
+        // Get target for command
+        try {
+            CommandTarget target = new CommandTarget(ParserUtil.parseIndex(argMultimap.getPreamble()));
+            return new BuyCommand(target, amountToAdd);
+        } catch (IllegalValueException ive) {
+            try {
+                CommandTarget target = new CommandTarget(ParserUtil.parseName(argMultimap.getPreamble()));
+                return new BuyCommand(target, amountToAdd);
+            } catch (IllegalValueException ive2) {
+                throw new ParseException(String.format(MESSAGE_INVALID_COMMAND_FORMAT, BuyCommand.MESSAGE_USAGE));
+            }
         }
 
     }
