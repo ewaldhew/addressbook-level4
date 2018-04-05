@@ -5,8 +5,8 @@ import static java.util.Objects.requireNonNull;
 import static seedu.address.commons.core.Messages.MESSAGE_INVALID_COMMAND_FORMAT;
 import static seedu.address.logic.parser.TokenType.PREFIXAMOUNT;
 
-import seedu.address.commons.core.index.Index;
 import seedu.address.commons.exceptions.IllegalValueException;
+import seedu.address.logic.commands.CommandTarget;
 import seedu.address.logic.commands.SellCommand;
 import seedu.address.logic.parser.exceptions.ParseException;
 
@@ -30,9 +30,9 @@ public class SellCommandParser implements Parser<SellCommand> {
         }
 
         try {
-            Index index = ParserUtil.parseIndex(argMultimap.getPreamble());
+            CommandTarget target = ParserUtil.parseTarget(argMultimap.getPreamble());
             double amountToSell = ParserUtil.parseDouble(argMultimap.getValue(PREFIXAMOUNT).get());
-            return new SellCommand(index, amountToSell);
+            return new SellCommand(target, amountToSell);
         } catch (IllegalValueException ive) {
             throw new ParseException(String.format(MESSAGE_INVALID_COMMAND_FORMAT, SellCommand.MESSAGE_USAGE));
         }

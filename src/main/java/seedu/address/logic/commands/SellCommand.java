@@ -22,28 +22,27 @@ public class SellCommand extends UndoableCommand {
     public static final String COMMAND_WORD = "sell";
 
     public static final String MESSAGE_USAGE = COMMAND_WORD + ": Removes value from the coin account identified "
-            + "by the index number used in the last coin listing. "
-            + "Parameters: INDEX (must be a positive integer) "
+            + "by the index number used in the last coin listing or its code. "
+            + "Parameters: TARGET "
             + "AMOUNT\n"
             + "Example: " + COMMAND_WORD + " 1 " + "50.0";
 
     public static final String MESSAGE_SELL_COIN_SUCCESS = "Sold: %1$s";
-    public static final String MESSAGE_NOT_SOLD = "No amount entered.";
 
-    private final Index index;
+    private final CommandTarget target;
     private final double amountToSell;
 
     private Coin coinToEdit;
     private Coin editedCoin;
 
     /**
-     * @param index of the coin in the filtered coin list to change
+     * @param target of the coin in the filtered coin list to change
      * @param amountToSell of the coin
      */
-    public SellCommand(Index index, double amountToSell) {
-        requireNonNull(index);
+    public SellCommand(CommandTarget target, double amountToSell) {
+        requireNonNull(target);
 
-        this.index = index;
+        this.target = target;
         this.amountToSell = amountToSell;
     }
 
@@ -57,24 +56,24 @@ public class SellCommand extends UndoableCommand {
             throw new AssertionError("The target coin cannot be missing");
         }
         model.updateFilteredCoinList(PREDICATE_SHOW_ALL_COINS);
-        return new CommandResult(String.format(MESSAGE_SELL_COIN_SUCCESS, coinToEdit));
+        return new CommandResult(String.format(MESSAGE_SELL_COIN_SUCCESS, editedCoin));
     }
 
     @Override
     protected void preprocessUndoableCommand() throws CommandException {
         List<Coin> lastShownList = model.getFilteredCoinList();
 
-        if (index.getZeroBased() >= lastShownList.size()) {
+        try {
+            Index index = target.toIndex(model.getFilteredCoinList());
+            coinToEdit = lastShownList.get(index.getZeroBased());
+            editedCoin = createEditedCoin(coinToEdit, amountToSell);
+        } catch (IndexOutOfBoundsException oobe) {
             throw new CommandException(Messages.MESSAGE_INVALID_COMMAND_TARGET);
         }
-
-        coinToEdit = lastShownList.get(index.getZeroBased());
-        editedCoin = createEditedCoin(coinToEdit, amountToSell);
     }
 
     /**
      * Creates and returns a {@code Coin} with the details of {@code coinToEdit}
-     * edited with {@code editCoinDescriptor}.
      */
     private static Coin createEditedCoin(Coin coinToEdit, double amountToSell) {
         assert coinToEdit != null;
@@ -99,7 +98,7 @@ public class SellCommand extends UndoableCommand {
 
         // state check
         SellCommand e = (SellCommand) other;
-        return index.equals(e.index)
+        return target.equals(e.target)
                 && amountToSell == e.amountToSell
                 && Objects.equals(coinToEdit, e.coinToEdit);
     }
