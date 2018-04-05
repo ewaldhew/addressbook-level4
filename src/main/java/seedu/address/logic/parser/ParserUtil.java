@@ -58,6 +58,15 @@ public class ParserUtil {
     }
 
     /**
+     * Parses a {@code Optional<String> name} into an {@code Optional<Name>} if {@code name} is present.
+     * See header comment of this class regarding the use of {@code Optional} parameters.
+     */
+    public static Optional<Code> parseName(Optional<String> name) throws IllegalValueException {
+        requireNonNull(name);
+        return name.isPresent() ? Optional.of(parseName(name.get())) : Optional.empty();
+    }
+
+    /**
      * Parses a {@code String target} into a {@code CommandTarget}.
      * Can be any of: code or index.
      *
@@ -72,15 +81,6 @@ public class ParserUtil {
             // may still throw again, handle it at call site
         }
 
-    }
-
-    /**
-     * Parses a {@code Optional<String> name} into an {@code Optional<Name>} if {@code name} is present.
-     * See header comment of this class regarding the use of {@code Optional} parameters.
-     */
-    public static Optional<Code> parseName(Optional<String> name) throws IllegalValueException {
-        requireNonNull(name);
-        return name.isPresent() ? Optional.of(parseName(name.get())) : Optional.empty();
     }
 
     /**
