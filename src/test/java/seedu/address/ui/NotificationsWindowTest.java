@@ -9,6 +9,7 @@ import org.junit.Test;
 import org.testfx.api.FxToolkit;
 
 import guitests.guihandles.NotificationsWindowHandle;
+import javafx.application.Platform;
 import javafx.stage.Stage;
 
 public class NotificationsWindowTest extends GuiUnitTest {
@@ -27,8 +28,10 @@ public class NotificationsWindowTest extends GuiUnitTest {
 
     @Test
     public void display() {
-        notificationsWindow.show();
-        assertTrue(NotificationsWindowHandle.isWindowPresent());
+        Platform.runLater(() -> {
+            notificationsWindow.show();
+            assertTrue(NotificationsWindowHandle.isWindowPresent());
+        });
     }
 
 }
