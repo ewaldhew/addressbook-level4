@@ -442,21 +442,25 @@ Subsequent kbd:[Tab] key presses will cycle through the list of suggestions.
 
 == Command Summary
 
-* *Help* : `help`
-* *Buy* : `buy TARGET AMOUNT`
-* *Sell* : `sell TARGET AMOUNT`
-* *Tag* : `tag TARGET TAG`
-* *List* : `list`
-* *Find* : `find [TARGET] CONDITION`
-* *View* : `view TARGET`
-* *Notify* : `notify {TARGET,TAG} CONDITION`
-* *Sort* : `order OPTION/{a,d}...`
-* *History* : `history`
-* *Undo* : `undo`
-* *Redo* : `redo`
-* *Clear* : `clear`
-* *Update* : `update`
-* *Exit* :  `exit`
+[width="80%",cols="20%,<23%,<25%",options="header",]
+|=======================================================================
+| Command |Format | Description
+| *Buy* | `buy TARGET a/AMOUNT` | Adds AMOUNT of coin to the targeted account.
+| *Clear* | `clear` | Deletes all coin accounts from the CoinBook.
+| *Exit* |  `exit` | Exits the program.
+| *Find* | `find CONDITION` | Finds all coin accounts that fit the CONDITION.
+| *Help* | `help` | Displays the help page.
+| *History* | `history` | Shows the user a history of previously input commands.
+| *List* | `list` | Lists all coin accounts.
+| *Notify* | `notify CONDITION` | Sets CoinBook to notify the user when the CONDITION has been met.
+| *Redo* | `redo` | Reapplies the previously un-done command.
+| *Sell* | `sell TARGET AMOUNT` | Subtracts AMOUNT of coin from the targeted account.
+| *Order* | `order OPTION/{a,d}...` | Sorts the coin accounts in the CoinBook based on their OPTION.
+| *Tag* | `tag TARGET TAG` | Tags the targeted account with TAG name.
+| *Undo* | `undo` | Reverts the effect of the previous undo-able command.
+| *Update* | `update` | Fetches data from online sources to update the prices.
+| *View* | `view TARGET` | Views information about the targeted account.
+|=======================================================================
 
 [appendix]
 == Glossary
