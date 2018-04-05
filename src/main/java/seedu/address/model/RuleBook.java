@@ -24,6 +24,11 @@ public class RuleBook implements ReadOnlyRuleBook {
         rules = new UniqueRuleList();
     }
 
+    public RuleBook(ReadOnlyRuleBook toBeCopied) {
+        rules = new UniqueRuleList();
+        resetData(toBeCopied);
+    }
+
     //// list overwrite operations
 
     public void setRules(List<Rule> rules) throws DuplicateRuleException {
