@@ -4,15 +4,15 @@
 skinparam shadowing false
 skinparam sequence {
 	ActorBorderColor #31859C
-	
+
 	ParticipantBorderColor white
 	ParticipantFontSize 17
 	ParticipantFontColor white
-	
+
 	ActorBackgroundColor red
 	ActorFontColor red
 	ActorFontSize 17
-	
+
 	defaultFontName Calibri
 }
 
