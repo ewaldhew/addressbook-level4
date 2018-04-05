@@ -28,6 +28,13 @@ public class GuiTestAssert {
     }
 
     /**
+     * Asserts that {@code actualCard} displays the same values as {@code expectedCard}.
+     */
+    public static void assertCardEquals(RuleCardHandle expectedCard, RuleCardHandle actualCard) {
+        assertEquals(expectedCard.getValue(), actualCard.getValue());
+    }
+
+    /**
      * Asserts that {@code actualCard} displays the details of {@code expectedCoin}.
      */
     public static void assertCardDisplaysCoin(Coin expectedCoin, CoinCardHandle actualCard) {
