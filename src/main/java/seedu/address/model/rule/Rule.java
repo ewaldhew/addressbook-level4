@@ -7,11 +7,10 @@ package seedu.address.model.rule;
  */
 public class Rule {
 
-    public Rule() {}
+    private final String value;
 
-    @Override
-    public boolean equals(Object obj) {
-        return super.equals(obj);
+    public Rule(String value) {
+        this.value = value;
     }
 
     @Override
@@ -21,6 +20,21 @@ public class Rule {
 
     @Override
     public String toString() {
-        return "empty rule";
+        return value;
     }
+
+    @Override
+    public boolean equals(Object other) {
+        if (other == this) {
+            return true;
+        }
+
+        if (!(other instanceof Rule)) {
+            return false;
+        }
+
+        Rule otherRule = (Rule) other;
+        return otherRule.value.equals(this.value);
+    }
+
 }

@@ -8,7 +8,9 @@ import java.util.stream.Collectors;
 import guitests.guihandles.CoinCardHandle;
 import guitests.guihandles.CoinListPanelHandle;
 import guitests.guihandles.ResultDisplayHandle;
+import guitests.guihandles.RuleCardHandle;
 import seedu.address.model.coin.Coin;
+import seedu.address.model.rule.Rule;
 
 /**
  * A set of assertion methods useful for writing GUI tests.
@@ -34,6 +36,13 @@ public class GuiTestAssert {
         assertEquals(expectedCoin.getPrice().toString(), actualCard.getPrice());
         assertEquals(expectedCoin.getTags().stream().map(tag -> tag.tagName).collect(Collectors.toList()),
                 actualCard.getTags());
+    }
+
+    /**
+     * Asserts that {@code actualCard} displays the details of {@code expectedRule}.
+     */
+    public static void assertCardDisplaysRule(Rule expectedRule, RuleCardHandle actualCard) {
+        assertEquals(expectedRule.toString(), actualCard.getValue());
     }
 
     /**

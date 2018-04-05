@@ -1,5 +1,7 @@
 package seedu.address.storage;
 
+import javax.xml.bind.annotation.XmlElement;
+
 import seedu.address.commons.exceptions.IllegalValueException;
 import seedu.address.model.rule.Rule;
 
@@ -10,6 +12,9 @@ public class XmlAdaptedRule {
 
     public static final String MISSING_FIELD_MESSAGE_FORMAT = "Rule's %s field is missing!";
 
+    @XmlElement(required = true)
+    private String value;
+
     /**
      * Constructs an XmlAdaptedRule.
      * This is the no-arg constructor that is required by JAXB.
@@ -19,6 +24,9 @@ public class XmlAdaptedRule {
     /**
      * Constructs an {@code XmlAdaptedRule} with the given rule details.
      */
+    public XmlAdaptedRule(String value) {
+        this.value = value;
+    }
 
     /**
      * Converts a given Rule into this class for JAXB use.
@@ -26,6 +34,7 @@ public class XmlAdaptedRule {
      * @param source future changes to this will not affect the created XmlAdaptedRule
      */
     public XmlAdaptedRule(Rule source) {
+        value = source.toString();
     }
 
     /**
@@ -34,7 +43,7 @@ public class XmlAdaptedRule {
      * @throws IllegalValueException if there were any data constraints violated in the adapted rule
      */
     public Rule toModelType() throws IllegalValueException {
-        return new Rule();
+        return new Rule(value);
     }
 
     @Override
@@ -48,6 +57,6 @@ public class XmlAdaptedRule {
         }
 
         XmlAdaptedRule otherRule = (XmlAdaptedRule) other;
-        return true;
+        return value.equals(otherRule.value);
     }
 }

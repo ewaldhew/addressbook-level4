@@ -15,9 +15,13 @@ import javafx.collections.transformation.FilteredList;
 import seedu.address.commons.core.ComponentManager;
 import seedu.address.commons.core.LogsCenter;
 import seedu.address.commons.events.model.CoinBookChangedEvent;
+import seedu.address.commons.events.model.RuleBookChangedEvent;
 import seedu.address.model.coin.Coin;
 import seedu.address.model.coin.exceptions.CoinNotFoundException;
 import seedu.address.model.coin.exceptions.DuplicateCoinException;
+import seedu.address.model.rule.Rule;
+import seedu.address.model.rule.exceptions.DuplicateRuleException;
+import seedu.address.model.rule.exceptions.RuleNotFoundException;
 
 /**
  * Represents the in-memory model of the address book data.
@@ -138,6 +142,41 @@ public class ModelManager extends ComponentManager implements Model {
         filteredCoins.setPredicate(predicate);
     }
 
+
+    //=========== Rule Book =============================================================
+
+    /** Raises an event to indicate the model has changed */
+    private void indicateRuleBookChanged() {
+        raise(new RuleBookChangedEvent(ruleBook));
+    }
+
+    @Override
+    public synchronized void addRule(Rule rule) throws DuplicateRuleException {
+        ruleBook.addRule(rule);
+        indicateRuleBookChanged();
+    }
+
+    @Override
+    public void updateRule(Rule target, Rule editedRule)
+            throws DuplicateRuleException, RuleNotFoundException {
+        requireAllNonNull(target, editedRule);
+
+        ruleBook.updateRule(target, editedRule);
+        indicateRuleBookChanged();
+    }
+
+    @Override
+    public synchronized void deleteRule(Rule target) throws RuleNotFoundException {
+        ruleBook.removeRule(target);
+        indicateRuleBookChanged();
+    }
+
+    @Override
+    public ObservableList<Rule> getRuleList() {
+        return FXCollections.unmodifiableObservableList(ruleBook.getRuleList());
+    }
+
+
     @Override
     public boolean equals(Object obj) {
         // short circuit if same object
@@ -153,7 +192,8 @@ public class ModelManager extends ComponentManager implements Model {
         // state check
         ModelManager other = (ModelManager) obj;
         return coinBook.equals(other.coinBook)
-                && filteredCoins.equals(other.filteredCoins);
+                && filteredCoins.equals(other.filteredCoins)
+                && ruleBook.equals(other.ruleBook);
     }
 
 }
