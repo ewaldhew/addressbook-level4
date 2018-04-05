@@ -242,15 +242,15 @@ image::StorageClassDiagram.png[width="800"]
 
 This section describes some noteworthy details on how certain features are implemented.
 
-=== Condition Parser feature
+=== Condition Parser component
 
 ==== Current implementation
 The general parser for the SQL-like arguments for the find command can be broken down into a few sub-components, namely
-the `Lexer`, `SyntaxParser`, `SemanticParser`, and a `ConditionGenerator`, while using classes such as `Condition`,
+the `ArgumentTokenizer`, `SyntaxParser`, `SemanticParser`, and a `ConditionGenerator`, while using classes such as `Condition`,
 `Token`, `TokenType`, `TokenStack` to model the data that is to be operated on throughout the process. Their tasks are
 delegated as follows:
 
-* `Lexer` : Lexically analyzes the input string, then creates a list of tokens.
+* `ArgumentTokenizer` : Lexically analyzes the input string, then creates a list of tokens.
 * `SyntaxParser` : Parses the input by matching the tokens versus a list of rules to ensure they fit the desired
 structure.
 * `SemanticParser` : Parses the input by matching the tokens versus a list of rules to ensure their meaning is semantically valid
@@ -263,38 +263,39 @@ input. For example, `n/BTC AND OR p/>500` would not even be valid syntatically, 
 but not semantically, since it would not make sense to search for `Coin` objects whose price attribute was more than
 "BTC" since a price cannot be compared to a name.
 
-Below is the UML
-describing the classes and their relationships.
+The following sequence diagram will show how input arguments accompanying the `Find` command are parsed:
 
-.Class UML diagram for the Condition Parser
-image::ParserClassDiagram.png[]
+.Sequence diagram describing how arguments are parsed
+image::FindCommandSequence.png[]
 
-The general flow of the parser is very linear in nature, an input string is first broken up into reasonable sections by
-the lexer based on their possible meaning, then the syntax and semantic parser ensure that the input follows the
-structure required and then finally a condition objects is generated representing the statement that can be used to
-evaluate Coin objects.
+The `SyntaxParser`, `SemanticParser` and `ConditionGenerator` reside in a separate module that will be called by the
+`ParserUtil` class during the ParseCondition method.
 
-.Sequence diagram for the `ConditionParser` class on correct inputs
-image::mainSequence.png[width=800]
+The following sequence diagram expands on the Parse Sequence block in the previous diagram.
 
-We will illustrate the flow of the CommandParser on an example input:
+.Sequence diagram describing the sequence of parser operations
+image::ParserUtilSequence.png[]
+
+The `Condition` object that is generated at the end is actually just a `Predicate` object that evaluates properties of
+the Coin objects and returns a true/false value.
+
+===== Argument Tokenizing
+We will illustrate the flow of the tokenizing an example input:
 ```
 > n/BTC OR ( t/fav AND p/>100 )
 ```
-===== Lexer
-Firstly, the lexer would tokenize this into:
+The Lexer would tokenize this into:
 
 ```
-> [n/,OPTION][BTC,STRING][OR,BINARYOP][(,LEFTPAREN][t/,OPTION][fav,STRING][AND,BINRARYOP][p/,OPTION][>,COMPARATOR][100,NUMBER][),RIGHTPAREN]
+> [n/,OPTION][BTC,STRING][ OR ,BINARYOP][(,LEFTPAREN][t/,OPTION][fav,STRING][AND,BINRARYOP][p/,OPTION][>,COMPARATOR][100,NUMBER][),RIGHTPAREN]
 ```
 Notice how the whitespace has now been discarded, since it is not used for the purposes of parsing. Also each section of
 the input has now been grouped with a type.
 
-Below is a sequence diagram describing the behaviour of `Lexer` on the input:
+Below is a sequence diagram describing the behaviour of `ArgumentTokenizer` on the input:
 
-.Sequence diagram for the `Lexer` class
+.Sequence diagram for the `ArgumentTokenizer` class
 image::Lexer.png[]
-
 
 ===== Syntax Parser
 
@@ -305,54 +306,7 @@ This is done by matching the tokens off based on the following rules, expressed 
 . `TERM` := `LEFTPAREN` `EXPRESSION` `RIGHTPAREN` | `UNARYOP` `TERM` | `CONDITION`
 . `CONDITION` := `OPTION` `COMPARATOR` `NUM` | `OPTION` `STRING`
 
-
-Using our example, we will illustrate how we can sequentially express the argument based on the provided rules:
-
-. `EXPRESSION`
-. `TERM` `BINARYOP` `EXPRESSION`
-. `CONDITION` `BINARYOP` `EXPRESSION`
-. `OPTION` `STRING` `BINARYOP` `EXPRESSION`
-. n/`STRING` `BINARYOP` `EXPRESSION`
-. n/BTC `BINARYOP` `EXPRESSION`
-. n/BTC OR `EXPRESSION`
-. n/BTC OR `TERM`
-. n/BTC OR ( `EXPRESSION` )
-. n/BTC OR ( `TERM` `BINARYOP` `EXPRESSION` )
-. n/BTC OR ( `CONDITION` `BINARYOP` `EXPRESSION` )
-. n/BTC OR ( `OPTION` `STRING` `BINARYOP` `EXPRESSION` )
-. n/BTC OR ( t/ `STRING` `BINARYOP` `EXPRESSION` )
-. n/BTC OR ( t/fav `BINARYOP` `EXPRESSION` )
-. n/BTC OR ( t/fav AND `EXPRESSION` )
-. n/BTC OR ( t/fav AND `TERM` )
-. n/BTC OR ( t/fav AND `CONDITION` )
-. n/BTC OR ( t/fav AND `OPTION` `COMPARATOR` `NUM` )
-. n/BTC OR ( t/fav AND p/ `COMPARATOR` `NUM` )
-. n/BTC OR ( t/fav AND p/ > `NUM` )
-. n/BTC OR ( t/fav AND p/>100 )
-
-The recursive methods `Expression`, `Term`, `Condition` in the syntax parser class will match their own respective tokens
-as necessary. In fact the method calls in the parser are exactly the same as the matches made in the previously stated sequence.
-For example, here is the implementation for `EXPRESSION`.
-
-[source,java]
-----
-boolean expression() {
-    if (!term()) {
-        return false;
-    }
-    while (tokenStack.matchAndPopTokenType(TokenType.BINARYBOOL)) {
-        if (!term()) {
-            return false;
-        }
-    }
-    return true;
-}
-----
-
-Visually we can represent it with the following parse tree, which also serves as the recursion tree:
-
-.Parse and recursion tree for the example input
-image::parsetree.png[]
+Further details on how this is performed is delved into in the later <<Concept of parsing,section>>.
 
 ===== Semantic Parser
 
@@ -360,10 +314,15 @@ Following up, the Semantic Parser has to verify that the conditions are correct.
 type of the condition versus the parameters that follow. For example, a name condition should only be followed by a string.
 This can be done by checking the corresponding option class versus the type of token that follows.
 
+Thus, the checks that are made are just to ensure every string type option is followed by a string and every number type
+option is followed by a number.
+
 ===== Condition Generator
 
 Lastly, the condition generator creates lambdas based on the type of conditions found, and then recursively composes each
 condition based on the binary operators encounters up the recursion tree.
+
+Further details on how this is performed is delved into at the later <<Generating the Conditions,section>>.
 
 ==== Error handling
 On syntactically invalid inputs, the `ConditionParser` will retrieve the expected and actual type of Token that were not a math
@@ -394,6 +353,75 @@ image::failSequence.png[]
 * **Alternative 2:** Have a single implementation that performs syntax parsing, semantic parsing and the condition generation.
 ** Pros: Removal of redundant code.
 ** Cons: Clearly violates SRP.
+
+==== Advanced details
+===== Concept of parsing
+
+```
+> [n/,OPTION][BTC,STRING][ OR ,BINARYOP][(,LEFTPAREN][t/,OPTION][fav,STRING][AND,BINRARYOP][p/,OPTION][>,COMPARATOR][100,NUMBER][),RIGHTPAREN]
+```
+
+Using our example, we will illustrate how we can sequentially express the above tokenized argument based on the provided rules:
+
+. `*EXPRESSION*`
+. `*TERM*` `*BINARYOP*` `*EXPRESSION*`
+. `*CONDITION*` `*BINARYOP*` `*EXPRESSION*`
+. `*OPTION*` `*STRING*` `*BINARYOP*` `*EXPRESSION*`
+. `n/` `*STRING*` `*BINARYOP*` `*EXPRESSION*`
+. `n/` `BTC` `*BINARYOP*` `*EXPRESSION*`
+. `n/` `BTC` `OR` `*EXPRESSION*`
+. `n/` `BTC` `OR` `*TERM*`
+. `n/` `BTC` `OR` `(` `*EXPRESSION*` `)`
+. `n/` `BTC` `OR` `(` `*TERM*` `*BINARYOP*` `*EXPRESSION*` `)`
+. `n/` `BTC` `OR` `(` `*CONDITION*` `*BINARYOP*` `*EXPRESSION*` `)`
+. `n/` `BTC` `OR` `(` `*OPTION*` `*STRING*` `*BINARYOP*` `*EXPRESSION*` `)`
+. `n/` `BTC` `OR` `(` `t/` `*STRING*` `*BINARYOP*` `*EXPRESSION*` `)`
+. `n/` `BTC` `OR` `(` `t/` `fav` `*BINARYOP*` `*EXPRESSION*` `)`
+. `n/` `BTC` `OR` `(` `t/` `fav` `AND` `*EXPRESSION*` `)`
+. `n/` `BTC` `OR` `(` `t/` `fav` `AND` `*TERM*` `)`
+. `n/` `BTC` `OR` `(` `t/` `fav` `AND` `*CONDITION*` `)`
+. `n/` `BTC` `OR` `(` `t/` `fav` `AND` `*OPTION*` `*COMPARATOR*` `*NUM*` `)`
+. `n/` `BTC` `OR` `(` `t/` `fav` `AND` `p/` `*COMPARATOR*` `*NUM*` `)`
+. `n/` `BTC` `OR` `(` `t/` `fav` `AND` `p/` `>` `*NUM*` `)`
+. `n/` `BTC` `OR` `(` `t/` `fav` `AND` `p/` `>` `100` `)`
+
+The recursive methods `Expression`, `Term`, `Condition` in the syntax parser class will match their own respective tokens
+as necessary. In fact the method calls in the parser are exactly the same as the matches made in the previously stated sequence.
+For example, here is the implementation for `EXPRESSION`.
+
+[source,java]
+----
+boolean expression() {
+    if (!term()) {
+        return false;
+    }
+    while (tokenStack.matchAndPopTokenType(TokenType.BINARYBOOL)) {
+        if (!term()) {
+            return false;
+        }
+    }
+    return true;
+}
+----
+
+Visually we can represent it with the following parse tree, which also serves as the recursion tree:
+
+.Parse and recursion tree for the example input
+image::parsetree.png[]
+
+===== Generating the Conditions
+
+The final `Condition` object is actually just a composition of many individual `Condition` objects. This can be done
+as a back call at the end of each recursion tree.
+
+For example, consider the following argument:
+
+```
+p/>100 AND t/fav
+```
+
+The `p/>100` is a condition on price whereas the `t/fav` is a condition on tags, and they can be composed using the `Predicate`
+method `and()` to return a logical conjunction of the two conditions.
 
 // tag::undoredo[]
 === Undo/Redo feature
@@ -962,10 +990,10 @@ Use case resumes at step 1.
 
 *MSS*
 
-1.  User requests to export storage data
-2.  CoinBook requests for the file destination
-3.  User specifies the file destination
-4.  CoinBook exports the file
+1.  User requests to export storage data.
+2.  CoinBook requests for the file destination.
+3.  User specifies the file destination.
+4.  CoinBook exports the file.
 +
 Use case ends.
 
@@ -983,7 +1011,41 @@ Use case ends.
 +
 Use case resumes at step 2.
 
-_{More to be added}_
+=== Use case: Set notifications
+
+*MSS*
+
+1. User sets the condition under which he/she wishes to be notified.
+2. CoinBook notifies the user the condition has been acknowledged.
++
+Use case ends.
+
+*Extension*
+
+[none]
+* 2a. The condition argument was invalid.
+** 2a1. CoinBook shows an error message.
++
+Use case ends.
+
+=== Use case: Tag items for group commands
+
+*MSS*
+
+1. User finds the coins that he wishes to group using the `Find` command.
+2. CoinBook shows a list of coins.
+3. User tags all the found using the `TagAll` command.
+4. The tags appear on all the coins in the CoinBook.
+5. User then operates on all coins that were tagged. e.g. buy tag 50
+6. CoinBook shows the changes to the User.
+
+*Extension*
+
+[none]
+* 2a. The tag name was invalid.
+** 2a1. CoinBook shows an error message.
++
+Use case ends.
 
 [appendix]
 == Non Functional Requirements
