@@ -22,8 +22,8 @@ public class BuyCommand extends UndoableCommand {
     public static final String COMMAND_WORD = "buy";
 
     public static final String MESSAGE_USAGE = COMMAND_WORD + ": Add value to the coin account identified "
-            + "by the index number used in the last coin listing. "
-            + "Parameters: INDEX (must be a positive integer) "
+            + "by the index number used in the last coin listing or its code. "
+            + "Parameters: TARGET "
             + "AMOUNT\n"
             + "Example: " + COMMAND_WORD + " 1 " + "50.0";
 
@@ -75,7 +75,6 @@ public class BuyCommand extends UndoableCommand {
 
     /**
      * Creates and returns a {@code Coin} with the details of {@code coinToEdit}
-     * edited with {@code editCoinDescriptor}.
      */
     private static Coin createEditedCoin(Coin coinToEdit, double amountToAdd) {
         assert coinToEdit != null;

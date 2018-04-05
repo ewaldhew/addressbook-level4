@@ -30,24 +30,12 @@ public class BuyCommandParser implements Parser<BuyCommand> {
             throw new ParseException(String.format(MESSAGE_INVALID_COMMAND_FORMAT, BuyCommand.MESSAGE_USAGE));
         }
 
-        double amountToAdd;
         try {
-            amountToAdd = ParserUtil.parseDouble(argMultimap.getValue(PREFIXAMOUNT).get());
-        } catch (IllegalValueException ive) {
-            throw new ParseException(String.format(MESSAGE_INVALID_COMMAND_FORMAT, BuyCommand.MESSAGE_USAGE));
-        }
-
-        // Get target for command
-        try {
-            CommandTarget target = new CommandTarget(ParserUtil.parseIndex(argMultimap.getPreamble()));
+            CommandTarget target = ParserUtil.parseTarget(argMultimap.getPreamble());
+            double amountToAdd = ParserUtil.parseDouble(argMultimap.getValue(PREFIXAMOUNT).get());
             return new BuyCommand(target, amountToAdd);
         } catch (IllegalValueException ive) {
-            try {
-                CommandTarget target = new CommandTarget(ParserUtil.parseName(argMultimap.getPreamble()));
-                return new BuyCommand(target, amountToAdd);
-            } catch (IllegalValueException ive2) {
-                throw new ParseException(String.format(MESSAGE_INVALID_COMMAND_FORMAT, BuyCommand.MESSAGE_USAGE));
-            }
+            throw new ParseException(String.format(MESSAGE_INVALID_COMMAND_FORMAT, BuyCommand.MESSAGE_USAGE));
         }
 
     }
