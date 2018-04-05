@@ -132,7 +132,7 @@ help
 
 Opens the help window.
 
-=== Add coin to an account `buy` / `b` `[Coming in v1.5]`
+=== Add coin to an account `buy` / `b` `[Since v1.4]`
 
 .Format
 ----
@@ -147,7 +147,7 @@ buy BTC 0.5
 ----
 Adds 0.5 to the amount held in the `BTC` account.
 
-=== Sell coin from an account `sell` / `s` `[Coming in v1.5]`
+=== Sell coin from an account `sell` / `s` `[Since v1.4]`
 
 .Format
 ----
@@ -407,7 +407,7 @@ Resets all data in _CoinBook_.
 This command can be reversed with `undo`, but only in the same session. The effect is permanent once _CoinBook_ is closed.
 ====
 
-=== Updating the information : `update` / `u` `[coming in v1.5]`
+=== Updating the information : `update` / `u` `[Coming in v1.5]`
 
 .Format
 ----
