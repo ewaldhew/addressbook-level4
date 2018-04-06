@@ -21,6 +21,8 @@ import seedu.address.model.Model;
 import seedu.address.model.ReadOnlyCoinBook;
 import seedu.address.model.coin.Coin;
 import seedu.address.model.coin.exceptions.DuplicateCoinException;
+import seedu.address.model.rule.exceptions.DuplicateRuleException;
+import seedu.address.model.rule.exceptions.RuleNotFoundException;
 import seedu.address.testutil.CoinBuilder;
 
 public class AddCommandTest {
