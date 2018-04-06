@@ -26,6 +26,9 @@ import seedu.address.model.coin.Coin;
 import seedu.address.model.coin.NameContainsKeywordsPredicate;
 import seedu.address.model.coin.exceptions.CoinNotFoundException;
 import seedu.address.model.coin.exceptions.DuplicateCoinException;
+import seedu.address.model.rule.Rule;
+import seedu.address.model.rule.exceptions.DuplicateRuleException;
+import seedu.address.model.rule.exceptions.RuleNotFoundException;
 import seedu.address.testutil.EditCoinDescriptorBuilder;
 
 /**
@@ -198,6 +201,27 @@ public class CommandTestUtil {
         @Override
         public void updateFilteredCoinList(Predicate<Coin> predicate) {
             fail("This method should not be called.");
+        }
+
+        @Override
+        public void deleteRule(Rule target) throws RuleNotFoundException {
+            fail("This method should not be called.");
+        }
+
+        @Override
+        public void addRule(Rule rule) throws DuplicateRuleException {
+            fail("This method should not be called.");
+        }
+
+        @Override
+        public void updateRule(Rule target, Rule editedRule) throws DuplicateRuleException, RuleNotFoundException {
+            fail("This method should not be called.");
+        }
+
+        @Override
+        public ObservableList<Rule> getRuleList() {
+            fail("This method should not be called.");
+            return null;
         }
     }
 
