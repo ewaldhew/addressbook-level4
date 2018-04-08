@@ -370,7 +370,7 @@ Pressing the UP and DOWN arrow keys will also display the previous and next inpu
 undo
 ----
 
-Restores the address book to the state before the previous _undoable_ command was executed.
+Restores the data to the state before the previous _undoable_ command was executed.
 
 [NOTE]
 ====

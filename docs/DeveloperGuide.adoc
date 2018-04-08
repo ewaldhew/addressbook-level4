@@ -692,7 +692,7 @@ By default, elements with the same key are inserted into a `List<T>`, although t
 * **Alternative 2:** Add a new sorting function (e.g. Selection Sort)
 
 ** Pros: Possibly allows us to reduce the time required to execute the sorting command.
-** Cons: Need more time to incorporate it into the address book since we are not using Java’s in-built sorting method.
+** Cons: Need more time to incorporate it into the App since we are not using Java’s in-built sorting method.
 
 ===== Aspect: Implementation of Groups
 
