@@ -4,14 +4,28 @@
 
 hide footbox
 skinparam SequenceMessageAlign center
+skinparam shadowing false
+skinparam sequence {
+  ActorBackgroundColor #DDDDDD
+  ActorBorderColor black
+  ArrowColor #0070C0
+  ParticipantFontColor white
+  ParticipantFontSize 16
+  ParticipantFontStyle bold
+  ParticipantBorderThickness 0
+  ParticipantBackgroundColor #0070C0
+  LifeLineBorderColor #0070C0
+  LifeLineBackgroundColor #0070C0
+  defaultFontName Calibri
+}
 
 participant ":LogicManager" as LM
 participant ":AddressBookParser" as A
 participant "n:NotifyCommand" as N
-participant ":NotificationManager" as M
+participant ":NotificationManager" as M #31859C
 
 [-> LM : execute("notify BTC p/15000")
-activate LM #FFAABB
+activate LM
 
 LM -> A : parseCommand("notify BTC p/15000")
 activate A
@@ -23,8 +37,8 @@ deactivate A
 LM -> N : execute()
 activate N
 N -> M : addNotificationRule
-activate M
-N <-- M
+activate M #31859C
+N <-[#31859C]- M
 deactivate M
 
 LM <-- N : result

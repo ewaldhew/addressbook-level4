@@ -31,7 +31,7 @@ loop while matcher has match
 
             Lexer -> TokenStack : addToken(Token)
             activate TokenStack
-            TokenStack -> Lexer 
+            TokenStack -> Lexer
             deactivate TokenStack
         end
     end

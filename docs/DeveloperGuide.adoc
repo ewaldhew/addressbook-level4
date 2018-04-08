@@ -160,7 +160,7 @@ Note how the `Model` simply raises `CoinBookChangedEvent` when the data is chang
 Fig. 4 below shows how `EventsCenter` reacts to that event, which eventually results in the updates being saved to the hard disk and the status bar of the UI being updated to reflect the 'Last Updated' time.
 
 .Component interactions for `delete 1` command (part 2)
-image::SDforDeletePersonEventHandling.png[width="800"]
+image::SDforDeletePersonEventHandling.png[]
 
 [NOTE]
 The event is propagated through the `EventsCenter` to the `Storage` and `UI` without `Model` having to be [gloss]#<<coupling,coupled>># to either of them. This is an example of how this Event Driven approach helps us reduce direct coupling between components.
@@ -211,7 +211,7 @@ image::LogicCommandClassDiagram.png[width="800"]
 
 When a user issues a command, the following steps are performed by `Logic` through `LogicManager`:
 
-.  Use the `AddressBookParser` class to parse the user command.
+.  Use the `CoinBookParser` class to parse the user command.
 . Run the `execute` method on the resulting `Command` object.
 .  Encapsulate the result of the execution as a `CommandResult` object which is then passed back to the UI.
 
@@ -594,7 +594,7 @@ Later on, the user may add other notifications. So now, there are a list of diff
 
 `NotificationManager` catches these events, and checks against the notifications `RuleBook`. If any match, a notification pops up to alert the user.
 
-The diagram below (Fig. 23) summarises these interactions:
+The diagram below (Fig. 23a,23b) summarises these interactions:
 
 image::NotificationsSequenceDiagram1.png[width="800"]
 .Sequence Diagram for Notifications
