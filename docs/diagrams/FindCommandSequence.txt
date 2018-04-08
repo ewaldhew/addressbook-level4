@@ -1,6 +1,21 @@
 @startuml
 hide footbox
 
+skinparam sequence {
+  ActorBackgroundColor #DDDDDD
+  ActorBorderColor black
+  ParticipantFontColor white
+  ParticipantFontSize 16
+  ParticipantFontStyle bold
+  ParticipantBorderThickness 0
+  ParticipantBackgroundColor #0070C0
+  LifeLineBorderColor #0070C0
+  LifeLineBackgroundColor #0070C0
+  defaultFontName Calibri
+}
+
+skinparam shadowing false
+
 participant ":CoinBookParser" as CoinBookParser
 participant ":FindCommandParser" as FindCommandParser
 participant ":ArgumentTokenizer" as ArgumentTokenizer

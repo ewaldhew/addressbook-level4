@@ -1,5 +1,12 @@
 @startuml
 
+skinparam activityStartColor black
+skinparam activityEndColor black
+skinparam activityBackgroundColor #0070C0
+skinparam activityBorderColor #0070C0
+
+skinparam shadowing false
+
 (*) --> "Parse the tokens syntactically"
 
 if "the argument string is syntactically valid" then
@@ -17,3 +24,5 @@ else
 	--> (*)
 
 @enduml
+
+
