@@ -122,7 +122,25 @@ help
 
 Opens the help window.
 
-=== Add coin to an account `buy` | `b` `[Since v1.4]`
+=== Add a new coin account `add` | `a`
+
+.Format
+----
+add c/CODE [t/TAG]...
+----
+
+Adds a new Coin account into the list, with the given trading code.
+
+[WARNING]
+ If a non-existent trading code is added, its price will not be updated with the latest price data when you run the `sync` command.
+
+.Example
+----
+add c/BTC
+----
+Adds the coin with the code `BTC` to _CoinBook_.
+
+=== Add value to an account `buy` | `b` `[Since v1.4]`
 
 .Format
 ----
@@ -378,7 +396,7 @@ clear
 undo
 undo
 ----
-The first `undo` reverses the `clear` command, the second reverses the `sell BTC 10` command.
+The first `undo` reverses the `clear` command, the second reverses the `sell BTC a/10` command.
 
 === Redo undone command `redo` | `y`
 
@@ -391,25 +409,25 @@ Reverses the most recent `undo` command.
 
 .Examples
 ----
-buy BTC 10
+buy BTC a/10
 undo
 redo
 ----
-Reverses the `buy BTC 10` command and reapplies it. The result is as if only the first line was typed in.
+Reverses the `buy BTC a/10` command and reapplies it. The result is as if only the first line was typed in.
 ----
 list
 redo
 ----
 The command fails as there are no `undo` commands executed previously.
 ----
-sell BTC 10
+sell BTC a/10
 clear
 undo
 undo
 redo
 redo
 ----
-This sequence of `undo` and `redo` first reverses the `clear` command, then reverses the `sell BTC 10` command, then reapplies the `sell BTC 10` command, then reapplies the `clear` command.
+This sequence of `undo` and `redo` first reverses the `clear` command, then reverses the `sell BTC a/10` command, then reapplies the `sell BTC a/10` command, then reapplies the `clear` command.
 // end::undoredo[]
 
 === Sync with price server `sync` | `u` `[Coming in v1.5]`
@@ -450,7 +468,7 @@ Subsequent kbd:[Tab] key presses will cycle through the list of suggestions.
 [width="90%",cols="10%,<23%,<25%",options="header",]
 |=======================================================================
 | Command |Format | Description
-| *Add* | `add n/CODE` | Adds a coin account with the specified trading CODE.
+| *Add* | `add c/CODE [t/TAG]...` | Adds a coin account with the specified trading CODE.
 | *Buy* | `buy TARGET a/AMOUNT` | Adds AMOUNT of coin to the targeted account.
 | *Clear* | `clear` | Deletes all coin accounts.
 | *Delete* | `delete TARGET` | Deletes targeted coin account.
