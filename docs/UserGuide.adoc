@@ -263,6 +263,7 @@ view 2       <3>
 <2> See details for the `Bitcoin` account
 <3> See details for the 2nd account in the current listing
 
+// tag::notifications[]
 === Set up notifications `notify` / `n` `[Coming in v1.5]`
 
 .Format
@@ -291,6 +292,8 @@ notify p/->10%     <4>
 <2> Notify when the amount worth in dollars of the first entry exceeds 50 dollars
 <3> Notify when the amount worth in dollars of the third entry rises by more than 1000 dollars
 <4> Notify when any coin's price falls more than 10%
+
+// end::notifications[]
 
 === Change listing order `order` / `o` `[Coming in v1.5]`
 
