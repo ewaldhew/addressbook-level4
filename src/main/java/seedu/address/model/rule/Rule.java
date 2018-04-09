@@ -1,16 +1,20 @@
 //@@author ewaldhew
 package seedu.address.model.rule;
 
+import seedu.address.logic.commands.Command;
+
 /**
  * Represents a Rule in the rule book.
  * Guarantees: details are present and not null, field values are validated, immutable.
  */
-public class Rule {
+public abstract class Rule {
 
+    protected final Command action;
     private final String value;
 
-    public Rule(String value) {
+    protected Rule(String value, Command action) {
         this.value = value;
+        this.action = action;
     }
 
     @Override
