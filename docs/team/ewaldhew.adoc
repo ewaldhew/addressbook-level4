@@ -1,6 +1,7 @@
 = Ewald Hew - Project Portfolio
 :imagesDir: ../images
 :stylesDir: ../stylesheets
+:repoLinkBase: https://github.com/CS2103JAN2018-F09-B3/main
 
 == PROJECT: CoinBook
 
@@ -13,7 +14,7 @@ CoinBook is a desktop accounting application written in Java. It is targeted at 
 == Summary of contributions
 
 * *Major enhancement*: Added *user-set notification rules*
-** What it does: allows the user to set rules regarding any property of a coin, e.g. price, profitability, etc., which trigger notifications if the conditions are met upon a price data update.
+** What it does: Allows the user to set rules regarding any property of a coin, e.g. price, profitability, etc., which trigger notifications if the conditions are met upon a price data update.
 ** Justification: This feature informs the user immediately and draws their attention to the updates that is most relevant to them. Users can set notifications as suits their needs and focus on what's important.
 ** Highlights: This enhancement requires various backend systems that were implemented by other team members and close coordination of the interfaces and behaviour was challenging but crucial. An Event-Driven Design drives the feature and the existing Command pattern was adapted to define custom behaviours upon rule triggers (although it is only used for creating pop-up notifications now).
 
@@ -21,7 +22,7 @@ CoinBook is a desktop accounting application written in Java. It is targeted at 
 
 * *Minor enhancement*: Added a *charts panel* to the GUI for visualisation of historical price data, which can be extended in the future to display other analytics e.g. candlestick graphs.
 
-* *Code contributed*: [https://github.com/CS2103JAN2018-F09-B3/main/tree/master/collated/functional/ewaldhew.md[Functional code]] [https://github.com/CS2103JAN2018-F09-B3/main/tree/master/collated/test/ewaldhew.md[Test code]]
+* *Code contributed*: [{repoLinkBase}/tree/master/collated/functional/ewaldhew.md[Functional code]] [{repoLinkBase}/tree/master/collated/test/ewaldhew.md[Test code]]
 
 * *Other contributions*:
 
@@ -30,13 +31,18 @@ CoinBook is a desktop accounting application written in Java. It is targeted at 
 *** Managed issue tracker and milestone planning
 *** Recorded issues raised in team meetings into tracker
 ** Changes to existing features:
-*** Refactored many minor parts of the codebase to suit our new product, a good part of which was redefining existing interfaces (Pull requests )
+*** Refactored many minor parts of the codebase to suit our new product, a good part of which was redefining existing interfaces: (Pull requests)
+{repoLinkBase}/pull/87[#87], {repoLinkBase}/pull/98[#98], {repoLinkBase}/pull/106[#106], {repoLinkBase}/pull/108[#108], {repoLinkBase}/pull/118[#118]
 ** Documentation:
-*** Edited layout and language of the Developer and User Guides:
-*** Updated diagrams in the Developer Guide: https://github.com[#14]
+*** Edited layout and language of the Developer and User Guides: {repoLinkBase}/pull/115[#115]
+*** Updated diagrams in the Developer Guide: {repoLinkBase}/pull/187[#187]
 ** Community:
-*** PRs reviewed (with non-trivial review comments): https://github.com[#12], https://github.com[#32], https://github.com[#19], https://github.com[#42]
-*** Reported bugs and suggestions for other teams in the class (examples:  https://github.com[1], https://github.com[2], https://github.com[3])
+*** PRs reviewed (with non-trivial review comments): {repoLinkBase}/pull/34[#34]
+*** Reported bugs and suggestions for other teams in the class (examples:
+https://github.com/CS2103JAN2018-T11-B3/main/issues/118[1],
+https://github.com/CS2103JAN2018-T11-B3/main/issues/120[2],
+https://github.com/CS2103JAN2018-T11-B3/main/issues/126[3],
+https://github.com/CS2103JAN2018-T11-B3/main/issues/129[4])
 ** Tools:
 *** Used PlantUML for generating diagrams for the Developer Guide
 *** Used AsciiDoctor PDF to render better-looking documentation over printing HTML pages from Chrome
