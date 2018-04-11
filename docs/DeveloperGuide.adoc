@@ -26,9 +26,9 @@ or even those who are just interested in the internal design and implementation 
 
 The <<Getting Started with CoinBook, section>> that immediately follows details initial steps taken to set up a workflow
 for new developers. Following that, newcomers are advised to read about the internal overall <<Design, design>> to apprise
-themselves on the architecture of our software. Existing developers may find it useful as a reference.
+themselves of the architecture of our software. Existing developers may find it useful as a reference.
 
-Following that the <<Implementation, section>> on implementation delves into non-trivial implementations of key features
+Following that the <<Implementation, section on implementation>> delves into non-trivial implementations of key features
 that merit attention in the case that developers wish to extend any code involving those related features.
 
 The remaining sections, namely: <<Documentation, Documentation>>, <<Testing, Testing>>, <<DevOps, DevOps>> are one-time
