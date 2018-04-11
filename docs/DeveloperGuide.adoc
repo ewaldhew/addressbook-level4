@@ -17,6 +17,27 @@ endif::[]
 
 By: `Team CS2103JAN2018-F09-B3` Since: `Feb 2018` Licence: `MIT`
 
+== Introduction
+__CoinBook__ is a desktop application written in Java 8 while using JavaFX as the framework for the UI. Developers whom
+may want to know more regarding the application itself may refer to [exref]##<<UserGuide#, user guide>>##.
+
+This guide is for developers who may be interested in contributing to the current project, forking to make their own project
+or even those who are just interested in the internal design and implementation details.
+
+The <<Getting Started with CoinBook, section>> that immediately follows details initial steps taken to set up a workflow
+for new developers. Following that, newcomers are advised to read about the internal overall <<Design, design>> to apprise
+themselves on the architecture of our software. Existing developers may find it useful as a reference.
+
+Following that the <<Implementation, section>> on implementation delves into non-trivial implementations of key features
+that merit attention in the case that developers wish to extend any code involving those related features.
+
+The remaining sections, namely: <<Documentation, Documentation>>, <<Testing, Testing>>, <<DevOps, DevOps>> are one-time
+sections that serve to familiarize newcomers with the workflow, tools and frameworks currently being used in the project.
+As such, new developers keen on contributing must read these sections.
+
+Lastly, the appendix serves as a useful reference for both existing and new developers alike. Any new feature contribution
+under consideration should align with the design philosophies and directions mentioned in that section.
+
 == Getting Started with CoinBook
 Follow the instructions given in this section to get up and running with _CoinBook_. To summarise:
 
