@@ -18,25 +18,22 @@ endif::[]
 By: `Team CS2103JAN2018-F09-B3` Since: `Feb 2018` Licence: `MIT`
 
 == Introduction
-__CoinBook__ is a desktop application written in Java 8 while using JavaFX as the framework for the UI. Developers whom
-may want to know more regarding the application itself may refer to [exref]##<<UserGuide#, user guide>>##.
+__CoinBook__ is a desktop application written in Java with JavaFX. You may refer to the [exref]##<<UserGuide#, User Guide>>## for more information regarding the application itself.
 
-This guide is for developers who may be interested in contributing to the current project, forking to make their own project
-or even those who are just interested in the internal design and implementation details.
+This guide is for developers interested in contributing to the current project, forking their own project,
+or those who are just interested in the internal design and implementation details of _CoinBook_.
 
-The <<Getting Started with CoinBook, section>> that immediately follows details initial steps taken to set up a workflow
-for new developers. Following that, newcomers are advised to read about the internal overall <<Design, design>> to apprise
-themselves of the architecture of our software. Existing developers may find it useful as a reference.
+To set up the project and work environment, read the next section, <<Getting Started with CoinBook>>. New developers should also read about the overall <<Design>> to apprise
+themselves of the architecture in this software. Existing developers may also find it useful as a reference.
 
-Following that the <<Implementation, section on implementation>> delves into non-trivial implementations of key features
-that merit attention in the case that developers wish to extend any code involving those related features.
+If you wish to extend the key features in _CoinBook_, the chapter on <<Implementation>> delves into non-trivial details involving these features.
 
-The remaining sections, namely: <<Documentation, Documentation>>, <<Testing, Testing>>, <<DevOps, DevOps>> are one-time
-sections that serve to familiarize newcomers with the workflow, tools and frameworks currently being used in the project.
-As such, new developers keen on contributing must read these sections.
+New developers should also read the <<Documentation>>, <<Testing>>, and <<DevOps>>
+sections to learn more about the workflow, tools and frameworks currently being used in the project.
+You must follow the existing workflow if you are keen on contributing to the project.
 
-Lastly, the appendix serves as a useful reference for both existing and new developers alike. Any new feature contribution
-under consideration should align with the design philosophies and directions mentioned in that section.
+The appendices serve as a useful reference for both new and existing developers alike. Any new feature contribution
+under consideration should be aligned with the design philosophies and product direction, to be considered for inclusion.
 
 == Getting Started with CoinBook
 Follow the instructions given in this section to get up and running with _CoinBook_. To summarise:
