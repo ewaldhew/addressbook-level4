@@ -1,40 +1,35 @@
+//@@author ewaldhew
 package seedu.address.model.coin;
+
+import java.math.BigDecimal;
+import java.math.RoundingMode;
 
 /**
  * Represents the amount of the coin held in the address book.
  */
 public class Amount {
 
-    private Double value;
+    private BigDecimal value;
 
     /**
      * Constructs an {@code Amount}.
      */
     public Amount() {
-        this.value = 0.0;
+        this.value = new BigDecimal(0);
     }
 
     /**
      * Constructs an {@code Amount} with given value.
      */
     public Amount(Amount amount) {
-        this.value = amount.getValue();
+        this.value = amount.value;
     }
 
     /**
      * Constructs an {@code Amount} with given value.
      */
-    public Amount(double value) {
-        this.value = value;
-    }
-
-    /**
-     * Adds addAmount to the current value.
-     *
-     * @param addAmount amount to be added.
-     */
-    public void addValue(Double addAmount) {
-        this.value += addAmount;
+    public Amount(String value) {
+        this.value = new BigDecimal(value).setScale(8, RoundingMode.UP);
     }
 
     /**
@@ -43,16 +38,7 @@ public class Amount {
      * @param addAmount amount to be added.
      */
     public void addValue(Amount addAmount) {
-        this.value += addAmount.getValue();
-    }
-
-    /**
-     * Subtracts subtractAmount to the current value.
-     *
-     * @param subtractAmount amount to be subtracted.
-     */
-    public void subtractValue(Double subtractAmount) {
-        this.value -= subtractAmount;
+        value = value.subtract(addAmount.value);
     }
 
     /**
@@ -61,11 +47,11 @@ public class Amount {
      * @param subtractAmount amount to be subtracted.
      */
     public void subtractValue(Amount subtractAmount) {
-        this.value -= subtractAmount.getValue();
+        value = value.subtract(subtractAmount.value);
     }
 
-    public Double getValue() {
-        return this.value;
+    public String getValue() {
+        return value.toString();
     }
 
     @Override
@@ -75,7 +61,8 @@ public class Amount {
                 && this.value.equals(((Amount) other).value)); // state check
     }
 
+    @Override
     public String toString() {
-        return this.value.toString();
+        return this.value.setScale(4, RoundingMode.UP).toPlainString();
     }
 }
