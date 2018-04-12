@@ -74,10 +74,10 @@ public class CoinBookParserTest {
     public void parseCommand_delete() throws Exception {
         DeleteCommand command = (DeleteCommand) parser.parseCommand(
                 DeleteCommand.COMMAND_WORD + " " + INDEX_FIRST_COIN.getOneBased());
-        assertEquals(new DeleteCommand(INDEX_FIRST_COIN), command);
+        assertEquals(new DeleteCommand(TARGET_FIRST_COIN), command);
         DeleteCommand aliasedCommand = (DeleteCommand) parser.parseCommand(
                 DeleteCommand.COMMAND_ALIAS + " " + INDEX_FIRST_COIN.getOneBased());
-        assertEquals(new DeleteCommand(INDEX_FIRST_COIN), aliasedCommand);
+        assertEquals(new DeleteCommand(TARGET_FIRST_COIN), aliasedCommand);
     }
 
     @Test
