@@ -83,6 +83,11 @@ public class Amount implements Comparable<Amount> {
         value = value.subtract(subtractAmount.value);
     }
 
+    /**
+     * Gets the string representation of the full value.
+     * Use {@code toString} instead for display purposes.
+     * @see Amount#toString
+     */
     public String getValue() {
         return value.toString();
     }
@@ -94,6 +99,10 @@ public class Amount implements Comparable<Amount> {
                 && this.value.compareTo(((Amount) other).value) == 0); // state check
     }
 
+    /**
+     * Gets the display string of the value. Displays up to 4 d.p.
+     * @return
+     */
     @Override
     public String toString() {
         return value.setScale(4, RoundingMode.UP).toPlainString();
