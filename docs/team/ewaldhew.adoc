@@ -37,7 +37,7 @@ CoinBook is a desktop accounting application written in Java. It is targeted at 
 *** Edited layout and language of the Developer and User Guides: {repoLinkBase}/pull/115[#115]
 *** Updated diagrams in the Developer Guide: {repoLinkBase}/pull/187[#187]
 ** Community:
-*** PRs reviewed (with non-trivial review comments): {repoLinkBase}/pull/34[#34]
+*** PRs reviewed (with non-trivial review comments): {repoLinkBase}/pull/34[#34], {repoLinkBase}/pull/209[#209]
 *** Reported bugs and suggestions for other teams in the class (examples:
 https://github.com/CS2103JAN2018-T11-B3/main/issues/118[1],
 https://github.com/CS2103JAN2018-T11-B3/main/issues/120[2],
