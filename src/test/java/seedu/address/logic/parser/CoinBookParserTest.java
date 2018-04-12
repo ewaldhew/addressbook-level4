@@ -101,7 +101,7 @@ public class CoinBookParserTest {
     @Test
     public void parseCommand_notify() throws Exception {
         assertTrue(parser.parseCommand(
-                NotifyCommand.COMMAND_WORD + " n/TEST AND p/>100") instanceof NotifyCommand);
+                NotifyCommand.COMMAND_WORD + " c/TEST AND p/>100") instanceof NotifyCommand);
     }
 
     @Test
