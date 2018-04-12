@@ -4,10 +4,18 @@ package seedu.address.model.coin;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 
+import seedu.address.commons.core.LogsCenter;
+
 /**
  * Represents the amount of the coin held in the address book.
  */
 public class Amount implements Comparable<Amount> {
+
+    private static String[] MAGNITUDE_CHAR = { "", "K", "M", "B", "T", "Q", "P", "S", "H" };
+    private static String MESSAGE_TOO_BIG = "This value can't be displayed as it is too big, "
+            + "total amount far exceeds circulating supply!\n"
+            + "Unfortunately, CoinBook cannot yet handle unorthodox usage [Coming in v2.0]";
+    private static String DISPLAY_TOO_BIG = "Err (see log)";
 
     private BigDecimal value;
 
@@ -105,7 +113,23 @@ public class Amount implements Comparable<Amount> {
      */
     @Override
     public String toString() {
-        return value.setScale(4, RoundingMode.UP).toPlainString();
+        // Calculate the magnitude, which is the nearest lower multiple of three, of digits
+        final int magnitude = value.compareTo(BigDecimal.ZERO) == 0
+                              ? 0
+                              : (value.precision() - value.scale()) / 3;
+
+        if (magnitude < MAGNITUDE_CHAR.length) {
+            // Shift the decimal point to keep the string printed at 7 digits max
+            return value.movePointLeft(magnitude * 3)
+                    .setScale(4, RoundingMode.UP)
+                    .toPlainString()
+                    + MAGNITUDE_CHAR[magnitude];
+        } else {
+            // We don't handle absurd cases specially for now
+            LogsCenter.getLogger(Amount.class).warning(MESSAGE_TOO_BIG);
+            return DISPLAY_TOO_BIG;
+        }
+
     }
 
     @Override
