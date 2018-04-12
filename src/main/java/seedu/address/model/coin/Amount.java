@@ -7,7 +7,7 @@ import java.math.RoundingMode;
 /**
  * Represents the amount of the coin held in the address book.
  */
-public class Amount {
+public class Amount implements Comparable<Amount> {
 
     private BigDecimal value;
 
@@ -33,12 +33,45 @@ public class Amount {
     }
 
     /**
+     * Constructs an {@code Amount} with given value.
+     * For internal use only.
+     */
+    private Amount(BigDecimal value) {
+        this.value = value;
+    }
+
+
+    /**
+     * Adds two amounts together and returns a new object.
+     * @return the sum of the two arguments
+     */
+    public static Amount getSum(Amount first, Amount second) {
+        return new Amount(first.value.add(second.value));
+    }
+
+    /**
+     * Subtracts second from first and returns a new object.
+     * @return the difference of the two arguments
+     */
+    public static Amount getDiff(Amount first, Amount second) {
+        return new Amount(first.value.subtract(second.value));
+    }
+
+    /**
+     * Multiplus two amounts together and returns a new object.
+     * @return the product of the two arguments
+     */
+    public static Amount getMult(Amount first, Amount second) {
+        return new Amount(first.value.multiply(second.value));
+    }
+
+    /**
      * Adds addAmount to the current value.
      *
      * @param addAmount amount to be added.
      */
     public void addValue(Amount addAmount) {
-        value = value.subtract(addAmount.value);
+        value = value.add(addAmount.value);
     }
 
     /**
@@ -58,11 +91,16 @@ public class Amount {
     public boolean equals(Object other) {
         return other == this // short circuit if same object
                 || (other instanceof Amount // instanceof handles nulls
-                && this.value.equals(((Amount) other).value)); // state check
+                && this.value.compareTo(((Amount) other).value) == 0); // state check
     }
 
     @Override
     public String toString() {
-        return this.value.setScale(4, RoundingMode.UP).toPlainString();
+        return value.setScale(4, RoundingMode.UP).toPlainString();
+    }
+
+    @Override
+    public int compareTo(Amount other) {
+        return value.compareTo(other.value);
     }
 }

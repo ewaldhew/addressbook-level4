@@ -59,7 +59,7 @@ public class Coin {
     /**
      * Copy constructor with price update.
      */
-    public Coin(Coin toCopy, double newPrice) {
+    public Coin(Coin toCopy, Price newPrice) {
         requireAllNonNull(toCopy);
         this.code = toCopy.code;
         // protect internal tags from changes in the arg list
@@ -92,7 +92,7 @@ public class Coin {
     }
 
     public Amount getCurrentAmountHeld() {
-        return new Amount(totalAmountBought.getValue() - totalAmountSold.getValue());
+        return Amount.getDiff(totalAmountBought, totalAmountSold);
     }
 
     public Price getPrice() {
@@ -148,18 +148,9 @@ public class Coin {
      * Updates the total amount sold of this coin in units held and return gained
      * @param addAmount
      */
-    public void addTotalAmountSold(Double addAmount) {
-        this.totalAmountSold.addValue(addAmount);
-        this.totalDollarsSold.addValue(addAmount * price.getValue());
-    }
-
-    /**
-     * Updates the total amount sold of this coin in units held and return gained
-     * @param addAmount
-     */
     public void addTotalAmountSold(Amount addAmount) {
         this.totalAmountSold.addValue(addAmount);
-        this.totalDollarsSold.addValue(addAmount.getValue() * price.getValue());
+        this.totalDollarsSold.addValue(Amount.getMult(addAmount, price.getCurrent()));
     }
 
     public Amount getTotalAmountBought() {
@@ -170,33 +161,17 @@ public class Coin {
      * Updates the total amount bought of this coin in units held and capital invested
      * @param addAmount
      */
-    public void addTotalAmountBought(Double addAmount) {
-        this.totalAmountBought.addValue(addAmount);
-        this.totalDollarsBought.addValue(addAmount * price.getValue());
-    }
-
-    /**
-     * Updates the total amount bought of this coin in units held and capital invested
-     * @param addAmount
-     */
     public void addTotalAmountBought(Amount addAmount) {
         this.totalAmountBought.addValue(addAmount);
-        this.totalDollarsBought.addValue(addAmount.getValue() * price.getValue());
+        this.totalDollarsBought.addValue(Amount.getMult(addAmount, price.getCurrent()));
     }
 
     public Amount getTotalProfit() {
-        return new Amount(totalDollarsSold.getValue() - totalDollarsBought.getValue());
+        return Amount.getDiff(totalDollarsSold, totalDollarsBought);
     }
 
     public Amount getDollarsWorth() {
-        return new Amount(price.getValue() * getCurrentAmountHeld().getValue());
-    }
-
-    public Amount getProfitability() {
-        Amount profitability = new Amount(0);
-        profitability.addValue(getDollarsWorth());
-        profitability.addValue((getTotalProfit().getValue() > 0) ? getTotalProfit().getValue() : 0);
-        return profitability;
+        return Amount.getMult(price.getCurrent(), getCurrentAmountHeld());
     }
 
     public Amount getTotalDollarsSold() {

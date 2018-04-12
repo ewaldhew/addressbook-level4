@@ -39,7 +39,7 @@ public class GuiTestAssert {
      */
     public static void assertCardDisplaysCoin(Coin expectedCoin, CoinCardHandle actualCard) {
         assertEquals(expectedCoin.getCode().fullName, actualCard.getName());
-        assertEquals(expectedCoin.getCurrentAmountHeld().toString(), actualCard.getAmount());
+        assertEquals(expectedCoin.getCurrentAmountHeld().getValue(), actualCard.getAmount());
         assertEquals(expectedCoin.getPrice().toString(), actualCard.getPrice());
         assertEquals(expectedCoin.getTags().stream().map(tag -> tag.tagName).collect(Collectors.toList()),
                 actualCard.getTags());
