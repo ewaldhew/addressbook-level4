@@ -11,6 +11,7 @@ import java.util.Objects;
 import seedu.address.commons.core.Messages;
 import seedu.address.commons.core.index.Index;
 import seedu.address.logic.commands.exceptions.CommandException;
+import seedu.address.model.coin.Amount;
 import seedu.address.model.coin.Coin;
 import seedu.address.model.coin.exceptions.CoinNotFoundException;
 import seedu.address.model.coin.exceptions.DuplicateCoinException;
@@ -21,6 +22,7 @@ import seedu.address.model.coin.exceptions.DuplicateCoinException;
 public class SellCommand extends UndoableCommand {
 
     public static final String COMMAND_WORD = "sell";
+    public static final String COMMAND_ALIAS = "s";
 
     public static final String MESSAGE_USAGE = COMMAND_WORD + ": Removes value from the coin account identified "
             + "by the index number used in the last coin listing or its code. "
@@ -31,7 +33,7 @@ public class SellCommand extends UndoableCommand {
     public static final String MESSAGE_SELL_COIN_SUCCESS = "Sold: %1$s";
 
     private final CommandTarget target;
-    private final double amountToSell;
+    private final Amount amountToSell;
 
     private Coin coinToEdit;
     private Coin editedCoin;
@@ -40,7 +42,7 @@ public class SellCommand extends UndoableCommand {
      * @param target of the coin in the filtered coin list to change
      * @param amountToSell of the coin
      */
-    public SellCommand(CommandTarget target, double amountToSell) {
+    public SellCommand(CommandTarget target, Amount amountToSell) {
         requireNonNull(target);
 
         this.target = target;
@@ -76,7 +78,7 @@ public class SellCommand extends UndoableCommand {
     /**
      * Creates and returns a {@code Coin} with the details of {@code coinToEdit}
      */
-    private static Coin createEditedCoin(Coin coinToEdit, double amountToSell) {
+    private static Coin createEditedCoin(Coin coinToEdit, Amount amountToSell) {
         assert coinToEdit != null;
 
         Coin editedCoin = new Coin(coinToEdit);

@@ -4,14 +4,15 @@ import static guitests.guihandles.WebViewUtil.waitUntilBrowserLoaded;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
+import static seedu.address.logic.parser.TokenType.PREFIX_CODE;
 import static seedu.address.ui.BrowserPanel.DEFAULT_PAGE;
+import static seedu.address.ui.BrowserPanel.SUBREDDIT_NOT_FOUND;
 import static seedu.address.ui.StatusBarFooter.ITEM_COUNT_STATUS;
 import static seedu.address.ui.StatusBarFooter.SYNC_STATUS_INITIAL;
 import static seedu.address.ui.StatusBarFooter.SYNC_STATUS_UPDATED;
 import static seedu.address.ui.UiPart.FXML_FILE_FOLDER;
 import static seedu.address.ui.testutil.GuiTestAssert.assertListMatching;
 
-import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.Arrays;
 import java.util.Date;
@@ -36,11 +37,10 @@ import seedu.address.commons.core.index.Index;
 import seedu.address.logic.commands.ClearCommand;
 import seedu.address.logic.commands.FindCommand;
 import seedu.address.logic.commands.ListCommand;
-import seedu.address.logic.commands.SelectCommand;
+import seedu.address.logic.commands.ViewCommand;
 import seedu.address.model.CoinBook;
 import seedu.address.model.Model;
 import seedu.address.testutil.TypicalCoins;
-import seedu.address.ui.BrowserPanel;
 import seedu.address.ui.CommandBox;
 import seedu.address.ui.ResultDisplay;
 
@@ -152,10 +152,10 @@ public abstract class CoinBookSystemTest {
     }
 
     /**
-     * Displays all coins with any parts of their names matching {@code keyword} (case-insensitive).
+     * Displays all coins with any parts of their codes matching {@code keyword} (case-insensitive).
      */
     protected void showCoinsWithName(String keyword) {
-        executeCommand(FindCommand.COMMAND_WORD + " " + keyword);
+        executeCommand(FindCommand.COMMAND_WORD + " " + PREFIX_CODE + keyword);
         assertTrue(getModel().getFilteredCoinList().size() < getModel().getCoinBook().getCoinList().size());
     }
 
@@ -163,7 +163,7 @@ public abstract class CoinBookSystemTest {
      * Selects the coin at {@code index} of the displayed list.
      */
     protected void selectCoin(Index index) {
-        executeCommand(SelectCommand.COMMAND_WORD + " " + index.getOneBased());
+        executeCommand(ViewCommand.COMMAND_WORD + " " + index.getOneBased());
         assertEquals(index.getZeroBased(), getCoinListPanel().getSelectedCardIndex());
     }
 
@@ -221,11 +221,7 @@ public abstract class CoinBookSystemTest {
     protected void assertSelectedCardChanged(Index expectedSelectedCardIndex) {
         String selectedCardName = getCoinListPanel().getHandleToSelectedCard().getName();
         URL expectedUrl;
-        try {
-            expectedUrl = new URL(BrowserPanel.SEARCH_PAGE_URL + selectedCardName.replaceAll(" ", "%20"));
-        } catch (MalformedURLException mue) {
-            throw new AssertionError("URL expected to be valid.");
-        }
+        expectedUrl = MainApp.class.getResource(FXML_FILE_FOLDER + SUBREDDIT_NOT_FOUND);
         assertEquals(expectedUrl, getBrowserPanel().getLoadedUrl());
 
         assertEquals(expectedSelectedCardIndex.getZeroBased(), getCoinListPanel().getSelectedCardIndex());

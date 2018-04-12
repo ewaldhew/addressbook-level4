@@ -11,6 +11,7 @@ import java.util.Objects;
 import seedu.address.commons.core.Messages;
 import seedu.address.commons.core.index.Index;
 import seedu.address.logic.commands.exceptions.CommandException;
+import seedu.address.model.coin.Amount;
 import seedu.address.model.coin.Coin;
 import seedu.address.model.coin.exceptions.CoinNotFoundException;
 import seedu.address.model.coin.exceptions.DuplicateCoinException;
@@ -21,6 +22,7 @@ import seedu.address.model.coin.exceptions.DuplicateCoinException;
 public class BuyCommand extends UndoableCommand {
 
     public static final String COMMAND_WORD = "buy";
+    public static final String COMMAND_ALIAS = "b";
 
     public static final String MESSAGE_USAGE = COMMAND_WORD + ": Add value to the coin account identified "
             + "by the index number used in the last coin listing or its code. "
@@ -32,7 +34,7 @@ public class BuyCommand extends UndoableCommand {
     public static final String MESSAGE_NOT_BOUGHT = "Invalid code or amount entered.";
 
     private final CommandTarget target;
-    private final double amountToAdd;
+    private final Amount amountToAdd;
 
     private Coin coinToEdit;
     private Coin editedCoin;
@@ -41,7 +43,7 @@ public class BuyCommand extends UndoableCommand {
      * @param target      in the filtered coin list to change
      * @param amountToAdd to the coin
      */
-    public BuyCommand(CommandTarget target, double amountToAdd) {
+    public BuyCommand(CommandTarget target, Amount amountToAdd) {
         requireNonNull(target);
 
         this.target = target;
@@ -77,7 +79,7 @@ public class BuyCommand extends UndoableCommand {
     /**
      * Creates and returns a {@code Coin} with the details of {@code coinToEdit}
      */
-    private static Coin createEditedCoin(Coin coinToEdit, double amountToAdd) {
+    private static Coin createEditedCoin(Coin coinToEdit, Amount amountToAdd) {
         assert coinToEdit != null;
 
         Coin editedCoin = new Coin(coinToEdit);
@@ -101,7 +103,7 @@ public class BuyCommand extends UndoableCommand {
         // state check
         BuyCommand e = (BuyCommand) other;
         return target.equals(e.target)
-                && amountToAdd == e.amountToAdd
+                && amountToAdd.equals(e.amountToAdd)
                 && Objects.equals(coinToEdit, e.coinToEdit);
     }
 }

@@ -4,7 +4,6 @@ import static seedu.address.commons.core.Messages.MESSAGE_INVALID_COMMAND_FORMAT
 import static seedu.address.logic.parser.TokenType.PREFIX_AMOUNT;
 import static seedu.address.logic.parser.TokenType.PREFIX_BOUGHT;
 import static seedu.address.logic.parser.TokenType.PREFIX_CODE;
-import static seedu.address.logic.parser.TokenType.PREFIX_EARNED;
 import static seedu.address.logic.parser.TokenType.PREFIX_HELD;
 import static seedu.address.logic.parser.TokenType.PREFIX_MADE;
 import static seedu.address.logic.parser.TokenType.PREFIX_NAME;
@@ -29,7 +28,6 @@ public class FindCommandParser implements Parser<FindCommand> {
         PREFIX_AMOUNT,
         PREFIX_BOUGHT,
         PREFIX_CODE,
-        PREFIX_EARNED,
         PREFIX_HELD,
         PREFIX_MADE,
         PREFIX_NAME,
@@ -45,7 +43,6 @@ public class FindCommandParser implements Parser<FindCommand> {
      * @throws ParseException if the user input does not conform the expected format
      */
     public FindCommand parse(String args) throws ParseException {
-        ArgumentTokenizer lexicalAnalyzer = new ArgumentTokenizer();
         TokenStack tokenStack = ArgumentTokenizer.tokenizeToTokenStack(args, EXPECTED_TOKEN_TYPES);
         try {
             Predicate<Coin> coinCondition = ParserUtil.parseCondition(tokenStack);

@@ -23,7 +23,7 @@ import static seedu.address.testutil.TestUtil.RIGHT_PAREN_TOKEN;
 import static seedu.address.testutil.TestUtil.STRING_ONE_TOKEN;
 import static seedu.address.testutil.TestUtil.STRING_THREE_TOKEN;
 import static seedu.address.testutil.TestUtil.STRING_TWO_TOKEN;
-import static seedu.address.testutil.TypicalIndexes.INDEX_FIRST_COIN;
+import static seedu.address.testutil.TypicalTargets.INDEX_FIRST_COIN;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -45,12 +45,12 @@ import seedu.address.model.tag.Tag;
 import seedu.address.testutil.Assert;
 
 public class ParserUtilTest {
-    private static final String INVALID_NAME = "R@chel";
-    private static final String INVALID_TAG = "#friend";
+    private static final String INVALID_NAME = "B@TC";
+    private static final String INVALID_TAG = "#fav";
 
-    private static final String VALID_NAME = "Rachel Walker";
-    private static final String VALID_TAG_1 = "friend";
-    private static final String VALID_TAG_2 = "neighbour";
+    private static final String VALID_NAME = "BTC";
+    private static final String VALID_TAG_1 = "fav";
+    private static final String VALID_TAG_2 = "hot";
 
     private static final String WHITESPACE = " \t\r\n";
 
@@ -80,18 +80,18 @@ public class ParserUtilTest {
     }
 
     @Test
-    public void parseDouble_invalidInput_throwsIllegalValueException() throws Exception {
+    public void parseAmount_invalidInput_throwsIllegalValueException() throws Exception {
         thrown.expect(IllegalValueException.class);
-        ParserUtil.parseDouble("1.1a");
+        ParserUtil.parseAmount("1.1a");
     }
 
     @Test
-    public void parseDouble_validInput_success() throws Exception {
+    public void parseAmount_validInput_success() throws Exception {
         // No whitespaces
-        assertEquals(1.2345, ParserUtil.parseDouble("1.2345"), 0.001);
+        assertEquals("1.23450000", ParserUtil.parseAmount("1.2345").getValue());
 
         // Leading and trailing whitespaces
-        assertEquals(1.2345, ParserUtil.parseDouble("  1.2345  "), 0.001);
+        assertEquals("1.23450000", ParserUtil.parseAmount("  1.2345  ").getValue());
     }
 
     @Test

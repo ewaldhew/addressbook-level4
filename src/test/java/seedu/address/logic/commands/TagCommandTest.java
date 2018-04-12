@@ -5,15 +5,15 @@ import static org.junit.Assert.assertNotEquals;
 import static org.junit.Assert.assertTrue;
 import static seedu.address.logic.commands.CommandTestUtil.DESC_AMY;
 import static seedu.address.logic.commands.CommandTestUtil.DESC_BOB;
-import static seedu.address.logic.commands.CommandTestUtil.VALID_NAME_BOB;
+import static seedu.address.logic.commands.CommandTestUtil.VALID_NAME_BOS;
 import static seedu.address.logic.commands.CommandTestUtil.assertCommandFailure;
 import static seedu.address.logic.commands.CommandTestUtil.assertCommandSuccess;
 import static seedu.address.logic.commands.CommandTestUtil.prepareRedoCommand;
 import static seedu.address.logic.commands.CommandTestUtil.prepareUndoCommand;
 import static seedu.address.logic.commands.CommandTestUtil.showCoinAtIndex;
 import static seedu.address.testutil.TypicalCoins.getTypicalCoinBook;
-import static seedu.address.testutil.TypicalIndexes.INDEX_FIRST_COIN;
-import static seedu.address.testutil.TypicalIndexes.INDEX_SECOND_COIN;
+import static seedu.address.testutil.TypicalTargets.INDEX_FIRST_COIN;
+import static seedu.address.testutil.TypicalTargets.INDEX_SECOND_COIN;
 
 import org.junit.Test;
 
@@ -83,7 +83,7 @@ public class TagCommandTest {
     @Test
     public void execute_invalidCoinIndexUnfilteredList_failure() {
         Index outOfBoundIndex = Index.fromOneBased(model.getFilteredCoinList().size() + 1);
-        EditCoinDescriptor descriptor = new EditCoinDescriptorBuilder().withName(VALID_NAME_BOB).build();
+        EditCoinDescriptor descriptor = new EditCoinDescriptorBuilder().withName(VALID_NAME_BOS).build();
         TagCommand tagCommand = prepareCommand(outOfBoundIndex, descriptor);
 
         assertCommandFailure(tagCommand, model, Messages.MESSAGE_INVALID_COMMAND_TARGET);
@@ -101,7 +101,7 @@ public class TagCommandTest {
         assertTrue(outOfBoundIndex.getZeroBased() < model.getCoinBook().getCoinList().size());
 
         TagCommand tagCommand = prepareCommand(outOfBoundIndex,
-                new EditCoinDescriptorBuilder().withName(VALID_NAME_BOB).build());
+                new EditCoinDescriptorBuilder().withName(VALID_NAME_BOS).build());
 
         assertCommandFailure(tagCommand, model, Messages.MESSAGE_INVALID_COMMAND_TARGET);
     }
@@ -135,7 +135,7 @@ public class TagCommandTest {
         UndoCommand undoCommand = prepareUndoCommand(model, undoRedoStack);
         RedoCommand redoCommand = prepareRedoCommand(model, undoRedoStack);
         Index outOfBoundIndex = Index.fromOneBased(model.getFilteredCoinList().size() + 1);
-        EditCoinDescriptor descriptor = new EditCoinDescriptorBuilder().withName(VALID_NAME_BOB).build();
+        EditCoinDescriptor descriptor = new EditCoinDescriptorBuilder().withName(VALID_NAME_BOS).build();
         TagCommand tagCommand = prepareCommand(outOfBoundIndex, descriptor);
 
         // execution failed -> editCommand not pushed into undoRedoStack
@@ -203,17 +203,17 @@ public class TagCommandTest {
         assertFalse(standardCommand.equals(new ClearCommand()));
 
         // different index -> returns false
-        assertFalse(standardCommand.equals(new TagCommand(INDEX_SECOND_COIN, DESC_AMY)));
+        assertFalse(standardCommand.equals(new TagCommand(new CommandTarget(INDEX_SECOND_COIN), DESC_AMY)));
 
         // different descriptor -> returns false
-        assertFalse(standardCommand.equals(new TagCommand(INDEX_FIRST_COIN, DESC_BOB)));
+        assertFalse(standardCommand.equals(new TagCommand(new CommandTarget(INDEX_FIRST_COIN), DESC_BOB)));
     }
 
     /**
      * Returns an {@code EditCommand} with parameters {@code index} and {@code descriptor}
      */
     private TagCommand prepareCommand(Index index, EditCoinDescriptor descriptor) {
-        TagCommand tagCommand = new TagCommand(index, descriptor);
+        TagCommand tagCommand = new TagCommand(new CommandTarget(index), descriptor);
         tagCommand.setData(model, new CommandHistory(), new UndoRedoStack());
         return tagCommand;
     }

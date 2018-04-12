@@ -16,13 +16,14 @@ import seedu.address.logic.commands.FindCommand;
 import seedu.address.logic.commands.HelpCommand;
 import seedu.address.logic.commands.HistoryCommand;
 import seedu.address.logic.commands.ListCommand;
+import seedu.address.logic.commands.ListNotifsCommand;
 import seedu.address.logic.commands.NotifyCommand;
 import seedu.address.logic.commands.RedoCommand;
-import seedu.address.logic.commands.SelectCommand;
 import seedu.address.logic.commands.SellCommand;
 import seedu.address.logic.commands.SyncCommand;
 import seedu.address.logic.commands.TagCommand;
 import seedu.address.logic.commands.UndoCommand;
+import seedu.address.logic.commands.ViewCommand;
 import seedu.address.logic.parser.exceptions.ParseException;
 
 /**
@@ -57,18 +58,20 @@ public class CoinBookParser {
             return new AddCommandParser().parse(arguments);
 
         case BuyCommand.COMMAND_WORD:
+        case BuyCommand.COMMAND_ALIAS:
             return new BuyCommandParser().parse(arguments);
 
         case SellCommand.COMMAND_WORD:
+        case SellCommand.COMMAND_ALIAS:
             return new SellCommandParser().parse(arguments);
 
         case TagCommand.COMMAND_WORD:
         case TagCommand.COMMAND_ALIAS:
             return new TagCommandParser().parse(arguments);
 
-        case SelectCommand.COMMAND_WORD:
-        case SelectCommand.COMMAND_ALIAS:
-            return new SelectCommandParser().parse(arguments);
+        case ViewCommand.COMMAND_WORD:
+        case ViewCommand.COMMAND_ALIAS:
+            return new ViewCommandParser().parse(arguments);
 
         case DeleteCommand.COMMAND_WORD:
         case DeleteCommand.COMMAND_ALIAS:
@@ -83,11 +86,16 @@ public class CoinBookParser {
             return new FindCommandParser().parse(arguments);
 
         case NotifyCommand.COMMAND_WORD:
+        case NotifyCommand.COMMAND_ALIAS:
             return new NotifyCommandParser().parse(arguments);
 
         case ListCommand.COMMAND_WORD:
         case ListCommand.COMMAND_ALIAS:
             return new ListCommand();
+
+        case ListNotifsCommand.COMMAND_WORD:
+        case ListNotifsCommand.COMMAND_ALIAS:
+            return new ListNotifsCommand();
 
         case HistoryCommand.COMMAND_WORD:
         case HistoryCommand.COMMAND_ALIAS:

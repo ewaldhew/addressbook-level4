@@ -4,7 +4,7 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotEquals;
 import static org.junit.Assert.assertTrue;
-import static seedu.address.testutil.TypicalIndexes.INDEX_FIRST_COIN;
+import static seedu.address.testutil.TypicalTargets.INDEX_FIRST_COIN;
 import static seedu.address.ui.testutil.GuiTestAssert.assertListMatching;
 
 import org.junit.Test;
@@ -13,7 +13,7 @@ import guitests.GuiRobot;
 import guitests.guihandles.BrowserWindowHandle;
 import seedu.address.logic.commands.DeleteCommand;
 import seedu.address.logic.commands.HelpCommand;
-import seedu.address.logic.commands.SelectCommand;
+import seedu.address.logic.commands.ViewCommand;
 import seedu.address.ui.BrowserPanel;
 import seedu.address.ui.StatusBarFooter;
 
@@ -60,7 +60,7 @@ public class HelpCommandSystemTest extends CoinBookSystemTest {
         getMainWindowHandle().focus();
 
         // assert that while the help window is open the UI updates correctly for a command execution
-        executeCommand(SelectCommand.COMMAND_WORD + " " + INDEX_FIRST_COIN.getOneBased());
+        executeCommand(ViewCommand.COMMAND_WORD + " " + INDEX_FIRST_COIN.getOneBased());
         assertEquals("", getCommandBox().getInput());
         assertCommandBoxAndResultDisplayShowsDefaultStyle();
         assertNotEquals(HelpCommand.SHOWING_HELP_MESSAGE, getResultDisplay().getText());

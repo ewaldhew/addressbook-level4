@@ -13,17 +13,17 @@ import seedu.address.model.rule.exceptions.DuplicateRuleException;
  */
 public class TypicalRules {
 
-    public static final Rule ALICE = new RuleBuilder().withValue("n/AAA").build();
-    public static final Rule BENSON = new RuleBuilder().withValue("n/BBB").build();
-    public static final Rule CARL = new RuleBuilder().withValue("n/CCC").build();
-    public static final Rule DANIEL = new RuleBuilder().withValue("n/DDD").build();
-    public static final Rule ELLE = new RuleBuilder().withValue("n/EEE").build();
-    public static final Rule FIONA = new RuleBuilder().withValue("n/FFF").build();
-    public static final Rule GEORGE = new RuleBuilder().withValue("n/GGG").build();
+    public static final Rule ALIS = new NotificationRuleBuilder().withValue("c/ALIS").build();
+    public static final Rule BTC = new NotificationRuleBuilder().withValue("c/BTC").build();
+    public static final Rule CAS = new NotificationRuleBuilder().withValue("c/CAS").build();
+    public static final Rule DADI = new NotificationRuleBuilder().withValue("c/DADI").build();
+    public static final Rule ELIX = new NotificationRuleBuilder().withValue("c/ELIX").build();
+    public static final Rule FIRE = new NotificationRuleBuilder().withValue("c/FIRE").build();
+    public static final Rule GEO = new NotificationRuleBuilder().withValue("c/GEO").build();
 
     // Manually added
-    public static final Rule HOON = new RuleBuilder().withValue("n/HHH").build();
-    public static final Rule IDA = new RuleBuilder().withValue("n/III").build();
+    public static final Rule HORSE = new NotificationRuleBuilder().withValue("c/HORSE").build();
+    public static final Rule IDT = new NotificationRuleBuilder().withValue("c/IDT").build();
 
     private TypicalRules() {} // prevents instantiation
 
@@ -43,6 +43,6 @@ public class TypicalRules {
     }
 
     public static List<Rule> getTypicalRules() {
-        return new ArrayList<>(Arrays.asList(ALICE, BENSON, CARL, DANIEL, ELLE, FIONA, GEORGE));
+        return new ArrayList<>(Arrays.asList(ALIS, BTC, CAS, DADI, ELIX, FIRE, GEO));
     }
 }

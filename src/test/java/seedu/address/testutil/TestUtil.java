@@ -3,8 +3,10 @@ package seedu.address.testutil;
 import java.io.File;
 import java.io.IOException;
 
+import seedu.address.commons.core.CoinSubredditList;
 import seedu.address.commons.core.index.Index;
 import seedu.address.commons.util.FileUtil;
+import seedu.address.logic.commands.AddCommand;
 import seedu.address.logic.parser.Token;
 import seedu.address.logic.parser.TokenType;
 import seedu.address.model.Model;
@@ -41,8 +43,6 @@ public class TestUtil {
     public static final Token PREFIX_BOUGHT_TOKEN = new Token(TokenType.PREFIX_BOUGHT, PREFIX_BOUGHT_STRING);
     public static final String PREFIX_CODE_STRING = "c/";
     public static final Token PREFIX_CODE_TOKEN = new Token(TokenType.PREFIX_CODE, PREFIX_CODE_STRING);
-    public static final String PREFIX_EARNED_STRING = "e/";
-    public static final Token PREFIX_EARNED_TOKEN = new Token(TokenType.PREFIX_EARNED, PREFIX_EARNED_STRING);
     public static final String PREFIX_HELD_STRING = "h/";
     public static final Token PREFIX_HELD_TOKEN = new Token(TokenType.PREFIX_HELD, PREFIX_HELD_STRING);
     public static final String PREFIX_MADE_STRING = "m/";
@@ -130,5 +130,13 @@ public class TestUtil {
      */
     public static Coin getCoin(Model model, Index index) {
         return model.getCoinBook().getCoinList().get(index.getZeroBased());
+    }
+
+    /**
+     * Generates a new {@code successMessage} based on the {@code coin}.
+     */
+    public static String getAddCommandSuccessMessage(Coin coin) {
+        return String.format(AddCommand.MESSAGE_SUCCESS
+                + (CoinSubredditList.isRecognized(coin) ? "" : AddCommand.MESSAGE_COIN_CODE_NOT_REGISTERED), coin);
     }
 }

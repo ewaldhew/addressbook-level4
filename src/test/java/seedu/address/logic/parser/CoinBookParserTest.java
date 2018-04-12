@@ -5,26 +5,32 @@ import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 import static seedu.address.commons.core.Messages.MESSAGE_INVALID_COMMAND_FORMAT;
 import static seedu.address.commons.core.Messages.MESSAGE_UNKNOWN_COMMAND;
-import static seedu.address.testutil.TypicalIndexes.INDEX_FIRST_COIN;
+import static seedu.address.logic.parser.TokenType.PREFIX_AMOUNT;
+import static seedu.address.testutil.TypicalTargets.INDEX_FIRST_COIN;
+import static seedu.address.testutil.TypicalTargets.TARGET_FIRST_COIN;
 
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.ExpectedException;
 
 import seedu.address.logic.commands.AddCommand;
+import seedu.address.logic.commands.BuyCommand;
 import seedu.address.logic.commands.ClearCommand;
+import seedu.address.logic.commands.CommandTarget;
 import seedu.address.logic.commands.DeleteCommand;
 import seedu.address.logic.commands.ExitCommand;
 import seedu.address.logic.commands.HelpCommand;
 import seedu.address.logic.commands.HistoryCommand;
 import seedu.address.logic.commands.ListCommand;
+import seedu.address.logic.commands.ListNotifsCommand;
 import seedu.address.logic.commands.NotifyCommand;
 import seedu.address.logic.commands.RedoCommand;
-import seedu.address.logic.commands.SelectCommand;
 import seedu.address.logic.commands.TagCommand;
 import seedu.address.logic.commands.TagCommand.EditCoinDescriptor;
 import seedu.address.logic.commands.UndoCommand;
+import seedu.address.logic.commands.ViewCommand;
 import seedu.address.logic.parser.exceptions.ParseException;
+import seedu.address.model.coin.Amount;
 import seedu.address.model.coin.Coin;
 import seedu.address.testutil.CoinBuilder;
 import seedu.address.testutil.CoinUtil;
@@ -45,15 +51,16 @@ public class CoinBookParserTest {
         assertEquals(new AddCommand(coin), aliasedCommand);
     }
 
-    /*
     @Test
     public void parseCommand_buy() throws Exception {
         Coin coin = new CoinBuilder().build();
         BuyCommand command = (BuyCommand) parser.parseCommand(BuyCommand.COMMAND_WORD + " "
-                + INDEX_FIRST_COIN.getOneBased() + " 50.0");
-        assertEquals(new BuyCommand(INDEX_FIRST_COIN, 50.0), command);
+                + INDEX_FIRST_COIN.getOneBased() + PREFIX_AMOUNT  + " 50.0");
+        assertEquals(new BuyCommand(new CommandTarget(INDEX_FIRST_COIN), new Amount("50.0")), command);
+        command = (BuyCommand) parser.parseCommand(BuyCommand.COMMAND_ALIAS + " "
+                + INDEX_FIRST_COIN.getOneBased() + PREFIX_AMOUNT  + " 50.0");
+        assertEquals(new BuyCommand(new CommandTarget(INDEX_FIRST_COIN), new Amount("50.0")), command);
     }
-    */
 
     @Test
     public void parseCommand_clear() throws Exception {
@@ -67,10 +74,10 @@ public class CoinBookParserTest {
     public void parseCommand_delete() throws Exception {
         DeleteCommand command = (DeleteCommand) parser.parseCommand(
                 DeleteCommand.COMMAND_WORD + " " + INDEX_FIRST_COIN.getOneBased());
-        assertEquals(new DeleteCommand(INDEX_FIRST_COIN), command);
+        assertEquals(new DeleteCommand(TARGET_FIRST_COIN), command);
         DeleteCommand aliasedCommand = (DeleteCommand) parser.parseCommand(
                 DeleteCommand.COMMAND_ALIAS + " " + INDEX_FIRST_COIN.getOneBased());
-        assertEquals(new DeleteCommand(INDEX_FIRST_COIN), aliasedCommand);
+        assertEquals(new DeleteCommand(TARGET_FIRST_COIN), aliasedCommand);
     }
 
     @Test
@@ -79,10 +86,10 @@ public class CoinBookParserTest {
         EditCoinDescriptor descriptor = new EditCoinDescriptorBuilder(coin).build();
         TagCommand command = (TagCommand) parser.parseCommand(TagCommand.COMMAND_WORD + " "
                 + INDEX_FIRST_COIN.getOneBased() + " " + CoinUtil.getCoinTags(coin));
-        assertEquals(new TagCommand(INDEX_FIRST_COIN, descriptor), command);
+        assertEquals(new TagCommand(new CommandTarget(INDEX_FIRST_COIN), descriptor), command);
         TagCommand aliasedCommand = (TagCommand) parser.parseCommand(TagCommand.COMMAND_ALIAS + " "
                 + INDEX_FIRST_COIN.getOneBased() + " " + CoinUtil.getCoinTags(coin));
-        assertEquals(new TagCommand(INDEX_FIRST_COIN, descriptor), aliasedCommand);
+        assertEquals(new TagCommand(new CommandTarget(INDEX_FIRST_COIN), descriptor), aliasedCommand);
     }
 
     @Test
@@ -96,7 +103,7 @@ public class CoinBookParserTest {
     @Test
     public void parseCommand_notify() throws Exception {
         assertTrue(parser.parseCommand(
-                NotifyCommand.COMMAND_WORD + " n/TEST AND p/>100") instanceof NotifyCommand);
+                NotifyCommand.COMMAND_WORD + " c/TEST AND p/>100") instanceof NotifyCommand);
     }
 
     @Test
@@ -132,13 +139,19 @@ public class CoinBookParserTest {
     }
 
     @Test
+    public void parseCommand_listNotifs() throws Exception {
+        assertTrue(parser.parseCommand(ListNotifsCommand.COMMAND_WORD) instanceof ListNotifsCommand);
+        assertTrue(parser.parseCommand(ListNotifsCommand.COMMAND_ALIAS) instanceof ListNotifsCommand);
+    }
+
+    @Test
     public void parseCommand_select() throws Exception {
-        SelectCommand command = (SelectCommand) parser.parseCommand(
-                SelectCommand.COMMAND_WORD + " " + INDEX_FIRST_COIN.getOneBased());
-        assertEquals(new SelectCommand(INDEX_FIRST_COIN), command);
-        SelectCommand aliasedCommand = (SelectCommand) parser.parseCommand(
-                SelectCommand.COMMAND_ALIAS + " " + INDEX_FIRST_COIN.getOneBased());
-        assertEquals(new SelectCommand(INDEX_FIRST_COIN), aliasedCommand);
+        ViewCommand command = (ViewCommand) parser.parseCommand(
+                ViewCommand.COMMAND_WORD + " " + INDEX_FIRST_COIN.getOneBased());
+        assertEquals(new ViewCommand(TARGET_FIRST_COIN), command);
+        ViewCommand aliasedCommand = (ViewCommand) parser.parseCommand(
+                ViewCommand.COMMAND_ALIAS + " " + INDEX_FIRST_COIN.getOneBased());
+        assertEquals(new ViewCommand(TARGET_FIRST_COIN), aliasedCommand);
     }
 
     @Test
@@ -146,7 +159,7 @@ public class CoinBookParserTest {
         assertTrue(parser.parseCommand(RedoCommand.COMMAND_WORD) instanceof RedoCommand);
         assertTrue(parser.parseCommand("redo 1") instanceof RedoCommand);
         assertTrue(parser.parseCommand(RedoCommand.COMMAND_ALIAS) instanceof RedoCommand);
-        assertTrue(parser.parseCommand("r 1") instanceof RedoCommand);
+        assertTrue(parser.parseCommand("y 1") instanceof RedoCommand);
     }
 
     @Test
@@ -154,7 +167,7 @@ public class CoinBookParserTest {
         assertTrue(parser.parseCommand(UndoCommand.COMMAND_WORD) instanceof UndoCommand);
         assertTrue(parser.parseCommand("undo 3") instanceof UndoCommand);
         assertTrue(parser.parseCommand(UndoCommand.COMMAND_ALIAS) instanceof UndoCommand);
-        assertTrue(parser.parseCommand("u 3") instanceof UndoCommand);
+        assertTrue(parser.parseCommand("z 3") instanceof UndoCommand);
     }
 
     @Test

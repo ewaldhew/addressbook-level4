@@ -1,12 +1,12 @@
 package seedu.address.model;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.function.Predicate;
 
-import com.google.gson.JsonObject;
-
 import javafx.collections.ObservableList;
 import seedu.address.model.coin.Coin;
+import seedu.address.model.coin.Price;
 import seedu.address.model.coin.exceptions.CoinNotFoundException;
 import seedu.address.model.coin.exceptions.DuplicateCoinException;
 import seedu.address.model.rule.Rule;
@@ -52,7 +52,7 @@ public interface Model {
     /**
       * Syncs all coin data
       */
-    void syncAll(JsonObject newData)
+    void syncAll(HashMap<String, Price> newPriceMetrics)
             throws DuplicateCoinException, CoinNotFoundException;
     //@@author
 
@@ -78,6 +78,9 @@ public interface Model {
      */
     void updateRule(Rule target, Rule editedRule)
             throws DuplicateRuleException, RuleNotFoundException;
+
+    /** Returns the rule book */
+    ReadOnlyRuleBook getRuleBook();
 
     /** Returns an unmodifiable view of the rule list */
     ObservableList<Rule> getRuleList();
