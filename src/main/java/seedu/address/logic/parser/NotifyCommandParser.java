@@ -5,14 +5,26 @@ import static java.util.Objects.requireNonNull;
 import static seedu.address.commons.core.Messages.MESSAGE_INVALID_COMMAND_FORMAT;
 import static seedu.address.logic.parser.TokenType.PREFIX_AMOUNT;
 import static seedu.address.logic.parser.TokenType.PREFIX_BOUGHT;
+import static seedu.address.logic.parser.TokenType.PREFIX_BOUGHT_FALL;
+import static seedu.address.logic.parser.TokenType.PREFIX_BOUGHT_RISE;
 import static seedu.address.logic.parser.TokenType.PREFIX_CODE;
 import static seedu.address.logic.parser.TokenType.PREFIX_HELD;
+import static seedu.address.logic.parser.TokenType.PREFIX_HELD_FALL;
+import static seedu.address.logic.parser.TokenType.PREFIX_HELD_RISE;
 import static seedu.address.logic.parser.TokenType.PREFIX_MADE;
+import static seedu.address.logic.parser.TokenType.PREFIX_MADE_FALL;
+import static seedu.address.logic.parser.TokenType.PREFIX_MADE_RISE;
 import static seedu.address.logic.parser.TokenType.PREFIX_NAME;
 import static seedu.address.logic.parser.TokenType.PREFIX_PRICE;
+import static seedu.address.logic.parser.TokenType.PREFIX_PRICE_FALL;
+import static seedu.address.logic.parser.TokenType.PREFIX_PRICE_RISE;
 import static seedu.address.logic.parser.TokenType.PREFIX_SOLD;
+import static seedu.address.logic.parser.TokenType.PREFIX_SOLD_FALL;
+import static seedu.address.logic.parser.TokenType.PREFIX_SOLD_RISE;
 import static seedu.address.logic.parser.TokenType.PREFIX_TAG;
 import static seedu.address.logic.parser.TokenType.PREFIX_WORTH;
+import static seedu.address.logic.parser.TokenType.PREFIX_WORTH_FALL;
+import static seedu.address.logic.parser.TokenType.PREFIX_WORTH_RISE;
 
 import java.util.function.Predicate;
 
@@ -29,15 +41,15 @@ public class NotifyCommandParser implements Parser<NotifyCommand> {
 
     private static final TokenType[] EXPECTED_TOKEN_TYPES = {
         PREFIX_AMOUNT,
-        PREFIX_BOUGHT,
+        PREFIX_BOUGHT_RISE, PREFIX_BOUGHT_FALL, PREFIX_BOUGHT,
         PREFIX_CODE,
-        PREFIX_HELD,
-        PREFIX_MADE,
+        PREFIX_HELD_RISE, PREFIX_HELD_FALL, PREFIX_HELD,
+        PREFIX_MADE_RISE, PREFIX_MADE_FALL, PREFIX_MADE,
         PREFIX_NAME,
-        PREFIX_PRICE,
-        PREFIX_SOLD,
+        PREFIX_PRICE_RISE, PREFIX_PRICE_FALL, PREFIX_PRICE,
+        PREFIX_SOLD_RISE, PREFIX_SOLD_FALL, PREFIX_SOLD,
         PREFIX_TAG,
-        PREFIX_WORTH
+        PREFIX_WORTH_RISE, PREFIX_WORTH_FALL, PREFIX_WORTH
     };
 
     /**
