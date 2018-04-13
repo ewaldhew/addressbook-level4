@@ -20,7 +20,9 @@ public class AmountHeldChangeCondition extends AmountChangeCondition {
     public static final TokenType PREFIX = PREFIX_HELD;
     public static final TokenType PARAMETER_TYPE = NUM;
 
-    public AmountHeldChangeCondition(Amount amount, BiPredicate<Amount, Amount> amountComparator, CompareMode compareMode) {
+    public AmountHeldChangeCondition(Amount amount,
+                                     BiPredicate<Amount, Amount> amountComparator,
+                                     CompareMode compareMode) {
         super(amount, amountComparator, compareMode);
     }
 

@@ -20,7 +20,9 @@ public class DollarsSoldChangeCondition extends AmountChangeCondition  {
     public static final TokenType PREFIX = PREFIX_SOLD;
     public static final TokenType PARAMETER_TYPE = NUM;
 
-    public DollarsSoldChangeCondition(Amount amount, BiPredicate<Amount, Amount> amountComparator, CompareMode compareMode) {
+    public DollarsSoldChangeCondition(Amount amount,
+                                      BiPredicate<Amount, Amount> amountComparator,
+                                      CompareMode compareMode) {
         super(amount, amountComparator, compareMode);
     }
 
