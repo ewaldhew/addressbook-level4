@@ -16,6 +16,7 @@ import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
+import org.controlsfx.control.NotificationPane;
 import seedu.address.commons.core.Config;
 import seedu.address.commons.core.GuiSettings;
 import seedu.address.commons.core.LogsCenter;
@@ -238,6 +239,10 @@ public class MainWindow extends UiPart<Stage> {
      * Spawns a popup notification with the given message.
      */
     private void spawnNotification(String message) {
+        NotificationPane notification = new NotificationPane();
+        notification.setText("The following rule has triggered this notification:\n" + message);
+        notification.show();
+
         Alert alert = new Alert(Alert.AlertType.INFORMATION);
         alert.setTitle("CoinBook notification");
         alert.setHeaderText("The following rule has triggered this notification:");
