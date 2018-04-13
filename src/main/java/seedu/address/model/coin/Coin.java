@@ -59,6 +59,7 @@ public class Coin {
 
     /**
      * Copy constructor for coins.
+     * Sets previous state to copied coin.
      */
     public Coin(Coin toCopy) {
         requireAllNonNull(toCopy);
@@ -70,6 +71,7 @@ public class Coin {
         this.totalAmountBought = new Amount(toCopy.getTotalAmountBought());
         this.totalDollarsSold = new Amount(toCopy.getTotalDollarsSold());
         this.totalDollarsBought = new Amount(toCopy.getTotalDollarsBought());
+        prevState = toCopy;
     }
 
     //@@author laichengyu
