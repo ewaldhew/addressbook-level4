@@ -2,20 +2,10 @@
 
 package seedu.address.logic.commands;
 
-import static java.util.Objects.requireNonNull;
-
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.concurrent.ExecutionException;
-import java.util.logging.Logger;
-
-import org.apache.http.NameValuePair;
-import org.apache.http.message.BasicNameValuePair;
-
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
-
+import org.apache.http.NameValuePair;
+import org.apache.http.message.BasicNameValuePair;
 import seedu.address.commons.core.LogsCenter;
 import seedu.address.commons.util.FetchUtil;
 import seedu.address.commons.util.UrlBuilderUtil;
@@ -24,6 +14,14 @@ import seedu.address.model.coin.Amount;
 import seedu.address.model.coin.Price;
 import seedu.address.model.coin.exceptions.CoinNotFoundException;
 import seedu.address.model.coin.exceptions.DuplicateCoinException;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.concurrent.ExecutionException;
+import java.util.logging.Logger;
+
+import static seedu.address.commons.util.CollectionUtil.requireAllNonNull;
 
 /**
  * Updates all coins in the coin book with latest cryptocurrency data
@@ -40,8 +38,12 @@ public class SyncCommand extends Command {
     private static final String historicalPriceApiUrl = "https://min-api.cryptocompare.com/data/histohour";
     private static final String cryptoCompareApiUrl = "https://min-api.cryptocompare.com/data/pricemultifull";
 
-    private static final String CODE_PARAM = "fsyms";
-    private static final String CURRENCY_PARAM = "tsyms";
+    private static final String HISTORICAL = "historical";
+    private static final String CURRENT = "current";
+
+    private static final String CODE_PARAM = "fsym";
+    private static final String CURRENCY_PARAM = "tsym";
+    private static final String PLURALIZE = "s";
     private static final String CURRENCY_TYPE = "USD";
     private static final String LIMIT_PARAM = "limit";
     private static final String HISTORICAL_DATA_HOURS_LIMIT = "168";
@@ -55,15 +57,23 @@ public class SyncCommand extends Command {
      */
     private List<NameValuePair> buildParams(String commaSeparatedCodes, String type) {
         List<NameValuePair> parameters = new ArrayList<>();
-        addBasicNecessaryParams(parameters, commaSeparatedCodes);
+        addBasicNecessaryParams(parameters, commaSeparatedCodes, type);
         addAdditionalParams(parameters, type);
         return parameters;
     }
 
 
-    private void addBasicNecessaryParams(List<NameValuePair> params, String commaSeparatedCodes) {
-        params.add(new BasicNameValuePair(CODE_PARAM, commaSeparatedCodes));
-        params.add(new BasicNameValuePair(CURRENCY_PARAM, CURRENCY_TYPE));
+    private void addBasicNecessaryParams(List<NameValuePair> params, String commaSeparatedCodes, String type) {
+        switch (type) {
+        case HISTORICAL:
+            params.add(new BasicNameValuePair(CODE_PARAM, commaSeparatedCodes));
+            params.add(new BasicNameValuePair(CURRENCY_PARAM, CURRENCY_TYPE));
+        case CURRENT:
+            params.add(new BasicNameValuePair(CODE_PARAM + PLURALIZE, commaSeparatedCodes));
+            params.add(new BasicNameValuePair(CURRENCY_PARAM + PLURALIZE, CURRENCY_TYPE));
+        default:
+            break;
+        }
     }
 
     /**
@@ -73,7 +83,7 @@ public class SyncCommand extends Command {
      */
     private void addAdditionalParams(List<NameValuePair> params, String type) {
         switch (type) {
-        case "historical":
+        case HISTORICAL:
             params.add(new BasicNameValuePair(LIMIT_PARAM, HISTORICAL_DATA_HOURS_LIMIT));
             break;
         default:
@@ -108,8 +118,8 @@ public class SyncCommand extends Command {
      * @param currentPriceData contains the latest prices of each of the user's coin
      * @return HashMap containing price metrics of each coin retrieval by its code
      */
-    private HashMap<String, Price> createPriceObjects(JsonObject currentPriceData) {
-        requireNonNull(currentPriceData);
+    private HashMap<String, Price> createPriceObjects(JsonObject currentPriceData, JsonObject histoPriceData) {
+        requireAllNonNull(currentPriceData, histoPriceData);
 
         HashMap<String, Price> priceObjs = new HashMap<>();
         List<String> codes = model.getCodeList();
@@ -138,10 +148,17 @@ public class SyncCommand extends Command {
     public CommandResult execute() throws CommandException {
         try {
             String commaSeparatedCodes = concatenateByComma(model.getCodeList());
-            List<NameValuePair> currentPriceParams = buildParams(commaSeparatedCodes, "current");
+
+            List<NameValuePair> currentPriceParams = buildParams(commaSeparatedCodes, CURRENT);
             String currentPriceUrl = buildApiUrl(cryptoCompareApiUrl, currentPriceParams);
             JsonObject currentPriceData = FetchUtil.asyncFetch(currentPriceUrl);
-            HashMap<String, Price> newPriceMetrics = createPriceObjects(getRawData(currentPriceData));
+
+            List<NameValuePair> histoPriceParams = buildParams(commaSeparatedCodes, HISTORICAL);
+            String histoPriceUrl = buildApiUrl(historicalPriceApiUrl, histoPriceParams);
+            JsonObject histoPriceData = FetchUtil.asyncFetch(histoPriceUrl);
+
+            HashMap<String, Price> newPriceMetrics =
+                    createPriceObjects(getRawData(currentPriceData), histoPriceData);
             model.syncAll(newPriceMetrics);
         } catch (DuplicateCoinException dpe) {
             throw new CommandException("Unexpected code path!");
