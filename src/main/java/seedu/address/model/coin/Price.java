@@ -1,11 +1,15 @@
 package seedu.address.model.coin;
 
+import java.util.List;
+
 /**
  * Represents a Coin's price in the address book.
  */
 public class Price {
 
     private Amount currentPrice;
+    private List<Amount> historicalPrices;
+    private List<String> historicalTimeStamps;
 
     /**
      * Constructs a {@code Price}.
@@ -32,6 +36,11 @@ public class Price {
     }
 
     //@@author ewaldhew
+    public void setHistorical(List<Amount> prices, List<String> timestamps) {
+        historicalPrices = prices;
+        historicalTimeStamps = timestamps;
+    }
+
     public Price getChangeFrom(Price initial) {
         Price result = new Price();
         result.currentPrice = Amount.getDiff(currentPrice, initial.currentPrice);
