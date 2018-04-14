@@ -21,7 +21,6 @@ import seedu.address.model.ReadOnlyCoinBook;
 import seedu.address.model.ReadOnlyRuleBook;
 import seedu.address.model.RuleBook;
 import seedu.address.model.UserPrefs;
-import seedu.address.testutil.TypicalRules;
 import seedu.address.ui.testutil.EventsCollectorRule;
 
 public class StorageManagerTest {
