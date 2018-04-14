@@ -2,6 +2,8 @@
 package seedu.address.logic.commands;
 
 import seedu.address.commons.core.EventsCenter;
+import seedu.address.commons.core.LogsCenter;
+import seedu.address.commons.core.index.Index;
 import seedu.address.commons.events.ui.ShowNotificationRequestEvent;
 import seedu.address.model.coin.Coin;
 
@@ -24,7 +26,13 @@ public class SpawnNotificationCommand extends ActionCommand<Coin> {
 
     @Override
     public CommandResult execute() {
-        EventsCenter.getInstance().post(new ShowNotificationRequestEvent(message));
+        try {
+            Index index = new CommandTarget(jumpTo.getCode()).toIndex(model.getFilteredCoinList());
+            EventsCenter.getInstance().post(new ShowNotificationRequestEvent(message, index));
+        } catch (IndexOutOfBoundsException e) {
+            // Should not throw here, but do not crash anyway
+            LogsCenter.getLogger(this.getClass()).severe("Encountered invalid index in rule execute.");
+        }
         return new CommandResult("");
     }
 
