@@ -12,7 +12,6 @@ import org.junit.Test;
 import guitests.GuiRobot;
 import guitests.guihandles.NotificationsWindowHandle;
 import seedu.address.logic.commands.ListNotifsCommand;
-import seedu.address.logic.commands.NotifyCommand;
 import seedu.address.logic.commands.SyncCommand;
 import seedu.address.logic.commands.ViewCommand;
 import seedu.address.ui.BrowserPanel;
@@ -31,8 +30,6 @@ public class NotifyCommandSystemTest extends CoinBookSystemTest {
     @Test
     public void openNotificationWindow() {
         assertNotificationWindowNotOpen();
-        executeCommand(NotifyCommand.COMMAND_WORD + " p/+>1");
-        assertEquals("", getCommandBox().getInput());
 
         //use command box
         executeCommand(ListNotifsCommand.COMMAND_WORD);

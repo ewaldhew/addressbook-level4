@@ -1,6 +1,6 @@
 package seedu.address.storage;
 
-import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 import static seedu.address.storage.XmlAdaptedRule.MISSING_FIELD_MESSAGE_FORMAT;
 
 import org.junit.Test;
@@ -22,7 +22,7 @@ public class XmlAdaptedRuleTest {
     @Test
     public void toModelType_validRuleDetails_returnsRule() throws Exception {
         XmlAdaptedRule rule = new XmlAdaptedRule(VALID_RULE, VALID_TYPE);
-        assertEquals(new NotificationRule(VALID_RULE), rule.toModelType());
+        assertTrue(new NotificationRule(VALID_RULE).equals(rule.toModelType()));
     }
 
     @Test
