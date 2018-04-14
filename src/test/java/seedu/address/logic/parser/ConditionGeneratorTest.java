@@ -16,6 +16,7 @@ import static seedu.address.testutil.TestUtil.DECIMAL_TOKEN;
 import static seedu.address.testutil.TestUtil.EOF_TOKEN;
 import static seedu.address.testutil.TestUtil.GREATER_TOKEN;
 import static seedu.address.testutil.TestUtil.LEFT_PAREN_TOKEN;
+import static seedu.address.testutil.TestUtil.LESS_TOKEN;
 import static seedu.address.testutil.TestUtil.NOT_TOKEN;
 import static seedu.address.testutil.TestUtil.OR_TOKEN;
 import static seedu.address.testutil.TestUtil.PREFIX_BOUGHT_RISE_TOKEN;
@@ -27,7 +28,7 @@ import static seedu.address.testutil.TestUtil.PREFIX_MADE_RISE_TOKEN;
 import static seedu.address.testutil.TestUtil.PREFIX_MADE_TOKEN;
 import static seedu.address.testutil.TestUtil.PREFIX_PRICE_FALL_TOKEN;
 import static seedu.address.testutil.TestUtil.PREFIX_PRICE_TOKEN;
-import static seedu.address.testutil.TestUtil.PREFIX_SOLD_FALL_TOKEN;
+import static seedu.address.testutil.TestUtil.PREFIX_SOLD_RISE_TOKEN;
 import static seedu.address.testutil.TestUtil.PREFIX_SOLD_TOKEN;
 import static seedu.address.testutil.TestUtil.PREFIX_TAG_TOKEN;
 import static seedu.address.testutil.TestUtil.PREFIX_WORTH_RISE_TOKEN;
@@ -61,6 +62,7 @@ public class ConditionGeneratorTest {
     private static final Token INVALID_TAG_NAME = new Token(TokenType.STRING, "invalid-name");
     private static final Amount DECIMAL_OFFSET = new Amount("1.0");
     private static final Price NEW_PRICE = new Price();
+    private static final Amount ZERO_AMOUNT = new Amount();
     private static Amount greaterAmount;
     private static Amount lesserAmount;
     private static Price greaterPrice;
@@ -291,10 +293,13 @@ public class ConditionGeneratorTest {
     //@@author ewaldhew
     @Test
     public void cond_generatesAmountHeldChangeCondition() throws Exception {
-        ConditionGenerator conditionGenerator = initGenerator(PREFIX_HELD_FALL_TOKEN, GREATER_TOKEN, DECIMAL_TOKEN);
+        ConditionGenerator conditionGenerator = initGenerator(PREFIX_HELD_FALL_TOKEN, LESS_TOKEN, DECIMAL_TOKEN);
         Predicate<Coin> condition = conditionGenerator.cond();
-        Coin passCoin = new CoinBuilder().withAmountBought(greaterAmount).build();
-        Coin failCoin = new CoinBuilder().withAmountBought(lesserAmount).build();
+        Coin passCoin = new CoinBuilder().build();
+        Coin failCoin = new CoinBuilder().build();
+
+        passCoin.addTotalAmountBought(lesserAmount);
+        failCoin.addTotalAmountBought(greaterAmount);
 
         assertTrue(condition.test(passCoin));
         assertFalse(condition.test(failCoin));
@@ -302,10 +307,13 @@ public class ConditionGeneratorTest {
 
     @Test
     public void cond_generatesDollarsBoughtChangeCondition() throws Exception {
-        ConditionGenerator conditionGenerator = initGenerator(PREFIX_BOUGHT_RISE_TOKEN, GREATER_TOKEN, DECIMAL_TOKEN);
+        ConditionGenerator conditionGenerator = initGenerator(PREFIX_BOUGHT_RISE_TOKEN, LESS_TOKEN, DECIMAL_TOKEN);
         Predicate<Coin> condition = conditionGenerator.cond();
-        Coin passCoin = new CoinBuilder().withAmountBought(greaterAmount).build();
-        Coin failCoin = new CoinBuilder().withAmountBought(lesserAmount).build();
+        Coin passCoin = new CoinBuilder().build();
+        Coin failCoin = new CoinBuilder().build();
+
+        passCoin.addTotalAmountBought(lesserAmount);
+        failCoin.addTotalAmountBought(greaterAmount);
 
         assertTrue(condition.test(passCoin));
         assertFalse(condition.test(failCoin));
@@ -313,12 +321,13 @@ public class ConditionGeneratorTest {
 
     @Test
     public void cond_generatesDollarsSoldChangeCondition() throws Exception {
-        ConditionGenerator conditionGenerator = initGenerator(PREFIX_SOLD_FALL_TOKEN, GREATER_TOKEN, DECIMAL_TOKEN);
+        ConditionGenerator conditionGenerator = initGenerator(PREFIX_SOLD_RISE_TOKEN, LESS_TOKEN, DECIMAL_TOKEN);
         Predicate<Coin> condition = conditionGenerator.cond();
-        Coin passCoin = new CoinBuilder().withAmountBought(greaterAmount)
-                .withAmountSold(greaterAmount).build();
-        Coin failCoin = new CoinBuilder().withAmountBought(greaterAmount)
-                .withAmountSold(lesserAmount).build();
+        Coin passCoin = new CoinBuilder().withAmountBought(greaterAmount).build();
+        Coin failCoin = new CoinBuilder().withAmountBought(greaterAmount).build();
+
+        passCoin.addTotalAmountSold(greaterAmount);
+        failCoin.addTotalAmountSold(lesserAmount);
 
         assertTrue(condition.test(passCoin));
         assertFalse(condition.test(failCoin));
@@ -326,7 +335,7 @@ public class ConditionGeneratorTest {
 
     @Test
     public void cond_generatesMadeChangeCondition() throws Exception {
-        ConditionGenerator conditionGenerator = initGenerator(PREFIX_MADE_RISE_TOKEN, GREATER_TOKEN, DECIMAL_TOKEN);
+        ConditionGenerator conditionGenerator = initGenerator(PREFIX_MADE_RISE_TOKEN, LESS_TOKEN, DECIMAL_TOKEN);
         Predicate<Coin> condition = conditionGenerator.cond();
         Coin passCoin = new CoinBuilder().withAmountBought(greaterAmount).build();
         Coin failCoin = new CoinBuilder().withAmountBought(greaterAmount).build();
@@ -342,10 +351,13 @@ public class ConditionGeneratorTest {
 
     @Test
     public void cond_generatesPriceChangeCondition() throws Exception {
-        ConditionGenerator conditionGenerator = initGenerator(PREFIX_PRICE_FALL_TOKEN, GREATER_TOKEN, DECIMAL_TOKEN);
+        ConditionGenerator conditionGenerator = initGenerator(PREFIX_PRICE_FALL_TOKEN, LESS_TOKEN, DECIMAL_TOKEN);
         Predicate<Coin> condition = conditionGenerator.cond();
-        Coin passCoin = new CoinBuilder().withPrice(greaterPrice).build();
-        Coin failCoin = new CoinBuilder().withPrice(lesserPrice).build();
+        Coin passCoin = new CoinBuilder().build();
+        Coin failCoin = new CoinBuilder().build();
+
+        passCoin = new Coin(passCoin, lesserPrice);
+        failCoin = new Coin(failCoin, greaterPrice);
 
         assertTrue(condition.test(passCoin));
         assertFalse(condition.test(failCoin));
@@ -353,10 +365,13 @@ public class ConditionGeneratorTest {
 
     @Test
     public void cond_generatesWorthChangeCondition() throws Exception {
-        ConditionGenerator conditionGenerator = initGenerator(PREFIX_WORTH_RISE_TOKEN, GREATER_TOKEN, DECIMAL_TOKEN);
+        ConditionGenerator conditionGenerator = initGenerator(PREFIX_WORTH_RISE_TOKEN, LESS_TOKEN, DECIMAL_TOKEN);
         Predicate<Coin> condition = conditionGenerator.cond();
-        Coin passCoin = new CoinBuilder().withAmountBought(greaterAmount).build();
-        Coin failCoin = new CoinBuilder().withAmountBought(lesserAmount).build();
+        Coin passCoin = new CoinBuilder().build();
+        Coin failCoin = new CoinBuilder().build();
+
+        passCoin.addTotalAmountBought(lesserAmount);
+        failCoin.addTotalAmountBought(greaterAmount);
 
         assertTrue(condition.test(passCoin));
         assertFalse(condition.test(failCoin));
