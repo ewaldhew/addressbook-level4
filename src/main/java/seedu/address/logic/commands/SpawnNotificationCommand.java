@@ -28,7 +28,8 @@ public class SpawnNotificationCommand extends ActionCommand<Coin> {
     public CommandResult execute() {
         try {
             Index index = new CommandTarget(jumpTo.getCode()).toIndex(model.getFilteredCoinList());
-            EventsCenter.getInstance().post(new ShowNotificationRequestEvent(message, index));
+            EventsCenter.getInstance()
+                    .post(new ShowNotificationRequestEvent(message, index, jumpTo.getCode().toString()));
         } catch (IndexOutOfBoundsException e) {
             // Should not throw here, but do not crash anyway
             LogsCenter.getLogger(this.getClass()).severe("Encountered invalid index in rule execute.");

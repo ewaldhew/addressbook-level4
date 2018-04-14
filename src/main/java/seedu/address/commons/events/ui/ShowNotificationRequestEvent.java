@@ -9,18 +9,24 @@ import seedu.address.commons.events.BaseEvent;
  */
 public class ShowNotificationRequestEvent extends BaseEvent {
 
+    private static final String MESSAGE_NOTIFYING = "Notifying about: %1$s triggers %2$s";
+
     /** The index of the coin that triggered this notification */
     public final Index targetIndex;
 
+    /** The code of the coin that triggered this notification */
+    public final String codeString;
+
     private final String message;
 
-    public ShowNotificationRequestEvent(String message, Index index) {
+    public ShowNotificationRequestEvent(String message, Index index, String codeString) {
         this.message = message;
         this.targetIndex = index;
+        this.codeString = codeString;
     }
 
     @Override
     public String toString() {
-        return "Notifying about: " + message;
+        return String.format(MESSAGE_NOTIFYING, codeString, message);
     }
 }

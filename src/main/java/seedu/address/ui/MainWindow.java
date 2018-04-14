@@ -235,17 +235,20 @@ public class MainWindow extends UiPart<Stage> {
     @Subscribe
     private void handleShowNotificationEvent(ShowNotificationRequestEvent nre) {
         logger.info(LogsCenter.getEventHandlingLogMessage(nre));
-        spawnNotification(nre.toString(), nre.targetIndex);
+        spawnNotification(nre.toString(), nre.targetIndex, nre.codeString);
     }
 
     /**
      * Spawns a popup notification with the given message.
      */
-    private void spawnNotification(String message, Index index) {
+    private void spawnNotification(String message, Index index, String code) {
         Notifications.create()
                      .title("The following rule has triggered this notification:")
-                     .text(message)
-                     .onAction(event -> EventsCenter.getInstance().post(new JumpToListRequestEvent(index)))
+                     .text(String.format("%1$s\nClick to jump to view %2$s", message, code))
+                     .onAction(event -> {
+                         EventsCenter.getInstance().post(new JumpToListRequestEvent(index));
+                         event.consume();
+                     })
                      .showInformation();
     }
     //@@author
