@@ -33,12 +33,6 @@ public class NotifyCommand extends Command {
     }
 
     @Override
-    public void setData(Model model, CommandHistory history, UndoRedoStack undoRedoStack) {
-        super.setData(model, history, undoRedoStack);
-        rule.action.setData(model, history, undoRedoStack);
-    }
-
-    @Override
     public CommandResult execute() throws CommandException {
         requireNonNull(model);
         try {
