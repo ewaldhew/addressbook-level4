@@ -8,8 +8,8 @@ import java.util.logging.Logger;
 
 import seedu.address.commons.core.LogsCenter;
 import seedu.address.commons.exceptions.IllegalValueException;
-import seedu.address.logic.commands.Command;
 import seedu.address.logic.commands.exceptions.CommandException;
+import seedu.address.logic.commands.ActionCommand;
 
 /**
  * Represents a Rule in the rule book.
@@ -26,10 +26,12 @@ public class Rule<T> {
     public final RuleType type;
     public final String description;
 
-    private final Command action;
-    private final Predicate<T> condition;
+    public final ActionCommand<T> action;
+    public final Predicate<T> condition;
 
-    protected Rule(String description, RuleType type, ActionParser actionParser, ConditionParser<T> conditionParser) {
+    protected Rule(String description, RuleType type,
+                   ActionParser<T> actionParser,
+                   ConditionParser<T> conditionParser) {
         requireAllNonNull(description, type, actionParser, conditionParser);
         this.description = description;
         this.type = type;
@@ -98,8 +100,8 @@ public class Rule<T> {
      * Represents a function type used to generate the action for this rule.
      */
     @FunctionalInterface
-    protected interface ActionParser {
-        Command parse(String args);
+    protected interface ActionParser<T> {
+        ActionCommand<T> parse(String args);
     }
 
     /**

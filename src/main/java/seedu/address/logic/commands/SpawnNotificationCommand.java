@@ -3,16 +3,23 @@ package seedu.address.logic.commands;
 
 import seedu.address.commons.core.EventsCenter;
 import seedu.address.commons.events.ui.ShowNotificationRequestEvent;
+import seedu.address.model.coin.Coin;
 
 /**
  * Spawns a pop-up notification in the corner of the screen.
  */
-public class SpawnNotificationCommand extends Command {
+public class SpawnNotificationCommand extends ActionCommand<Coin> {
 
     private final String message;
+    private Coin jumpTo;
 
     public SpawnNotificationCommand(String message) {
         this.message = message;
+    }
+
+    @Override
+    public void setExtraData(Coin targetCoin) {
+        jumpTo = targetCoin;
     }
 
     @Override
