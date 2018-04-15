@@ -19,18 +19,16 @@ import static seedu.address.testutil.TestUtil.LEFT_PAREN_TOKEN;
 import static seedu.address.testutil.TestUtil.LESS_TOKEN;
 import static seedu.address.testutil.TestUtil.NOT_TOKEN;
 import static seedu.address.testutil.TestUtil.OR_TOKEN;
-import static seedu.address.testutil.TestUtil.PREFIX_BOUGHT_RISE_TOKEN;
 import static seedu.address.testutil.TestUtil.PREFIX_BOUGHT_TOKEN;
 import static seedu.address.testutil.TestUtil.PREFIX_CODE_TOKEN;
-import static seedu.address.testutil.TestUtil.PREFIX_HELD_FALL_TOKEN;
 import static seedu.address.testutil.TestUtil.PREFIX_HELD_TOKEN;
-import static seedu.address.testutil.TestUtil.PREFIX_MADE_RISE_TOKEN;
 import static seedu.address.testutil.TestUtil.PREFIX_MADE_TOKEN;
 import static seedu.address.testutil.TestUtil.PREFIX_PRICE_FALL_TOKEN;
+import static seedu.address.testutil.TestUtil.PREFIX_PRICE_RISE_TOKEN;
 import static seedu.address.testutil.TestUtil.PREFIX_PRICE_TOKEN;
-import static seedu.address.testutil.TestUtil.PREFIX_SOLD_RISE_TOKEN;
 import static seedu.address.testutil.TestUtil.PREFIX_SOLD_TOKEN;
 import static seedu.address.testutil.TestUtil.PREFIX_TAG_TOKEN;
+import static seedu.address.testutil.TestUtil.PREFIX_WORTH_FALL_TOKEN;
 import static seedu.address.testutil.TestUtil.PREFIX_WORTH_RISE_TOKEN;
 import static seedu.address.testutil.TestUtil.PREFIX_WORTH_TOKEN;
 import static seedu.address.testutil.TestUtil.RIGHT_PAREN_TOKEN;
@@ -61,8 +59,8 @@ public class ConditionGeneratorTest {
 
     private static final Token INVALID_TAG_NAME = new Token(TokenType.STRING, "invalid-name");
     private static final Amount DECIMAL_OFFSET = new Amount("1.0");
+    private static final Price ZERO_PRICE = new Price();
     private static final Price NEW_PRICE = new Price();
-    private static final Amount ZERO_AMOUNT = new Amount();
     private static Amount greaterAmount;
     private static Amount lesserAmount;
     private static Price greaterPrice;
@@ -80,6 +78,7 @@ public class ConditionGeneratorTest {
         greaterPrice.setCurrent(Amount.getSum(ParserUtil.parseAmount(DECIMAL_STRING), DECIMAL_OFFSET));
         lesserPrice = new Price();
         lesserPrice.setCurrent(Amount.getDiff(ParserUtil.parseAmount(DECIMAL_STRING), DECIMAL_OFFSET));
+        ZERO_PRICE.setCurrent(new Amount("0"));
         NEW_PRICE.setCurrent(new Amount("2.0"));
     }
 
@@ -292,69 +291,11 @@ public class ConditionGeneratorTest {
 
     //@@author ewaldhew
     @Test
-    public void cond_generatesAmountHeldChangeCondition() throws Exception {
-        ConditionGenerator conditionGenerator = initGenerator(PREFIX_HELD_FALL_TOKEN, LESS_TOKEN, DECIMAL_TOKEN);
+    public void cond_generatesPriceRiseCondition() throws Exception {
+        ConditionGenerator conditionGenerator = initGenerator(PREFIX_PRICE_RISE_TOKEN, LESS_TOKEN, DECIMAL_TOKEN);
         Predicate<Coin> condition = conditionGenerator.cond();
-        Coin passCoin = new CoinBuilder().build();
-        Coin failCoin = new CoinBuilder().build();
-
-        passCoin.addTotalAmountBought(lesserAmount);
-        failCoin.addTotalAmountBought(greaterAmount);
-
-        assertTrue(condition.test(passCoin));
-        assertFalse(condition.test(failCoin));
-    }
-
-    @Test
-    public void cond_generatesDollarsBoughtChangeCondition() throws Exception {
-        ConditionGenerator conditionGenerator = initGenerator(PREFIX_BOUGHT_RISE_TOKEN, LESS_TOKEN, DECIMAL_TOKEN);
-        Predicate<Coin> condition = conditionGenerator.cond();
-        Coin passCoin = new CoinBuilder().build();
-        Coin failCoin = new CoinBuilder().build();
-
-        passCoin.addTotalAmountBought(lesserAmount);
-        failCoin.addTotalAmountBought(greaterAmount);
-
-        assertTrue(condition.test(passCoin));
-        assertFalse(condition.test(failCoin));
-    }
-
-    @Test
-    public void cond_generatesDollarsSoldChangeCondition() throws Exception {
-        ConditionGenerator conditionGenerator = initGenerator(PREFIX_SOLD_RISE_TOKEN, LESS_TOKEN, DECIMAL_TOKEN);
-        Predicate<Coin> condition = conditionGenerator.cond();
-        Coin passCoin = new CoinBuilder().withAmountBought(greaterAmount).build();
-        Coin failCoin = new CoinBuilder().withAmountBought(greaterAmount).build();
-
-        passCoin.addTotalAmountSold(greaterAmount);
-        failCoin.addTotalAmountSold(lesserAmount);
-
-        assertTrue(condition.test(passCoin));
-        assertFalse(condition.test(failCoin));
-    }
-
-    @Test
-    public void cond_generatesMadeChangeCondition() throws Exception {
-        ConditionGenerator conditionGenerator = initGenerator(PREFIX_MADE_RISE_TOKEN, LESS_TOKEN, DECIMAL_TOKEN);
-        Predicate<Coin> condition = conditionGenerator.cond();
-        Coin passCoin = new CoinBuilder().withAmountBought(greaterAmount).build();
-        Coin failCoin = new CoinBuilder().withAmountBought(greaterAmount).build();
-
-        // Increase the price on the pass coin to generate some profit
-        passCoin = new Coin(passCoin, NEW_PRICE);
-
-        passCoin.addTotalAmountSold(greaterAmount);
-
-        assertTrue(condition.test(passCoin));
-        assertFalse(condition.test(failCoin));
-    }
-
-    @Test
-    public void cond_generatesPriceChangeCondition() throws Exception {
-        ConditionGenerator conditionGenerator = initGenerator(PREFIX_PRICE_FALL_TOKEN, LESS_TOKEN, DECIMAL_TOKEN);
-        Predicate<Coin> condition = conditionGenerator.cond();
-        Coin passCoin = new CoinBuilder().build();
-        Coin failCoin = new CoinBuilder().build();
+        Coin passCoin = new CoinBuilder().withPrice(ZERO_PRICE).build();
+        Coin failCoin = new CoinBuilder().withPrice(ZERO_PRICE).build();
 
         passCoin = new Coin(passCoin, lesserPrice);
         failCoin = new Coin(failCoin, greaterPrice);
@@ -364,14 +305,42 @@ public class ConditionGeneratorTest {
     }
 
     @Test
-    public void cond_generatesWorthChangeCondition() throws Exception {
-        ConditionGenerator conditionGenerator = initGenerator(PREFIX_WORTH_RISE_TOKEN, LESS_TOKEN, DECIMAL_TOKEN);
+    public void cond_generatesWorthRiseCondition() throws Exception {
+        ConditionGenerator conditionGenerator = initGenerator(PREFIX_WORTH_RISE_TOKEN, GREATER_TOKEN, DECIMAL_TOKEN);
         Predicate<Coin> condition = conditionGenerator.cond();
         Coin passCoin = new CoinBuilder().build();
         Coin failCoin = new CoinBuilder().build();
 
-        passCoin.addTotalAmountBought(lesserAmount);
-        failCoin.addTotalAmountBought(greaterAmount);
+        passCoin.addTotalAmountBought(greaterAmount);
+        failCoin.addTotalAmountBought(lesserAmount);
+
+        assertTrue(condition.test(passCoin));
+        assertFalse(condition.test(failCoin));
+    }
+
+    @Test
+    public void cond_generatesPriceFallCondition() throws Exception {
+        ConditionGenerator conditionGenerator = initGenerator(PREFIX_PRICE_FALL_TOKEN, GREATER_TOKEN, DECIMAL_TOKEN);
+        Predicate<Coin> condition = conditionGenerator.cond();
+        Coin passCoin = new CoinBuilder().withPrice(greaterPrice).build();
+        Coin failCoin = new CoinBuilder().withPrice(lesserPrice).build();
+
+        passCoin = new Coin(passCoin, ZERO_PRICE);
+        failCoin = new Coin(failCoin, ZERO_PRICE);
+
+        assertTrue(condition.test(passCoin));
+        assertFalse(condition.test(failCoin));
+    }
+
+    @Test
+    public void cond_generatesWorthFallCondition() throws Exception {
+        ConditionGenerator conditionGenerator = initGenerator(PREFIX_WORTH_FALL_TOKEN, LESS_TOKEN, DECIMAL_TOKEN);
+        Predicate<Coin> condition = conditionGenerator.cond();
+        Coin passCoin = new CoinBuilder().withAmountBought(lesserAmount).build();
+        Coin failCoin = new CoinBuilder().withAmountBought(greaterAmount).build();
+
+        passCoin = new Coin(passCoin, ZERO_PRICE);
+        failCoin = new Coin(failCoin, ZERO_PRICE);
 
         assertTrue(condition.test(passCoin));
         assertFalse(condition.test(failCoin));
