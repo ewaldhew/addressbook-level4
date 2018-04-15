@@ -13,6 +13,7 @@ import javafx.geometry.Pos;
 import javafx.scene.control.MenuItem;
 import javafx.scene.control.ProgressIndicator;
 import javafx.scene.control.TextInputControl;
+import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyCombination;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.StackPane;
@@ -253,13 +254,16 @@ public class MainWindow extends UiPart<Stage> {
         Notifications.create()
                      .title("The following rule has triggered this notification:")
                      .text(String.format("%1$s\nClick to jump to view %2$s", message, code))
+                     .graphic(new ImageView(IconUtil.getCoinIcon(code)))
                      .onAction(event -> {
                          EventsCenter.getInstance().post(new JumpToListRequestEvent(index));
                          event.consume();
                      })
-                     .showInformation();
+                     .show();
     }
     //@@author
+
+
 
     //@@author laichengyu
     /**
