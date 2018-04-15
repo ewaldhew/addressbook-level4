@@ -1,3 +1,4 @@
+//@@author ewaldhew
 package seedu.address.ui;
 
 import static org.junit.Assert.assertFalse;
@@ -7,7 +8,6 @@ import static seedu.address.testutil.TypicalCoins.ALIS;
 
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.List;
 
 import org.junit.Before;
 import org.junit.Test;
