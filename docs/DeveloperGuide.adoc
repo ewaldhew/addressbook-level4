@@ -354,7 +354,7 @@ as per convention from `ParserUtil`.
 ** Pros: There will be less redundant code.
 ** Cons: This approach clearly violates SRP.
 
-==== Advanced details
+==== Advanced Details
 
 ===== Argument Tokenizing
 We will illustrate the flow of tokenizing an example input:
@@ -622,13 +622,137 @@ image::NotificationsSequenceDiagram1.png[width="800"]
 .Sequence Diagram for Notifications
 image::NotificationsSequenceDiagram2.png[width="800"]
 
+==== Advanced Details and Proposed Extensions
+
+In order to allow for future extensions, the rule system has been designed to separate, as much as possible, the construction of the rule and its later behaviour.
+
+===== Structure of the `Rule` class
+
+The `Rule` class looks like the following:
+
+[source,java]
+----
+public class Rule<T> { <5>
+
+    public final RuleType type;           <2>
+    public final String description;
+
+    public final ActionCommand<T> action; <1>
+    public final Predicate<T> condition;
+
+    protected Rule(String description, RuleType type,     <4>
+                   ActionParser<T> actionParser,
+                   ConditionParser<T> conditionParser) {
+        this.description = description;
+        this.type = type;
+        this.action = actionParser.parse(description);
+        this.condition = conditionParser.parse(description);
+    }
+
+    @Override
+    public String toString() {
+        return String.format(RULE_FORMAT_STRING, type, description); <3>
+    }
+    
+    @FunctionalInterface
+    protected interface ActionParser<T> {
+        ActionCommand<T> parse(String args);
+    }
+
+    @FunctionalInterface
+    protected interface ConditionParser<T> {
+        Predicate<T> parse(String args) throws IllegalValueException;
+    }
+
+    [...]
+}
+----
+
+A few things to note from this:
+
+<1> Each `Rule` object is a condition-action pair
+<2> It is completely described by its `type` and `description`
+<3> By storing the above two values as strings, the exact object can be reconstructed on startup
+<4> The constructor has been made `protected` so that new rule types must be defined by extending this base `Rule` class to be constructed and accessed from outside
+<5> The class is generic, and parameterized by the type of the object it is a condition upon, e.g. notification rules test against `Coin` objects
+
+This structure follows very closely the Bridge design pattern as described in the "Gang of Four" book. It leads to the following class structure, as used above:
+
+[image]::
+
+An example concrete implementation is the `NotificationRule` class used for notifications:
+
+[source,java]
+----
+public class NotificationRule extends Rule<Coin> {
+
+    private static final ActionParser<Coin>
+    parseAction = SpawnNotificationCommand::new;
+    
+    private static final ConditionParser<Coin>
+    parseCondition = NotifyCommandParser::parseNotifyCondition;
+
+    public NotificationRule(String value) {
+        super(value, RuleType.NOTIFICATION, parseAction, parseCondition);
+    }
+}
+----
+
+The notification command fills in the abstract `actionParser` and `conditionParser` with two functions implemented in various places, but which follow the template `FunctionalInterface` shown above.
+
+The latter takes in the description string and returns a `Predicate<T>` object, which can be tested against with an object of type `T` resulting in a `true` or `false` output depending on whether that object satisfies the condition. The former takes in the same description string and returns an `ActionCommand`, which is just:
+
+[source,java]
+----
+public abstract class ActionCommand<T> extends Command {
+    public abstract void setExtraData(T data, BaseEvent event);
+}
+----
+
+It adds a method atop <<fig-LogicClassDiagram,`Command`>> objects, receiving extra data about the object that is only known after matching the rule. An easy example is the object that triggered the rule itself, which cannot be known until it is actually tested, and that only happens after the `Rule` has been constructed. This is the first extra data. You shall see the reason for the second one (`event`) later.
+
+===== Rule checking system
+
+The rule checker is implemented via the event-driven approach described in the previous section. The rule checker looks something like the below (simplified from actual):
+
+[source,java]
+----
+public class RuleChecker {
+
+    private final RuleBook rules;
+
+    @Subscribe
+    public void handleCoinChangedEvent(CoinChangedEvent cce) {
+        for (Rule r : rules.getRuleList()) {
+            r.action.setExtraData(cce.data, cce);
+
+            switch (r.type) {
+            case NOTIFICATION:
+                checkAndFire(r, cce.data);
+                break;
+            [...more types in the future]
+            }
+        }
+    }
+
+    private static <T> void checkAndFire(Rule<T> rule, T data) {
+        if (rule.condition.test(data)) {
+            rule.action.execute();
+        }
+    }
+}
+----
+
+An instance of `RuleChecker` lives inside `LogicManager`, at the same level of architecture as the `UndoRedoStack` or the `CommandHistory` (<<fig-LogicClassDiagram,see above>>).
+
+
 ==== Design Considerations
 
 ===== Aspect: Implementation of rules
 
 * **Alternative 1 (current choice):** Make them generalized trigger-action pairs
 ** Pros: Later extension is easy to make by simply defining new condition and command parsers along with associated input.
-** Cons: This design pattern (Strategy pattern) is more advanced and may be hard for new developers to understand. Code readability may also suffer.
+** Cons: This design pattern (Bridge pattern) is more advanced and may be hard for new developers to understand. Code readability may also suffer.
 
 * **Alternative 2:** Make only a single `NotificationRule` type
 ** Pros: This is quicker to implement as the behavious is hard-coded.

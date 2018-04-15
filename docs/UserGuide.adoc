@@ -26,7 +26,7 @@ tools to simplify and expedite your management process such as profit calculatio
 
 == How the program looks like
 
-The figure below (fig. 1) describes each section of the interface.
+The figure below (Fig. 1) describes each section of the interface.
 
 .Main Layout Window
 image::LabelledUI.png[width="790"]
@@ -301,10 +301,6 @@ Opens up the detail window for the account specified. The detail window includes
 
 See details for the `BTC` account
 
- view Bitcoin
-
-See details for the `Bitcoin` account
-
  view 2
 
 See details for the 2nd account in the current listing
@@ -376,7 +372,10 @@ Sets a condition that triggers a popup notification whenever the condition match
 
 .Notification Options Format
 ****
-* You can put `+` or `-` before specifying an amount to indicate a change in the property specified instead of its absolute value, for example:
+* You can put `+` or `-` before specifying any of the following amounts to test its change instead of its absolute value:
+** `p/PRICE`: Current price, in dollars, of the coin
+** `w/WORTH`: How much, in dollars, the current amount held is worth at the current price
+* For example:
 ** `p/+1000`: Current price rose $1000
 ** `p/pass:[-]>500`: Current price fell more than $500
 ****
