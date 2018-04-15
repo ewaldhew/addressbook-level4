@@ -45,6 +45,8 @@ public class StatusBarFooter extends UiPart<Region> {
     private StatusBar saveLocationStatus;
     @FXML
     private StatusBar itemCountStatus;
+    @FXML
+    private StatusBar filterStatus;
 
 
     public StatusBarFooter(int numItems, String saveLocation) {
@@ -82,7 +84,7 @@ public class StatusBarFooter extends UiPart<Region> {
     }
 
     private void setFindCommandStatus(String status) {
-        Platform.runLater(() -> this.itemCountStatus.setText(String.format(FIND_COMMAND_STATUS, status)));
+        Platform.runLater(() -> this.filterStatus.setText(String.format(FIND_COMMAND_STATUS, status)));
     }
 
     @Subscribe
