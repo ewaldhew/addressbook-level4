@@ -658,7 +658,7 @@ public class Rule<T> {                    <5>
     public String toString() {
         return String.format(RULE_FORMAT_STRING, type, description);   <3>
     }
-    
+
     @FunctionalInterface
     protected interface ActionParser<T> {
         ActionCommand<T> parse(String args);
@@ -694,7 +694,7 @@ public class NotificationRule extends Rule<Coin> {
 
     private static final ActionParser<Coin>
     parseAction = SpawnNotificationCommand::new;
-    
+
     private static final ConditionParser<Coin>
     parseCondition = NotifyCommandParser::parseNotifyCondition;
 
