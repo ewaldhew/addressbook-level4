@@ -1,5 +1,6 @@
 package seedu.address.model.coin;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -16,6 +17,8 @@ public class Price {
      */
     public Price() {
         this.currentPrice = new Amount("1.0");
+        this.historicalPrices = new ArrayList<>();
+        this.historicalTimeStamps = new ArrayList<>();
     }
 
     //@@author laichengyu
@@ -24,6 +27,8 @@ public class Price {
      */
     public Price(Price toCopy) {
         this.currentPrice = toCopy.currentPrice;
+        this.historicalPrices = toCopy.historicalPrices;
+        this.historicalTimeStamps = toCopy.historicalTimeStamps;
     }
     //@@author
 
@@ -47,6 +52,14 @@ public class Price {
 
         return result;
     }
+
+    public List<Amount> getHistoricalPrices() {
+        return historicalPrices;
+    }
+
+    public List<String> getHistoricalTimeStamps() {
+        return historicalTimeStamps;
+    }
     //@@author
 
     @Override
@@ -60,4 +73,5 @@ public class Price {
     public String toString() {
         return "USD " + this.currentPrice.toString();
     }
+
 }
