@@ -164,6 +164,7 @@ If a non-existent trading code is added, its price will not be updated with the 
 |===
 
 Adds a new coin account into the list, with the given trading code, and the given tags.
+You will be notified in the result pane if the added coin is not known to have a subreddit, for the viewing of news updates. See <<view,`view` command>>.
 
 .Example
 ----
@@ -282,6 +283,7 @@ list
 
 Updates the listing to show all coin accounts in _CoinBook_.
 
+[[view]]
 === View details of an account `view` | `v` `[Coming in v1.5]`
 
 .Format
@@ -295,6 +297,7 @@ Opens up the detail window for the account specified. The detail window includes
 * Amount earned from selling this coin
 * Possible profit if all coin in this account is sold at the current price
 * Chart of the price history
+* Subreddit of this coin, if there is one
 * etc... [More analytics coming in v2.0]
 
 .Examples
