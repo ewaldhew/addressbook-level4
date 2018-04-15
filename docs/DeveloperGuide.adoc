@@ -768,7 +768,7 @@ This sends yet another event, which is received by the `UI` component that then 
 ** Cons: This design pattern (Bridge pattern) is more advanced and may be hard for new developers to understand. Code readability may also suffer.
 
 * **Alternative 2:** Make only a single `NotificationRule` type
-** Pros: This is quicker to implement as the behavious is hard-coded.
+** Pros: This is quicker to implement as the behaviour is hard-coded.
 ** Cons: It will be more difficult to extend rules to handle other events in the future.
 
 [TIP]
