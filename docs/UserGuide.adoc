@@ -563,6 +563,10 @@ sync
 
 Obtains the latest price data to update price metrics of all owned coins.
 
+[NOTE]
+ You may notice some coins disappearing from the list view after syncing. This is most likely because the relevant coins no longer satisfy the currently applied list filter. +
+ Run the `list` command if you wish to see all coins.
+
 // end::sync[]
 
 //tag::autocomplete[]
