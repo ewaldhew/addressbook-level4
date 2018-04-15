@@ -201,7 +201,7 @@ The following diagram (Fig. 5) illustrates the structure of this component:
 .Structure of the UI Component
 image::UiClassDiagram.png[width="800"]
 
-The user interface (UI) consists of a `MainWindow` that is made up of several parts, e.g. `CommandBox`, `ResultDisplay`, `PersonListPanel`, `StatusBarFooter`, `BrowserPanel` etc. All these, including `MainWindow`, inherit from the abstract `UiPart` class.
+The user interface (UI) consists of a `MainWindow` that is made up of several parts, e.g. `CommandBox`, `ResultDisplay`, `CoinListPanel`, `StatusBarFooter`, `BrowserPanel` etc. All these, including `MainWindow`, inherit from the abstract `UiPart` class.
 
 The `UI` component uses the JavaFx UI framework. The layout of the UI parts are defined in matching `.fxml` files located in the `src/main/resources/view` folder. For example, the layout of the
 [exref]#link:{repoURL}/src/main/java/seedu/address/ui/MainWindow.java[`MainWindow`]# is specified in
@@ -288,6 +288,7 @@ image::StorageClassDiagram.png[width="800"]
 
 This chapter describes some noteworthy details on how certain features and components have been implemented. It is highly recommended to read the previous chapter on <<Design>> first so that you have some picture of where these features fit in.
 //tag::condition[]
+
 === Condition Parser Component
 
 ==== Current implementation
@@ -328,6 +329,7 @@ The `Condition` object that is generated at the end is actually just a `Predicat
 the Coin objects and returns a true/false value.
 
 ==== Error handling
+
 On syntactically and semantically invalid inputs, `ConditionParser` will retrieve the expected and actual type of
 `Token` that were not a match during the parsing phase from `TokenStack` and raise a `ParseException` before returning.
 
@@ -602,6 +604,7 @@ This approach also violates the Single Responsibility Principle and the Separati
 // end::undoredo[]
 
 // tag::notifications[]
+
 === User-Set Notifications
 
 ==== Current Implementation
@@ -798,6 +801,7 @@ We want to keep `Model` as an interface for just the coin data itself.
 // tag::organisation[]
 
 [[Implementation-Organisation]]
+
 === Organisation Features
 
 ==== Sorting
@@ -811,18 +815,18 @@ The diagram (Fig. 24) below is the Sequence Diagram for interactions that occur 
 .Sequence Diagram for SortCommand
 image::SortCommand_SequenceDiagram.png[width="800"]
 
-The order mechanism is facilitated by the SortCommand which is also an UndoableCommand.
-The SortCommandParser checks for the sort order (a or z parameter) to decide the relevant SortCommand to call.
-The internalList is then sorted using Java's sort method.
+The order mechanism is facilitated by `SortCommand` which is also an `UndoableCommand`.
+`SortCommandParser` checks for the sort order (a or z parameter) to decide the relevant `SortCommand` to call.
+The `internalList` object is then sorted using Java's sort method.
 
 How the sort procedure works:
 
 * Sort by lexicographical order
 
-** We can use compareTo() for comparing coin code names. For _CoinBook_, we want to order our list of coins lexicographically, based on the alphabetical order of their component letters.
-This is done by passing the internalList into the sort function which then uses getCode() to compare each of the component letters of the coin code, which will then arrange coins based on the lexicographical value of the code string.
+** We can use `compareTo()` for comparing coin code names. For _CoinBook_, we want to order our list of coins lexicographically, based on the alphabetical order of their component letters.
+This is done by passing `internalList` into the sort function which then uses `getCode()` to compare each of the component letters of the coin code, which will then arrange coins based on the lexicographical value of the code string.
 The coin code strings with the lowest lexicographical value will appear first followed by coin code strings with higher lexicographical values as you go further down the list.
-** We can either use the `reversed` function on `Comparator` or change the compare condition of compareTo() to invert the default setting and arrange the coins from highest to lowest lexicographical value instead.
+** We can either use the `reversed` function on `Comparator` or change the compare condition of `compareTo()` to invert the default setting and arrange the coins from highest to lowest lexicographical value instead.
 ** We do not have to pass in any comparator for the list to be correctly sorted because the 3-letter coin code is a `String` which implements the `Comparable` _interface_, and hence guarantees its own implementation of the sort comparator.
 
 ==== Grouping `[Coming in v2.0]`
@@ -961,7 +965,7 @@ Here are the steps to convert the project documentation files to PDF format.
 .  Follow the instructions in [exref]##<<UsingGradle#rendering-asciidoc-files, UsingGradle.adoc>>## to convert the AsciiDoc files in the `docs/` directory to HTML format.
 .  Find the generated HTML files in the `build/docs` folder, right click on them and select `Open with` -> `Google Chrome`.
 .  In Chrome's menu, click on the `Print` option.
-.  Set the destination to `Save as PDF`, then click `Save` to save a copy of the file in PDF format. For best results, use the settings indicated in the screenshot (Fig. 24) below.
+.  Set the destination to `Save as PDF`, then click `Save` to save a copy of the file in PDF format. For best results, use the settings indicated in the screenshot (Fig. 25) below.
 
 .Options for Saving Documentation as PDF Files in Chrome
 image::chrome_save_as_pdf.png[width="300"]
