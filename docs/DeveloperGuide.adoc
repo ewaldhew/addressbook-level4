@@ -970,12 +970,12 @@ The user will first type `s` into the command line.
 s
 ```
 
-Now, the autocomplete feature will then auto-suggest inputs to complete the query by displaying a pop-up of all commands that contain the letter `s`.
+Now, the autocomplete feature will then auto-suggest inputs to complete the query by displaying a pop-up of all commands that contain the letter `s` (See Fig. 27).
 
 .Auto-suggestions Display
 image::AutocompleteBefore.png[width="200"]
 
-When the user then presses kbd:[DOWN] twice to reach his desired `sell` command, the selected suggestion will be highlighted light grey.
+When the user then presses kbd:[DOWN] twice to reach his desired `sell` command, the selected suggestion will be highlighted light grey (See Fig. 28).
 
 .Command Selection
 image::AutocompleteNav.png[width="200"]
@@ -1052,7 +1052,7 @@ Here are the steps to convert the project documentation files to PDF format.
 .  Follow the instructions in [exref]##<<UsingGradle#rendering-asciidoc-files, UsingGradle.adoc>>## to convert the AsciiDoc files in the `docs/` directory to HTML format.
 .  Find the generated HTML files in the `build/docs` folder, right click on them and select `Open with` -> `Google Chrome`.
 .  In Chrome's menu, click on the `Print` option.
-.  Set the destination to `Save as PDF`, then click `Save` to save a copy of the file in PDF format. For best results, use the settings indicated in the screenshot (Fig. 26) below.
+.  Set the destination to `Save as PDF`, then click `Save` to save a copy of the file in PDF format. For best results, use the settings indicated in the screenshot (Fig. 29) below.
 
 .Options for Saving Documentation as PDF Files in Chrome
 image::chrome_save_as_pdf.png[width="300"]
@@ -1088,7 +1088,7 @@ There are three ways to run tests on your computer before sharing your changes t
 *Method 1: Using IntelliJ JUnit test runner*
 
 * To run all tests, right-click on the `src/test/java` folder and choose `Run 'All Tests'`
-* To run a subset of tests, right-click on a test package, test class, or a test, e.g. `ABC`, and choose `Run 'ABC'` (see Fig. 27)
+* To run a subset of tests, right-click on a test package, test class, or a test, e.g. `ABC`, and choose `Run 'ABC'` (see Fig. 30)
 
 .Running Tests
 image::RunningTests.png[]
