@@ -7,7 +7,7 @@
 :stylesDir: stylesheets
 :pdf-stylesdir: stylesheets
 :pdf-style: pdf
-:xrefstyle: full
+:xrefstyle: basic
 :experimental:
 ifdef::env-github[]
 :tip-caption: :bulb:
