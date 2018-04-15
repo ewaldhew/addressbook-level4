@@ -700,7 +700,9 @@ public class NotificationRule extends Rule<Coin> {
 
 The notification command fills in the abstract `actionParser` and `conditionParser` with two functions implemented in various places, but which follow the template `FunctionalInterface` shown above.
 
-The latter takes in the description string and returns a `Predicate<T>` object, which can be tested against with an object of type `T` resulting in a `true` or `false` output depending on whether that object satisfies the condition. The former takes in the same description string and returns an `ActionCommand`, which is just:
+The latter takes in the description string and returns a `Predicate<T>` object, which can be tested against with an object of type `T` resulting in a `true` or `false` output depending on whether that object satisfies the condition. `NotificationRule` uses the same `ConditionParser` as in the `find` command, explained in <<Section 4>>.
+
+The former takes in the same description string and returns an `ActionCommand`, which is just:
 
 [source,java]
 ----
@@ -743,8 +745,16 @@ public class RuleChecker {
 }
 ----
 
-An instance of `RuleChecker` lives inside `LogicManager`, at the same level of architecture as the `UndoRedoStack` or the `CommandHistory` (<<fig-LogicClassDiagram,see above>>).
+An instance of `RuleChecker` lives inside `LogicManager`, at the same level of architecture as the `UndoRedoStack` or the `CommandHistory` (<<fig-LogicClassDiagram,see above>>). The rule testing procedure is initiated by an event, usually capturing information about a change in the state of some objects of interest. `RuleChecker`, upon capturing this event, begins looping through the list of rules, testing each one's condition against the event data and performing the custom action defined with it. The extra data as above is also set with the potentially matching object, as well as the event itself, as alluded to above, which should contain all other necessary context for the action's execution.
 
+A concrete example from `NotificationRule`:
+
+[source,java]
+----
+public
+----
+
+This sends yet another event, which is received by the `UI` component that then creates a pop-up notification to show to the user.
 
 ==== Design Considerations
 
