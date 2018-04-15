@@ -31,6 +31,7 @@ import seedu.address.commons.events.ui.ShowHelpRequestEvent;
 import seedu.address.commons.events.ui.ShowNotifManRequestEvent;
 import seedu.address.commons.events.ui.ShowNotificationRequestEvent;
 import seedu.address.logic.Logic;
+import seedu.address.logic.commands.ListCommand;
 import seedu.address.model.UserPrefs;
 
 /**
@@ -256,8 +257,13 @@ public class MainWindow extends UiPart<Stage> {
                      .text(String.format("%1$s\nClick to jump to view %2$s", message, code))
                      .graphic(new ImageView(IconUtil.getCoinIcon(code)))
                      .onAction(event -> {
-                         EventsCenter.getInstance().post(new JumpToListRequestEvent(index));
-                         event.consume();
+                         try {
+                             logic.execute(ListCommand.COMMAND_WORD);
+                             EventsCenter.getInstance().post(new JumpToListRequestEvent(index));
+                             event.consume();
+                         } catch (Exception e) {
+                             throw new RuntimeException();
+                         }
                      })
                      .show();
     }
