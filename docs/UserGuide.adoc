@@ -19,10 +19,12 @@ By: `Team CS2103JAN2018-F09-B3` Since: `Feb 2018` Licence: `MIT`
 
 == Introduction
 
-_CoinBook_ is a desktop application that is made for users who prefer to work on a mouse-free, command line platform with minimal [gloss]#<<gui,graphical user interface (GUI)>># dependence.
+_CoinBook_ is a desktop application that is made for users who prefer to work on a mouse-free environment where everything can be done through commands typed in with the keyboard. There is no need to click on visual components of the App to perform tasks. In other words, _CoinBook_ offers a command line interface with minimal [gloss]#<<gui,graphical user interface (GUI)>># dependence.
 
 _Coinbook_ allows you to store a portfolio of your cryptocurrency purchases as well as track the latest price trends and news, in addition to providing various
 tools to simplify and expedite your management process such as profit calculation.
+
+This guide will help you set up _CoinBook_, as well as introduce its various features.
 
 == How the program looks like
 
